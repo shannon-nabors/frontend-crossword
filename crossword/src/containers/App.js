@@ -1,26 +1,33 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import { <action name> } from <action file path>
+import { fetchingPuzzles } from '../redux/actions'
 import '../App.css'
-
-import Puzzle from './Puzzle'
+import PuzzlePage from './PuzzlePage'
 
 class App extends Component {
+
+  componentDidMount() {
+    this.props.fetchingPuzzles()
+  }
+
   render() {
     return (
       <div className="App">
-        <Puzzle />
+        <PuzzlePage />
       </div>
     )
   }
+
 }
 
 const mapStateToProps = state => ({
  ...state
 })
 
-// const mapDispatchToProps = dispatch => ({
-//  <action name>: () => dispatch(<action function>)
-// })
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchingPuzzles : ()=>{dispatch(fetchingPuzzles())}
+  }
+}
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)
