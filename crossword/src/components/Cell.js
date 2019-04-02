@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 
 class Cell extends Component {
   render() {
-    console.log(this.props.cell.row, this.props.cell.column)
     return (
       <g>
         <rect x="3.00" y="3.00" width="23.00" height="23.00" fill="none"></rect>

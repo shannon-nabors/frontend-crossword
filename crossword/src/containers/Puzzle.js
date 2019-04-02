@@ -4,7 +4,7 @@ import Cell from '../components/Cell'
 class Puzzle extends Component {
   render() {
     return (
-      <svg viewBox="0 0 300 300" preserveAspectRatio="xMidYMin meet" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 75 75" preserveAspectRatio="xMidYMin meet" xmlns="http://www.w3.org/2000/svg">
         <g>
           {this.props.puzzle && this.props.puzzle.cells.map(c => <Cell key={c.id} cell={c} size={this.props.puzzle.cells.length}/>)}
         </g>

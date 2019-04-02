@@ -5,7 +5,10 @@ import { withRouter } from 'react-router-dom'
 
 import { fetchingPuzzles } from '../redux/actions'
 import '../App.css'
-import PuzzleContainer from './PuzzleContainer'
+import Navbar from './Navbar'
+import Login from '../components/LoginPage'
+import SignUp from '../components/SignupPage'
+import HomePage from './HomePage'
 import PuzzlePage from './PuzzlePage'
 
 class App extends Component {
@@ -17,14 +20,23 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Navbar />
         <Switch>
           <Route
-          path="/puzzles/:puzzleID"
-          component={PuzzlePage}
+            path="/puzzles/:puzzleID"
+            component={PuzzlePage}
           />
           <Route
-            path="/puzzles"
-            component={PuzzleContainer}
+            exact path="/home"
+            component={HomePage}
+          />
+          <Route
+            exact path="/signup"
+            component={SignUp}
+          />
+          <Route
+            path="/"
+            component={Login}
           />
         </Switch>
       </div>

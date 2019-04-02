@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Puzzle from './Puzzle'
+import PuzzleCard from './PuzzleCard'
 
 class PuzzleContainer extends Component {
   render() {
     return (
-      <div>
-        {this.props.puzzles.map(p => <Puzzle />)}
+      <div className="ui cards">
+        {this.props.puzzles.map(p => <PuzzleCard key={p.id} puzzle={p} />)}
       </div>
     )
   }
