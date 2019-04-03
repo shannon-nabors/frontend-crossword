@@ -12,27 +12,36 @@ class Puzzle extends Component {
   }
 
   render() {
+
+    let cells = this.props.puzzle && this.props.puzzle.cells
+    let dim = cells && Math.sqrt(cells.length)
+
     return (
-      <svg viewBox="0 0 75 75" preserveAspectRatio="xMidYMin meet" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        viewBox={`0 0 ${23*dim+6} ${23*dim+6}`}
+        preserveAspectRatio="xMidYMin meet"
+        xmlns="http://www.w3.org/2000/svg"
+        >
         <g>
-          {this.props.puzzle.cells.map(c =>
+          {cells && cells.map(c =>
             <Cell
               key={c.id}
               cell={c}
-              size={this.props.puzzle.cells.length}
+              editable={this.props.editable}
+              answers={this.props.answers}
             />
           )}
         </g>
         <g>
           <path
-            d={this.makePathData(Math.sqrt(this.props.puzzle.cells.length))}
+            d={this.makePathData(dim)}
             stroke="dimgray">
           </path>
           <rect
             x="1.50"
             y="1.50"
-            width="72.00"
-            height="72.00"
+            width={23*dim+3}
+            height={23*dim+3}
             stroke="black"
             strokeWidth="3.00"
             fill="none">

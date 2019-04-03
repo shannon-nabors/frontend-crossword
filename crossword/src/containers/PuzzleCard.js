@@ -6,7 +6,9 @@ class PuzzleCard extends Component {
     return(
       <div className="ui card">
         <div className="image">
-          <Puzzle puzzle={this.props.puzzle}/>
+          <Puzzle
+            puzzle={this.props.puzzle}
+          />
         </div>
         <div className="content">
           <a className="header">{this.props.puzzle.title}</a>

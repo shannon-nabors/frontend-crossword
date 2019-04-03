@@ -10,7 +10,6 @@ function fetchingPuzzles() {
     fetch(URL)
     .then(res => res.json())
     .then(puzzles => {
-      console.log(puzzles)
       dispatch(fetchedPuzzles(puzzles))
     })
   }

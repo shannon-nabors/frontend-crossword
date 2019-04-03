@@ -22,7 +22,7 @@ class Cell extends Component {
           y={(23*this.props.cell.row) + 1.08}
           textAnchor="middle"
           fontSize="15.33"
-        >{this.props.cell.letter}</text>
+        >{this.props.answers && this.props.cell.letter}</text>
       </g>
     )
   }

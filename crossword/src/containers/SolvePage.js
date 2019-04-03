@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Puzzle from './Puzzle'
 
-class PuzzlePage extends Component {
+class SolvePage extends Component {
   render() {
     return (
       <Fragment>
@@ -10,7 +10,7 @@ class PuzzlePage extends Component {
         <div className="ui container" id="puz-sizer">
           <Puzzle
             puzzle={this.props.puzzle}
-            answers="true"
+            editable="true"
           />
         </div>
       </Fragment>
@@ -24,4 +24,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(PuzzlePage)
+export default connect(mapStateToProps)(SolvePage)

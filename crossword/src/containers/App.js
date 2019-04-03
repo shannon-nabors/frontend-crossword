@@ -10,6 +10,7 @@ import Login from '../components/LoginPage'
 import SignUp from '../components/SignupPage'
 import HomePage from './HomePage'
 import PuzzlePage from './PuzzlePage'
+import SolvePage from './SolvePage'
 import GridSizer from '../components/GridSizeDropdown'
 
 class App extends Component {
@@ -26,6 +27,10 @@ class App extends Component {
           <Route
             path="/puzzles/:puzzleID"
             component={PuzzlePage}
+          />
+          <Route
+            path="/solve/:puzzleID"
+            component={SolvePage}
           />
           <Route
             exact path="/home"
