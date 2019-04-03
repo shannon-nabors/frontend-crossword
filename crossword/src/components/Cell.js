@@ -4,7 +4,13 @@ class Cell extends Component {
   render() {
     return (
       <g>
-        <rect x="3.00" y="3.00" width="23.00" height="23.00" fill="none"></rect>
+        <rect
+          x={(23*this.props.cell.column) - 20}
+          y={(23*this.props.cell.row) - 20}
+          width="23.00"
+          height="23.00"
+          fill={this.props.cell.shaded ? "black" : "none"}>
+        </rect>
         <text
           x={(23*this.props.cell.column) - 18}
           y={(23*this.props.cell.row) - 11.83}
