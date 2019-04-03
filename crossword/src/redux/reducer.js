@@ -9,9 +9,20 @@ const puzzlesReducer = (state = [], action) => {
   }
 }
 
+const selectCellReducer = (state = null, action) => {
+  switch (action.type) {
+    case "SELECT_CELL":
+      return action.cellID
+    default:
+      return state
+  }
+}
+
+//
 
 const rootReducer = combineReducers({
-  puzzles: puzzlesReducer
+  puzzles: puzzlesReducer,
+  selectedCell: selectCellReducer
 })
 
 export default rootReducer

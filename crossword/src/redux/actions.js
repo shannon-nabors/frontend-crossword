@@ -15,4 +15,8 @@ function fetchingPuzzles() {
   }
 }
 
-export { fetchingPuzzles }
+function selectCell(cellID) {
+  return { type: "SELECT_CELL", cellID}
+}
+
+export { fetchingPuzzles, selectCell }

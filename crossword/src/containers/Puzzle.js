@@ -40,8 +40,8 @@ class Puzzle extends Component {
           <rect
             x="1.50"
             y="1.50"
-            width={23*dim+3}
-            height={23*dim+3}
+            width={ (23 * dim + 3).toString() }
+            height={ (23 * dim + 3).toString() }
             stroke="black"
             strokeWidth="3.00"
             fill="none">
