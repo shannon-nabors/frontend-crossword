@@ -37,13 +37,13 @@ function toggleDirection() {
   }
 }
 
-function setKey(pressedKey) {
-  return { type: "SET_KEY", pressedKey}
+function setKey(cellID, pressedKey) {
+  return { type: "SET_KEY", cellID, pressedKey}
 }
 
-function settingKey(pressedKey) {
+function settingKey(cellID, pressedKey) {
   return (dispatch) => {
-    dispatch(setKey(pressedKey))
+    dispatch(setKey(cellID, pressedKey))
   }
 }
 

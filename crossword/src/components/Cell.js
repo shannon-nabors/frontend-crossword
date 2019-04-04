@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { selectCell, toggleDirection } from '../redux/actions'
+import { selectCell, toggleDirection, settingKey } from '../redux/actions'
 
 class Cell extends Component {
 
@@ -12,7 +12,7 @@ class Cell extends Component {
       return "black"
     } else if (cell === sel) {
       return "#FFA414"
-    } else if (sel && this.props.highlighted.includes(cell.id)){
+    } else if (sel && this.props.highlighted.find(c => c === cell.id)){
       return "#FFC368"
     } else {
       return "white"
@@ -65,7 +65,7 @@ class Cell extends Component {
           y={ (23 * cell.row) + 1.08 }
           textAnchor="middle"
           fontSize="15.33"
-        >{ this.setLetter() }</text>
+        >{ this.props.enteredLetters[cell.id] }</text>
       </g>
     )
   }
@@ -75,8 +75,8 @@ const mapStateToProps = (state) => {
   return {
     selected: state.selectedCell,
     highlighted: state.highlightedCells,
-    pressedKey: state.pressedKey
+    enteredLetters: state.enteredLetters
   }
 }
 
-export default connect(mapStateToProps, { selectCell, toggleDirection })(Cell)
+export default connect(mapStateToProps, { selectCell, settingKey, toggleDirection })(Cell)
