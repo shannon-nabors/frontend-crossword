@@ -4,7 +4,7 @@ import React, { Component } from 'react'
 class Navbar extends Component {
   render() {
     return(
-      <h1 className="ui header" id="header">XPost</h1>
+      <h1 className="ui header" id="header">crosspost</h1>
     )
   }
 }
