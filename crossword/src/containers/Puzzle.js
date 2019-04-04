@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Cell from '../components/Cell'
+import { connect } from 'react-redux'
+import { isEqual } from 'lodash'
 
 class Puzzle extends Component {
 
@@ -9,6 +11,13 @@ class Puzzle extends Component {
       pathData = pathData.concat(" ", ` M 3 ${23*n-20} l ${23*num + 3} 0 M ${23*n-20} 3 l 0 ${23*num + 3}`)
     }
     return pathData
+  }
+
+  findIfEditable() {
+    console.log(!isEqual(this.props.puzzle.correct_letters, this.props.enteredLetters))
+    console.log(this.props.enteredLetters)
+    console.log(this.props.puzzle.correct_letters)
+    return !isEqual(this.props.puzzle.correct_letters, this.props.enteredLetters)
   }
 
   render() {
@@ -27,7 +36,7 @@ class Puzzle extends Component {
             <Cell
               key={c.id}
               cell={c}
-              editable={this.props.editable}
+              editable={this.findIfEditable()}
               answers={this.props.answers}
             />
           )}
@@ -52,4 +61,10 @@ class Puzzle extends Component {
   }
 }
 
-export default (Puzzle)
+const mapStateToProps = (state, ownProps) => {
+  return {
+    enteredLetters: state.enteredLetters
+  }
+}
+
+export default connect(mapStateToProps)(Puzzle)

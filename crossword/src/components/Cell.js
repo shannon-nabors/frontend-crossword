@@ -44,7 +44,7 @@ class Cell extends Component {
 
     return (
       <g
-        onClick={this.props.editable && (() => this.handleClick())}>
+        onClick={this.props.editable ? (() => this.handleClick()) : null}>
         <rect
           x={ (23 * cell.column - 20).toString() }
           y={ (23 * cell.row - 20).toString() }
