@@ -15,8 +15,26 @@ function fetchingPuzzles() {
   }
 }
 
-function selectCell(cellID) {
-  return { type: "SELECT_CELL", cellID}
+function selectCell(cell) {
+  return (dispatch, getState) => {
+    const { direction } = getState()
+    dispatch({
+      type: "SELECT_CELL",
+      direction: direction,
+      cell: cell
+    })
+  }
 }
 
-export { fetchingPuzzles, selectCell }
+function toggleDirection() {
+  return (dispatch, getState) => {
+    const { direction, selectedCell } = getState()
+    dispatch({
+      type: "TOGGLE_DIRECTION",
+      direction: direction,
+      selectedCell: selectedCell
+    })
+  }
+}
+
+export { fetchingPuzzles, selectCell, toggleDirection }

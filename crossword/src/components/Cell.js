@@ -1,17 +1,38 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { selectCell as select } from '../redux/actions'
+import { selectCell, toggleDirection } from '../redux/actions'
 
 class Cell extends Component {
 
   setFillColor() {
-    if (this.props.cell.shaded) {
+    let cell = this.props.cell
+    let sel = this.props.selected
+
+    if (cell.shaded) {
       return "black"
-    } else if (this.props.cell.id === this.props.selected) {
-      return "#E8320D" //E86245
+    } else if (cell === sel) {
+      return "#FFA414"
+    } else if (sel && this.props.highlighted.includes(cell.id)){
+      return "#FFC368"
     } else {
       return "white"
     }
+  }
+
+  handleClick() {
+    let cell = this.props.cell
+    console.log(this.props.selected)
+    console.log(cell)
+    if (cell.shaded) {
+      return
+    } else if (cell === this.props.selected) {
+      console.log('toggle')
+      this.props.toggleDirection()
+    } else {
+      this.props.selectCell(cell)
+    }
+
+    //cell.id == selected -- toggle direction
   }
 
   render() {
@@ -19,9 +40,7 @@ class Cell extends Component {
 
     return (
       <g
-        onClick={() => {
-          !cell.shaded && this.props.select(cell.id)
-        }}>
+        onClick={() => this.handleClick()}>
         <rect
           x={ (23 * cell.column - 20).toString() }
           y={ (23 * cell.row - 20).toString() }
@@ -50,8 +69,9 @@ class Cell extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    selected: state.selectedCell
+    selected: state.selectedCell,
+    highlighted: state.highlightedCells
   }
 }
 
-export default connect(mapStateToProps, { select })(Cell)
+export default connect(mapStateToProps, { selectCell, toggleDirection })(Cell)
