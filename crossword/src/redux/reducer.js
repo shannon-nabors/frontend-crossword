@@ -46,13 +46,23 @@ const highlightCellReducer = (state = null, action) => {
   }
 }
 
+const keyReducer = (state = null, action) => {
+  switch (action.type) {
+    case "SET_KEY":
+      return action.pressedKey
+    default:
+      return state
+  }
+}
+
 //
 
 const rootReducer = combineReducers({
   puzzles: puzzlesReducer,
   selectedCell: selectCellReducer,
   direction: directionReducer,
-  highlightedCells: highlightCellReducer
+  highlightedCells: highlightCellReducer,
+  pressedKey: keyReducer
 })
 
 export default rootReducer

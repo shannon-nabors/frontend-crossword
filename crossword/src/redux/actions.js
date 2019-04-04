@@ -37,4 +37,14 @@ function toggleDirection() {
   }
 }
 
-export { fetchingPuzzles, selectCell, toggleDirection }
+function setKey(pressedKey) {
+  return { type: "SET_KEY", pressedKey}
+}
+
+function settingKey(pressedKey) {
+  return (dispatch) => {
+    dispatch(setKey(pressedKey))
+  }
+}
+
+export { fetchingPuzzles, selectCell, toggleDirection, settingKey }

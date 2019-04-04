@@ -14,7 +14,7 @@ class Puzzle extends Component {
   render() {
 
     let cells = this.props.puzzle && this.props.puzzle.cells
-    let dim = cells && Math.sqrt(cells.length)
+    let dim = cells ? Math.sqrt(cells.length) : 0
 
     return (
       <svg
@@ -52,4 +52,4 @@ class Puzzle extends Component {
   }
 }
 
-export default Puzzle
+export default (Puzzle)

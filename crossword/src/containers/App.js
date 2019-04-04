@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
-import { withRouter } from 'react-router-dom'
+//import { withRouter } from 'react-router-dom'
 
 import { fetchingPuzzles } from '../redux/actions'
 import '../App.css'
@@ -59,10 +59,4 @@ const mapStateToProps = state => ({
  ...state
 })
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchingPuzzles : ()=>{dispatch(fetchingPuzzles())}
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, { fetchingPuzzles })(App)

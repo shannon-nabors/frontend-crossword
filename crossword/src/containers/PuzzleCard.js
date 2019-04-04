@@ -11,10 +11,10 @@ class PuzzleCard extends Component {
           />
         </div>
         <div className="content">
-          <a className="header">{this.props.puzzle.title}</a>
+          <p className="header">{this.props.puzzle.title}</p>
         </div>
         <div className="extra content">
-          <a>{this.props.puzzle.constructor.name}</a>
+          <p>{this.props.puzzle.constructor.name}</p>
         </div>
       </div>
     )

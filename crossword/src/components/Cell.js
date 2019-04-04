@@ -30,6 +30,15 @@ class Cell extends Component {
     }
   }
 
+  setLetter() {
+    if (this.props.answers) {
+      return this.props.cell.letter
+    }
+    if (this.props.pressedKey && this.props.cell === this.props.selected) {
+      return this.props.pressedKey.toUpperCase()
+    }
+  }
+
   render() {
     let cell = this.props.cell
 
@@ -56,7 +65,7 @@ class Cell extends Component {
           y={ (23 * cell.row) + 1.08 }
           textAnchor="middle"
           fontSize="15.33"
-        >{ this.props.answers && cell.letter }</text>
+        >{ this.setLetter() }</text>
       </g>
     )
   }
@@ -65,7 +74,8 @@ class Cell extends Component {
 const mapStateToProps = (state) => {
   return {
     selected: state.selectedCell,
-    highlighted: state.highlightedCells
+    highlighted: state.highlightedCells,
+    pressedKey: state.pressedKey
   }
 }
 
