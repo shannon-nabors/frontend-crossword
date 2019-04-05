@@ -79,6 +79,17 @@ const formStageReducer = (state = null, action) => {
   }
 }
 
+const puzzleReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "SET_NEW_PUZZLE_SIZE":
+      return { ...state, size: action.num }
+    case "CREATE_NEW_PUZZLE_CELLS":
+      return { ...state, cells: action.cells }
+    default:
+      return state
+  }
+}
+
 //
 
 const rootReducer = combineReducers({
@@ -88,7 +99,8 @@ const rootReducer = combineReducers({
   highlightedCells: highlightCellReducer,
   enteredLetters: keyReducer,
   gameStatus: gameStatusReducer,
-  formStage: formStageReducer
+  formStage: formStageReducer,
+  newPuzzle: puzzleReducer
 })
 
 export default rootReducer

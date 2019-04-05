@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import GridSizer from '../components/GridSizeDropdown'
+import React, { Component, Fragment } from 'react'
+import SizePage from './FormSizePage'
+import ShadePage from './FormShadePage'
 import { connect } from 'react-redux'
 import { setFormStage } from '../redux/actions'
 
@@ -11,7 +12,16 @@ class PuzzleForm extends Component {
 
   render() {
     return(
-      <div></div>
+      <Fragment>
+        {this.props.stage === "size" && (
+          <SizePage/>
+        )}
+
+        {this.props.stage === "shade" && (
+          <ShadePage/>
+        )}
+
+      </Fragment>
     )
   }
 }

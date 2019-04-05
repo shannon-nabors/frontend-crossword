@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Dropdown } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { setNewPuzzleSize } from '../redux/actions'
 
 const sizeOptions = [
   {
@@ -30,15 +32,26 @@ const sizeOptions = [
 ]
 
 class GridSizeDropdown extends Component {
+
+  handleChange = (e, {value}) => this.props.setNewPuzzleSize(value)
+
   render() {
     return(
       <Dropdown
+        onChange={this.handleChange}
         placeholder='Select Grid Size'
         selection
         options={sizeOptions}
+        value={this.props.newPuzzle.size}
       />
     )
   }
 }
 
-export default GridSizeDropdown
+const mapStateToProps = (state) => {
+  return {
+    newPuzzle: state.newPuzzle
+  }
+}
+
+export default connect(mapStateToProps, { setNewPuzzleSize })(GridSizeDropdown)

@@ -66,8 +66,15 @@ function toggleGameStatus() {
 }
 
 function setFormStage(stage) {
-  console.log("setting stage")
   return { type: "SET_FORM_STAGE", stage}
+}
+
+function setNewPuzzleSize(num) {
+  return { type: "SET_NEW_PUZZLE_SIZE", num}
+}
+
+function createNewPuzzleCells(cells) {
+  return { type: "CREATE_NEW_PUZZLE_CELLS", cells }
 }
 
 export { fetchingPuzzles,
@@ -77,4 +84,6 @@ export { fetchingPuzzles,
          settingKey,
          resetAllLetters,
          toggleGameStatus,
+         setNewPuzzleSize,
+         createNewPuzzleCells,
          setFormStage }
