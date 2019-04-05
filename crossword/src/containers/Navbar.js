@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
-// import { Header } from 'semantic-ui-react'
+import { Header } from 'semantic-ui-react'
+import { NavLink } from 'react-router-dom'
 
 class Navbar extends Component {
   render() {
     return(
-      <h1 className="ui header" id="header">crosspost</h1>
+      <Header id="header">
+        <NavLink to="/home" className="ui header" >crosspost</NavLink>
+      </Header>
     )
   }
 }

@@ -1,9 +1,12 @@
 import React, { Component, Fragment } from 'react'
+import { Grid, Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { settingKey,
+         selectCell,
+         toggleGameStatus } from '../redux/actions'
+import { size, isEqual } from 'lodash'
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
-import { settingKey, selectCell, toggleGameStatus } from '../redux/actions'
-import { size, isEqual } from 'lodash'
 
 class SolvePage extends Component {
 
@@ -43,15 +46,42 @@ class SolvePage extends Component {
   }
 
   render() {
+    let { puzzle } = this.props
     return (
       <Fragment>
-        <h2>{this.props.puzzle && this.props.puzzle.title}</h2>
-        <div className="ui container" id="puz-sizer">
-          <Puzzle
-            puzzle={this.props.puzzle}
-            editable="true"
-          />
-        </div>
+        <Container>
+          <Grid columns={3} divided>
+            <Grid.Column>
+              <div className="ui container" id="puz-sizer">
+                <h2>{puzzle && puzzle.title}</h2>
+                <h4>by {puzzle && puzzle.constructor.name}</h4>
+                <Puzzle
+                  puzzle={puzzle}
+                  editable="true"
+                />
+              </div>
+            </Grid.Column>
+
+            <Grid.Column>
+              <div>
+                <h4>Across</h4>
+                { puzzle && puzzle.across_clues.map(c => (
+                  <p>{c.number}. {c.content}</p>
+                ))}
+              </div>
+            </Grid.Column>
+
+            <Grid.Column>
+            <div>
+              <h4>Down</h4>
+              { puzzle && puzzle.down_clues.map(c => (
+                <p>{c.number}. {c.content}</p>
+              ))}
+            </div>
+            </Grid.Column>
+          </Grid>
+        </Container>
+
         {this.props.gameStatus === "won" && (
           <ResultsModal />
         )}

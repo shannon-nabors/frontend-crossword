@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
+import { NavLink } from 'react-router-dom'
 import Puzzle from './Puzzle'
 
 class PuzzleCard extends Component {
   render() {
     return(
-      <div className="ui card">
+      <NavLink to={`/solve/${this.props.puzzle.id}`} className="ui card">
         <div className="image">
           <Puzzle
             puzzle={this.props.puzzle}
@@ -16,7 +17,7 @@ class PuzzleCard extends Component {
         <div className="extra content">
           <p>{this.props.puzzle.constructor.name}</p>
         </div>
-      </div>
+      </NavLink>
     )
   }
 }
