@@ -70,6 +70,15 @@ const gameStatusReducer = (state = "in progress", action) => {
   }
 }
 
+const formStageReducer = (state = null, action) => {
+  switch (action.type) {
+    case "SET_FORM_STAGE":
+      return action.stage
+    default:
+      return state
+  }
+}
+
 //
 
 const rootReducer = combineReducers({
@@ -78,7 +87,8 @@ const rootReducer = combineReducers({
   direction: directionReducer,
   highlightedCells: highlightCellReducer,
   enteredLetters: keyReducer,
-  gameStatus: gameStatusReducer
+  gameStatus: gameStatusReducer,
+  formStage: formStageReducer
 })
 
 export default rootReducer

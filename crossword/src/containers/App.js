@@ -11,7 +11,7 @@ import SignUp from '../components/SignupPage'
 import HomePage from './HomePage'
 import PuzzlePage from './PuzzlePage'
 import SolvePage from './SolvePage'
-import GridSizer from '../components/GridSizeDropdown'
+import Form from './PuzzleForm'
 
 class App extends Component {
 
@@ -38,7 +38,7 @@ class App extends Component {
           />
           <Route
             exact path="/create"
-            component={GridSizer}
+            component={Form}
           />
           <Route
             exact path="/signup"

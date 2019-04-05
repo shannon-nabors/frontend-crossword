@@ -65,10 +65,16 @@ function toggleGameStatus() {
   }
 }
 
+function setFormStage(stage) {
+  console.log("setting stage")
+  return { type: "SET_FORM_STAGE", stage}
+}
+
 export { fetchingPuzzles,
          selectCell,
          deselectCell,
          toggleDirection,
          settingKey,
          resetAllLetters,
-         toggleGameStatus }
+         toggleGameStatus,
+         setFormStage }
