@@ -38,6 +38,7 @@ class SolvePage extends Component {
     }
     if (isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)) {
       this.props.toggleGameStatus()
+      document.removeEventListener("keydown", this.handleKeyPress)
     }
   }
 
