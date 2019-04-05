@@ -26,6 +26,10 @@ function selectCell(cell) {
   }
 }
 
+function deselectCell() {
+  return { type: "DESELECT_CELL" }
+}
+
 function toggleDirection() {
   return (dispatch, getState) => {
     const { direction, selectedCell } = getState()
@@ -47,6 +51,10 @@ function settingKey(cellID, pressedKey) {
   }
 }
 
+function resetAllLetters() {
+  return { type: "RESET_ALL_LETTERS" }
+}
+
 function toggleGameStatus() {
   return (dispatch, getState) => {
     const { gameStatus } = getState()
@@ -59,6 +67,8 @@ function toggleGameStatus() {
 
 export { fetchingPuzzles,
          selectCell,
+         deselectCell,
          toggleDirection,
          settingKey,
+         resetAllLetters,
          toggleGameStatus }

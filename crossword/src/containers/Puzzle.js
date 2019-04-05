@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Cell from '../components/Cell'
 import { connect } from 'react-redux'
 import { isEqual } from 'lodash'

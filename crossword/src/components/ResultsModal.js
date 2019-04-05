@@ -7,7 +7,7 @@ class ResultsModal extends React.Component {
 
   handleExitClick(e) {
     let modal = document.querySelector('#results-modal')
-    if ((e.target != modal && ![...modal.querySelectorAll('*')].includes(e.target)) || e.target === document.querySelector('#exit-icon')) {
+    if ((e.target !== modal && ![...modal.querySelectorAll('*')].includes(e.target)) || e.target === document.querySelector('#exit-icon')) {
       this.props.toggleGameStatus()
     }
   }

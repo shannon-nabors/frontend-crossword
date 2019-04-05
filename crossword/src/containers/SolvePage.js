@@ -3,8 +3,10 @@ import { Grid, Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { settingKey,
          selectCell,
+         deselectCell,
+         resetAllLetters,
          toggleGameStatus } from '../redux/actions'
-import { size, isEqual } from 'lodash'
+import { isEqual } from 'lodash'
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
 
@@ -16,6 +18,8 @@ class SolvePage extends Component {
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyPress)
+    this.props.resetAllLetters()
+    this.props.deselectCell()
   }
 
   findWord() {
@@ -56,6 +60,7 @@ class SolvePage extends Component {
                 <h2>{puzzle && puzzle.title}</h2>
                 <h4>by {puzzle && puzzle.constructor.name}</h4>
                 <Puzzle
+                  key={puzzle && puzzle.id}
                   puzzle={puzzle}
                   editable="true"
                 />
@@ -66,7 +71,7 @@ class SolvePage extends Component {
               <div>
                 <h4>Across</h4>
                 { puzzle && puzzle.across_clues.map(c => (
-                  <p>{c.number}. {c.content}</p>
+                  <p key={c && c.id}>{c.number}. {c.content}</p>
                 ))}
               </div>
             </Grid.Column>
@@ -75,7 +80,7 @@ class SolvePage extends Component {
             <div>
               <h4>Down</h4>
               { puzzle && puzzle.down_clues.map(c => (
-                <p>{c.number}. {c.content}</p>
+                <p key={c && c.id}>{c.number}. {c.content}</p>
               ))}
             </div>
             </Grid.Column>
@@ -101,4 +106,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { settingKey, selectCell, toggleGameStatus })(SolvePage)
+export default connect(mapStateToProps, { settingKey, selectCell, deselectCell, toggleGameStatus, resetAllLetters })(SolvePage)

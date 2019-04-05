@@ -13,6 +13,8 @@ const selectCellReducer = (state = null, action) => {
   switch (action.type) {
     case "SELECT_CELL":
       return action.cell
+    case "DESELECT_CELL":
+      return null
     default:
       return state
   }
@@ -29,6 +31,8 @@ const directionReducer = (state = "across", action) => {
 
 const highlightCellReducer = (state = null, action) => {
   switch (action.type) {
+    case "DESELECT_CELL":
+      return null
     case "SELECT_CELL":
       if (action.direction === "down") {
         return action.cell.fellow_down
@@ -50,6 +54,8 @@ const keyReducer = (state = {}, action) => {
   switch (action.type) {
     case "SET_KEY":
       return {...state, [action.cellID]: action.pressedKey}
+    case "RESET_ALL_LETTERS":
+      return {}
     default:
       return state
   }
