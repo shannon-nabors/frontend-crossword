@@ -55,6 +55,15 @@ const keyReducer = (state = {}, action) => {
   }
 }
 
+const gameStatusReducer = (state = "in progress", action) => {
+  switch (action.type) {
+    case "TOGGLE_GAME_STATUS":
+      return state === "won" ? "in progress" : "won"
+    default:
+      return state
+  }
+}
+
 //
 
 const rootReducer = combineReducers({
@@ -62,7 +71,8 @@ const rootReducer = combineReducers({
   selectedCell: selectCellReducer,
   direction: directionReducer,
   highlightedCells: highlightCellReducer,
-  enteredLetters: keyReducer
+  enteredLetters: keyReducer,
+  gameStatus: gameStatusReducer
 })
 
 export default rootReducer

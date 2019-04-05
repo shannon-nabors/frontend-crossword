@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Cell from '../components/Cell'
 import { connect } from 'react-redux'
 import { isEqual } from 'lodash'
@@ -13,11 +13,8 @@ class Puzzle extends Component {
     return pathData
   }
 
-  findIfEditable() {
-    console.log(!isEqual(this.props.puzzle.correct_letters, this.props.enteredLetters))
-    console.log(this.props.enteredLetters)
-    console.log(this.props.puzzle.correct_letters)
-    return !isEqual(this.props.puzzle.correct_letters, this.props.enteredLetters)
+  findIfWon() {
+    return isEqual(this.props.puzzle.correct_letters, this.props.enteredLetters)
   }
 
   render() {
@@ -36,7 +33,7 @@ class Puzzle extends Component {
             <Cell
               key={c.id}
               cell={c}
-              editable={this.findIfEditable()}
+              editable={!this.findIfWon()}
               answers={this.props.answers}
             />
           )}

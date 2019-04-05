@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import Puzzle from './Puzzle'
-import { settingKey, selectCell } from '../redux/actions'
+import ResultsModal from '../components/ResultsModal'
+import { settingKey, selectCell, toggleGameStatus } from '../redux/actions'
+import { size, isEqual } from 'lodash'
 
 class SolvePage extends Component {
 
@@ -34,6 +36,9 @@ class SolvePage extends Component {
       this.props.settingKey(this.props.selectedCell.id, event.key.toUpperCase())
       this.props.selectCell(this.shiftSelectedCellForward())
     }
+    if (isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)) {
+      this.props.toggleGameStatus()
+    }
   }
 
   render() {
@@ -46,6 +51,9 @@ class SolvePage extends Component {
             editable="true"
           />
         </div>
+        {this.props.gameStatus === "won" && (
+          <ResultsModal />
+        )}
       </Fragment>
     )
   }
@@ -56,8 +64,10 @@ const mapStateToProps = (state, ownProps) => {
     puzzle: state.puzzles.find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
     selectedCell: state.selectedCell,
     highlightedCells: state.highlightedCells,
-    direction: state.direction
+    direction: state.direction,
+    enteredLetters: state.enteredLetters,
+    gameStatus: state.gameStatus
   }
 }
 
-export default connect(mapStateToProps, { settingKey, selectCell })(SolvePage)
+export default connect(mapStateToProps, { settingKey, selectCell, toggleGameStatus })(SolvePage)

@@ -47,4 +47,18 @@ function settingKey(cellID, pressedKey) {
   }
 }
 
-export { fetchingPuzzles, selectCell, toggleDirection, settingKey }
+function toggleGameStatus() {
+  return (dispatch, getState) => {
+    const { gameStatus } = getState()
+    dispatch({
+      type: "TOGGLE_GAME_STATUS",
+      gameStatus: gameStatus
+    })
+  }
+}
+
+export { fetchingPuzzles,
+         selectCell,
+         toggleDirection,
+         settingKey,
+         toggleGameStatus }
