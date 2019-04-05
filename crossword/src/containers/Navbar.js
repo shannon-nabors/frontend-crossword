@@ -7,6 +7,7 @@ class Navbar extends Component {
     return(
       <Header id="header">
         <NavLink to="/home" className="ui header" >crosspost</NavLink>
+        <NavLink to="/create">Create</NavLink>
       </Header>
     )
   }

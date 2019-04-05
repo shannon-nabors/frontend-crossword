@@ -37,7 +37,7 @@ class App extends Component {
             component={HomePage}
           />
           <Route
-            exact path="/new"
+            exact path="/create"
             component={GridSizer}
           />
           <Route
