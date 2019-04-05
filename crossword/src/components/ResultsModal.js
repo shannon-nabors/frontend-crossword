@@ -7,7 +7,7 @@ class ResultsModal extends React.Component {
 
   handleExitClick(e) {
     let modal = document.querySelector('#results-modal')
-    if (e.target != modal && ![...modal.querySelectorAll('*')].includes(e.target)) {
+    if ((e.target != modal && ![...modal.querySelectorAll('*')].includes(e.target)) || e.target === document.querySelector('#exit-icon')) {
       this.props.toggleGameStatus()
     }
   }
@@ -22,7 +22,7 @@ class ResultsModal extends React.Component {
           className="ui standard test modal transition visible active"
           id="results-modal">
 
-          <i className="close icon"></i>
+          <i className="close icon" id="exit-icon"></i>
 
           <div className="header">
             Congratulations!
