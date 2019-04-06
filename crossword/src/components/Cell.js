@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { selectCell, toggleDirection, settingKey } from '../redux/actions'
+import { selectCell, toggleDirection, settingKey, toggleShade } from '../redux/actions'
 
 class Cell extends Component {
 
@@ -30,7 +30,7 @@ class Cell extends Component {
         this.props.selectCell(cell)
       }
     } else if (this.props.shadeable) {
-      return
+      this.props.toggleShade(cell.id)
     }
   }
 
@@ -83,4 +83,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { selectCell, settingKey, toggleDirection })(Cell)
+export default connect(mapStateToProps, { selectCell, settingKey, toggleDirection, toggleShade })(Cell)

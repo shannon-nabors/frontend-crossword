@@ -93,12 +93,23 @@ function setNewPuzzleSize(num) {
   return { type: "SET_NEW_PUZZLE_SIZE", num}
 }
 
-function createNewPuzzleCells(cells) {
-  return { type: "CREATE_NEW_PUZZLE_CELLS", cells }
-}
+// function createNewPuzzleCells(cells) {
+//   return { type: "CREATE_NEW_PUZZLE_CELLS", cells }
+// }
 
-function toggleShade(cell) {
-  return { type: "TOGGLE_SHADE", cell }
+function toggleShade(cellID) {
+  return (dispatch, getState) => {
+    const { newPuzzle } = getState()
+    let cell = newPuzzle.cells.find(c => c.id === cellID)
+    let toggledCell = {...cell, shaded: !cell.shaded}
+    let newCells = newPuzzle.cells.map(c => {
+      return c.id === cellID ? toggledCell : c
+    })
+    dispatch({
+      type: "TOGGLE_SHADE",
+      cells: newCells
+    })
+  }
 }
 
 export { fetchingPuzzles,
@@ -109,7 +120,6 @@ export { fetchingPuzzles,
          resetAllLetters,
          toggleGameStatus,
          setNewPuzzleSize,
-         createNewPuzzleCells,
          toggleShade,
          postingPuzzle,
          setFormStage }
