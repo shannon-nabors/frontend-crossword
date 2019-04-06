@@ -33,7 +33,8 @@ class Puzzle extends Component {
             <Cell
               key={c.id}
               cell={c}
-              editable={!this.findIfWon()}
+              editable={this.props.editable ? !this.findIfWon() : null}
+              shadeable={this.props.shadeable}
               answers={this.props.answers}
             />
           )}

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { setFormStage, createNewPuzzleCells } from '../redux/actions'
+import { setFormStage, postingPuzzle } from '../redux/actions'
 
 class NextButton extends Component {
 
@@ -9,7 +9,7 @@ class NextButton extends Component {
     console.log(this.props.size)
     switch (this.props.stage) {
       case "size":
-        this.props.createNewPuzzleCells(this.createCells(this.props.size))
+        this.props.postingPuzzle()
         this.props.setFormStage("shade")
         break
       case "shade":
@@ -20,17 +20,17 @@ class NextButton extends Component {
     }
   }
 
-  createCells = (num) => {
-    let cells = []
-    for (let i = 1; i <= (num*num); i++) {
-      cells.push({
-        shaded: false,
-        row: Math.ceil((i/num)),
-        column: i % num === 0 ? num : i % num
-      })
-    }
-    return cells
-  }
+  // createCells = (num) => {
+  //   let cells = []
+  //   for (let i = 1; i <= (num*num); i++) {
+  //     cells.push({
+  //       shaded: false,
+  //       row: Math.ceil(i/num),
+  //       column: i % num === 0 ? num : i % num
+  //     })
+  //   }
+  //   return cells
+  // }
 
   render() {
     return(
@@ -52,4 +52,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { setFormStage, createNewPuzzleCells })(NextButton)
+export default connect(mapStateToProps, { setFormStage, postingPuzzle })(NextButton)

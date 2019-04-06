@@ -15,6 +15,26 @@ function fetchingPuzzles() {
   }
 }
 
+function postedPuzzle(puzzle) {
+  return { type: "POSTED_PUZZLE", puzzle}
+}
+
+function postingPuzzle() {
+  return (dispatch, getState) => {
+    const { newPuzzle } = getState()
+
+    fetch(`${URL}/create/${newPuzzle.size}`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"}
+    })
+    .then(res => res.json())
+    .then(puzzle => {
+      console.log(puzzle)
+      dispatch(postedPuzzle(puzzle))
+    })
+  }
+}
+
 function selectCell(cell) {
   return (dispatch, getState) => {
     const { direction } = getState()
@@ -77,6 +97,10 @@ function createNewPuzzleCells(cells) {
   return { type: "CREATE_NEW_PUZZLE_CELLS", cells }
 }
 
+function toggleShade(cell) {
+  return { type: "TOGGLE_SHADE", cell }
+}
+
 export { fetchingPuzzles,
          selectCell,
          deselectCell,
@@ -86,4 +110,6 @@ export { fetchingPuzzles,
          toggleGameStatus,
          setNewPuzzleSize,
          createNewPuzzleCells,
+         toggleShade,
+         postingPuzzle,
          setFormStage }

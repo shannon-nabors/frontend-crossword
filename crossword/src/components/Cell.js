@@ -21,12 +21,16 @@ class Cell extends Component {
 
   handleClick() {
     let cell = this.props.cell
-    if (cell.shaded) {
+    if (this.props.editable) {
+      if (cell.shaded) {
+        return
+      } else if (cell === this.props.selected) {
+        this.props.toggleDirection()
+      } else {
+        this.props.selectCell(cell)
+      }
+    } else if (this.props.shadeable) {
       return
-    } else if (cell === this.props.selected) {
-      this.props.toggleDirection()
-    } else {
-      this.props.selectCell(cell)
     }
   }
 
@@ -44,7 +48,7 @@ class Cell extends Component {
 
     return (
       <g
-        onClick={this.props.editable ? (() => this.handleClick()) : null}>
+        onClick={() => this.handleClick()}>
         <rect
           x={ (23 * cell.column - 20).toString() }
           y={ (23 * cell.row - 20).toString() }
