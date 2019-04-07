@@ -14,10 +14,12 @@ class Puzzle extends Component {
   }
 
   findIfWon() {
-    return isEqual(this.props.puzzle.correct_letters, this.props.enteredLetters)
+    return this.props.stage === "enter" ? false : isEqual(this.props.puzzle.correct_letters, this.props.enteredLetters)
   }
 
   render() {
+
+    console.log(this.props.editable ? !this.findIfWon() : "cat")
 
     let cells = this.props.puzzle && this.props.puzzle.cells
     let dim = cells ? Math.sqrt(cells.length) : 0
@@ -61,7 +63,8 @@ class Puzzle extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    enteredLetters: state.enteredLetters
+    enteredLetters: state.enteredLetters,
+    stage: state.formStage
   }
 }
 

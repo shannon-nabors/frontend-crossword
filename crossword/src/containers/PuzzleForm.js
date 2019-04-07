@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import SizePage from './FormSizePage'
 import ShadePage from './FormShadePage'
+import EnterPage from './FormEnterPage'
 import { connect } from 'react-redux'
 import { setFormStage } from '../redux/actions'
 
@@ -19,6 +20,10 @@ class PuzzleForm extends Component {
 
         {this.props.stage === "shade" && (
           <ShadePage/>
+        )}
+
+        {this.props.stage === "enter" && (
+          <EnterPage/>
         )}
 
       </Fragment>
