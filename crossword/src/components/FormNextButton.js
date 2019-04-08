@@ -25,7 +25,7 @@ class NextButton extends Component {
   getNumbers() {
     let num = 1
 
-    let nc = this.props.cells.map(c => {
+    let nc = this.props.cells.sort((a,b) => a.id - b.id).map(c => {
       let leftNeighbor = this.props.cells.find(cell => cell.row === c.row && cell.column === c.column - 1)
 
       let topNeighbor = this.props.cells.find(cell => cell.column === c.column && cell.row === c.row - 1)

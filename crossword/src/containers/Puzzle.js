@@ -29,7 +29,7 @@ class Puzzle extends Component {
         xmlns="http://www.w3.org/2000/svg"
         >
         <g>
-          {cells && cells.reverse().map(c =>
+          {cells && cells.map(c =>
             <Cell
               key={c.id}
               cell={c}
