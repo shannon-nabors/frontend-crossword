@@ -15,8 +15,8 @@ function fetchingPuzzles() {
   }
 }
 
-function postedPuzzle(puzzle) {
-  return { type: "POSTED_PUZZLE", puzzle}
+function updatedPuzzle(puzzle) {
+  return { type: "UPDATED_PUZZLE", puzzle}
 }
 
 function postingPuzzle() {
@@ -30,7 +30,27 @@ function postingPuzzle() {
     .then(res => res.json())
     .then(puzzle => {
       console.log(puzzle)
-      dispatch(postedPuzzle(puzzle))
+      dispatch(updatedPuzzle(puzzle))
+    })
+  }
+}
+
+function preparingPuzzle() {
+  return (dispatch, getState) => {
+    const { newPuzzle } = getState()
+
+    fetch(`${URL}/setup/${newPuzzle.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({ puzzle: newPuzzle })
+    })
+    .then(res => res.json())
+    .then(puzzle => {
+      console.log(puzzle)
+      dispatch(updatedPuzzle(puzzle))
     })
   }
 }
@@ -126,5 +146,6 @@ export { fetchingPuzzles,
          setNewPuzzleSize,
          toggleShade,
          postingPuzzle,
+         preparingPuzzle,
          assignNumbers,
          setFormStage }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { setFormStage, postingPuzzle, assignNumbers } from '../redux/actions'
+import { setFormStage, postingPuzzle, preparingPuzzle } from '../redux/actions'
 
 class NextButton extends Component {
 
@@ -14,7 +14,8 @@ class NextButton extends Component {
         break
       case "shade":
         // this.props.assignNumbers(this.getNumbers())
-        this.getNumbers()
+        // this.getNumbers()
+        this.props.preparingPuzzle()
         this.props.setFormStage("enter")
         break
       default:
@@ -22,22 +23,31 @@ class NextButton extends Component {
     }
   }
 
-  getNumbers() {
-    let num = 1
-
-    let nc = this.props.cells.sort((a,b) => a.id - b.id).map(c => {
-      let leftNeighbor = this.props.cells.find(cell => cell.row === c.row && cell.column === c.column - 1)
-
-      let topNeighbor = this.props.cells.find(cell => cell.column === c.column && cell.row === c.row - 1)
-
-      if ((c.shaded === false) && ((c.row === 1 || c.column === 1) || (leftNeighbor && leftNeighbor.shaded === true) || (topNeighbor && topNeighbor.shaded === true))) {
-        c.number = num
-        num ++
-      }
-
-    })
-    console.log(nc)
-  }
+  // I think this is bad because I'm directly altering state....will fix later
+  // getNumbers() {
+  //   let num = 1
+  //   let clues = []
+  //
+  //   let nc = this.props.cells.sort((a,b) => a.id - b.id).map(c => {
+  //     let leftNeighbor = this.props.cells.find(cell => cell.row === c.row && cell.column === c.column - 1)
+  //
+  //     let topNeighbor = this.props.cells.find(cell => cell.column === c.column && cell.row === c.row - 1)
+  //
+  //     if ((c.shaded === false) && ((c.row === 1 || c.column === 1) || (leftNeighbor && leftNeighbor.shaded === true) || (topNeighbor && topNeighbor.shaded === true))) {
+  //       if (c.column === 1 || (leftNeighbor && leftNeighbor.shaded === true)) {
+  //         clues.push({ number: num, direction: "across" })
+  //       }
+  //
+  //       if (c.row === 1 || (topNeighbor && topNeighbor.shaded === true)) {
+  //         clues.push({ number: num, direction: "down" })
+  //       }
+  //
+  //       c.number = num
+  //       num ++
+  //     }
+  //
+  //   })
+  // }
 
   render() {
     return(
@@ -60,4 +70,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { setFormStage, postingPuzzle, assignNumbers })(NextButton)
+export default connect(mapStateToProps, { setFormStage, postingPuzzle, preparingPuzzle })(NextButton)
