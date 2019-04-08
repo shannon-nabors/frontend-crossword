@@ -112,6 +112,10 @@ function toggleShade(cellID) {
   }
 }
 
+function assignNumbers(cells) {
+  return { type: "ASSIGN_NUMBERS", cells }
+}
+
 export { fetchingPuzzles,
          selectCell,
          deselectCell,
@@ -122,4 +126,5 @@ export { fetchingPuzzles,
          setNewPuzzleSize,
          toggleShade,
          postingPuzzle,
+         assignNumbers,
          setFormStage }

@@ -19,8 +19,6 @@ class Puzzle extends Component {
 
   render() {
 
-    console.log(this.props.editable ? !this.findIfWon() : "cat")
-
     let cells = this.props.puzzle && this.props.puzzle.cells
     let dim = cells ? Math.sqrt(cells.length) : 0
 
@@ -31,7 +29,7 @@ class Puzzle extends Component {
         xmlns="http://www.w3.org/2000/svg"
         >
         <g>
-          {cells && cells.map(c =>
+          {cells && cells.reverse().map(c =>
             <Cell
               key={c.id}
               cell={c}

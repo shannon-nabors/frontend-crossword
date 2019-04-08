@@ -23,7 +23,8 @@ class SolvePage extends Component {
   }
 
   findWord() {
-    return this.props.puzzle.cells.filter(c => this.props.direction === "across" ?  this.props.selectedCell.fellow_across.includes(c.id) : this.props.selectedCell.fellow_down.includes(c.id))
+    let word = this.props.puzzle.cells.filter(c => this.props.direction === "across" ?  this.props.selectedCell.fellow_across.includes(c.id) : this.props.selectedCell.fellow_down.includes(c.id))
+    return word.sort((a, b) => a.id - b.id)
   }
 
   shiftSelectedCellForward() {

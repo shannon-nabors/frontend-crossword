@@ -5,6 +5,7 @@ import Next from '../components/FormNextButton'
 import Puzzle from './Puzzle'
 
 class ShadePage extends Component {
+
   render() {
     return(
       <Container id="puz-sizer">

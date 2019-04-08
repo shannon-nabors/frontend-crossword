@@ -83,11 +83,11 @@ const puzzleReducer = (state = {}, action) => {
   switch (action.type) {
     case "SET_NEW_PUZZLE_SIZE":
       return { ...state, size: action.num }
-    // case "CREATE_NEW_PUZZLE_CELLS":
-    //   return { ...state, cells: action.cells }
     case "POSTED_PUZZLE":
       return action.puzzle
     case "TOGGLE_SHADE":
+      return { ...state, cells: action.cells}
+    case "ASSIGN_NUMBERS":
       return { ...state, cells: action.cells}
     default:
       return state

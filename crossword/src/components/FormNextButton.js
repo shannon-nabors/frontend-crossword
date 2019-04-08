@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { setFormStage, postingPuzzle } from '../redux/actions'
+import { setFormStage, postingPuzzle, assignNumbers } from '../redux/actions'
 
 class NextButton extends Component {
 
@@ -13,6 +13,8 @@ class NextButton extends Component {
         this.props.setFormStage("shade")
         break
       case "shade":
+        // this.props.assignNumbers(this.getNumbers())
+        this.getNumbers()
         this.props.setFormStage("enter")
         break
       default:
@@ -20,17 +22,22 @@ class NextButton extends Component {
     }
   }
 
-  // createCells = (num) => {
-  //   let cells = []
-  //   for (let i = 1; i <= (num*num); i++) {
-  //     cells.push({
-  //       shaded: false,
-  //       row: Math.ceil(i/num),
-  //       column: i % num === 0 ? num : i % num
-  //     })
-  //   }
-  //   return cells
-  // }
+  getNumbers() {
+    let num = 1
+
+    let nc = this.props.cells.map(c => {
+      let leftNeighbor = this.props.cells.find(cell => cell.row === c.row && cell.column === c.column - 1)
+
+      let topNeighbor = this.props.cells.find(cell => cell.column === c.column && cell.row === c.row - 1)
+
+      if ((c.shaded === false) && ((c.row === 1 || c.column === 1) || (leftNeighbor && leftNeighbor.shaded === true) || (topNeighbor && topNeighbor.shaded === true))) {
+        c.number = num
+        num ++
+      }
+
+    })
+    console.log(nc)
+  }
 
   render() {
     return(
@@ -48,8 +55,9 @@ class NextButton extends Component {
 const mapStateToProps = (state) => {
   return {
     stage: state.formStage,
-    size: state.newPuzzle.size
+    size: state.newPuzzle.size,
+    cells: state.newPuzzle.cells
   }
 }
 
-export default connect(mapStateToProps, { setFormStage, postingPuzzle })(NextButton)
+export default connect(mapStateToProps, { setFormStage, postingPuzzle, assignNumbers })(NextButton)
