@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Grid, Container, Form, Segment } from 'semantic-ui-react'
+import { Grid, Container, Form, Segment, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { Button } from 'semantic-ui-react'
+import { URL, updateAcrossClue, updateDownClue } from '../redux/actions'
 import Puzzle from './Puzzle'
 
 class EnterPage extends Component {
@@ -48,12 +48,17 @@ class EnterPage extends Component {
   //   }
   // }
 
-  handleSubmit = () => {
-    console.log('hi')
+  // handleSubmit = () => {
+  //   console.log('hi')
+  //   fetch(URL)
+  // }
+
+  handleAcrossChange = (e, { name, value }) => {
+    this.props.updateAcrossClue(name, value)
   }
 
-  handleChange = (e, { name, value }) => {
-    this.setState({ [name]: value })
+  handleDownChange = (e, { name, value }) => {
+    this.props.updateDownClue(name, value)
   }
 
   render() {
@@ -77,9 +82,8 @@ class EnterPage extends Component {
                 <Form.Input
                   key={c.id}
                   label={c.number}
-                  name={`${c.id.toString()}`}
-                  onChange={this.handleChange}
-                  // value={this.state[`${c.id.toString()}`]}
+                  name={c.id}
+                  onChange={this.handleAcrossChange}
                 >
                 </Form.Input>
               ))}
@@ -93,9 +97,8 @@ class EnterPage extends Component {
                 <Form.Input
                   key={c.id}
                   label={c.number}
-                  name={`${c.id.toString()}`}
-                  onChange={this.handleChange}
-                  // value={this.state ? this.state[`${c.id.toString()}`]: ""}
+                  name={c.id}
+                  onChange={this.handleDownChange}
                 >
                 </Form.Input>
               ))}
@@ -117,4 +120,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(EnterPage)
+export default connect(mapStateToProps, { updateAcrossClue, updateDownClue })(EnterPage)

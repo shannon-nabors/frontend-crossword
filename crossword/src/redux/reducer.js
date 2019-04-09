@@ -87,8 +87,10 @@ const puzzleReducer = (state = {}, action) => {
       return action.puzzle
     case "TOGGLE_SHADE":
       return { ...state, cells: action.cells}
-    case "ASSIGN_NUMBERS":
-      return { ...state, cells: action.cells}
+    case "UPDATE_ACROSS_CLUE":
+      return { ...state, across_clues: action.clues}
+    case "UPDATE_DOWN_CLUE":
+      return { ...state, down_clues: action.clues}
     default:
       return state
   }

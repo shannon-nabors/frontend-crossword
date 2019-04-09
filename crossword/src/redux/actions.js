@@ -132,8 +132,29 @@ function toggleShade(cellID) {
   }
 }
 
-function assignNumbers(cells) {
-  return { type: "ASSIGN_NUMBERS", cells }
+//clean this up later please
+function updateAcrossClue(clueID, content) {
+  return (dispatch, getState) => {
+    const { newPuzzle } = getState()
+    let clue = newPuzzle.across_clues.find(c => c.id === clueID)
+    let newClue = {...clue, content: content}
+    let clues = newPuzzle.across_clues.map(c => {
+      return c.id === clueID ? newClue : c
+    })
+    dispatch ({ type: "UPDATE_ACROSS_CLUE", clues })
+  }
+}
+
+function updateDownClue(clueID, content) {
+  return (dispatch, getState) => {
+    const { newPuzzle } = getState()
+    let clue = newPuzzle.down_clues.find(c => c.id === clueID)
+    let newClue = {...clue, content: content}
+    let clues = newPuzzle.down_clues.map(c => {
+      return c.id === clueID ? newClue : c
+    })
+    dispatch ({ type: "UPDATE_DOWN_CLUE", clues })
+  }
 }
 
 export { fetchingPuzzles,
@@ -148,5 +169,6 @@ export { fetchingPuzzles,
          toggleShade,
          postingPuzzle,
          preparingPuzzle,
-         assignNumbers,
+         updateAcrossClue,
+         updateDownClue,
          setFormStage }
