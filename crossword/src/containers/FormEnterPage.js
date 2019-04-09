@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
-import { Container } from 'semantic-ui-react'
+import { Grid, Container, Form, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
 import Puzzle from './Puzzle'
 
 class EnterPage extends Component {
+  // state = {
+  //   "1Across": '',
+  //   "1Down": '',
+  // }
 
   // componentDidMount() {
   //   document.addEventListener("keydown", this.handleKeyPress)
@@ -44,20 +48,65 @@ class EnterPage extends Component {
   //   }
   // }
 
+  handleSubmit = () => {
+    console.log('hi')
+  }
+
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value })
+  }
+
   render() {
     return(
-      <Container id="puz-sizer">
+      <Form onSubmit={this.handleSubmit}>
+        <Grid columns={3} divided>
+          <Grid.Column>
+            <Container id="puz-sizer">
+                <Puzzle
+                  puzzle={this.props.puzzle}
+                  editable="true"
+                  shadeable={null}
+                />
+            </Container>
+          </Grid.Column>
+
+          <Grid.Column>
+            <h4>Across</h4>
+            <Segment style={{overflow: 'auto', maxHeight: 500}}>
+              {this.props.puzzle.across_clues.map(c => (
+                <Form.Input
+                  key={c.id}
+                  label={c.number}
+                  name={`${c.id.toString()}`}
+                  onChange={this.handleChange}
+                  // value={this.state[`${c.id.toString()}`]}
+                >
+                </Form.Input>
+              ))}
+            </Segment>
+          </Grid.Column>
+
+          <Grid.Column>
+            <h4>Down</h4>
+            <Segment style={{overflow: 'auto', maxHeight: 500}}>
+              {this.props.puzzle.down_clues.map(c => (
+                <Form.Input
+                  key={c.id}
+                  label={c.number}
+                  name={`${c.id.toString()}`}
+                  onChange={this.handleChange}
+                  // value={this.state ? this.state[`${c.id.toString()}`]: ""}
+                >
+                </Form.Input>
+              ))}
+            </Segment>
+          </Grid.Column>
+        </Grid>
+
         <div>
-          <Puzzle
-            puzzle={this.props.puzzle}
-            editable="true"
-            shadeable={null}
-          />
+          <Button type='submit'>Submit</Button>
         </div>
-        <div>
-          <Button>Submit</Button>
-        </div>
-      </Container>
+      </Form>
     )
   }
 }
