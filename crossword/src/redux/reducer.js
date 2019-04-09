@@ -79,7 +79,7 @@ const formStageReducer = (state = null, action) => {
   }
 }
 
-const puzzleReducer = (state = {}, action) => {
+const newPuzzleReducer = (state = {}, action) => {
   switch (action.type) {
     case "SET_NEW_PUZZLE_SIZE":
       return { ...state, size: action.num }
@@ -91,6 +91,8 @@ const puzzleReducer = (state = {}, action) => {
       return { ...state, across_clues: action.clues}
     case "UPDATE_DOWN_CLUE":
       return { ...state, down_clues: action.clues}
+    case "CLEAR_PUZZLE":
+      return {}
     default:
       return state
   }
@@ -106,7 +108,7 @@ const rootReducer = combineReducers({
   enteredLetters: keyReducer,
   gameStatus: gameStatusReducer,
   formStage: formStageReducer,
-  newPuzzle: puzzleReducer
+  newPuzzle: newPuzzleReducer
 })
 
 export default rootReducer

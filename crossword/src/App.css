@@ -5,3 +5,8 @@
 #puz-sizer {
   width: 50vw;
 }
+
+#clue-box {
+  overflow: auto;
+  max-height: 500px;
+}

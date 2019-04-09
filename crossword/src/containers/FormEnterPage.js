@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Grid, Container, Form, Segment, Button } from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { URL, updateAcrossClue, updateDownClue } from '../redux/actions'
+import { URL, updateAcrossClue, updateDownClue, updatingPuzzle } from '../redux/actions'
 import Puzzle from './Puzzle'
 
 class EnterPage extends Component {
-  // state = {
-  //   "1Across": '',
-  //   "1Down": '',
-  // }
+  state = {
+    redirect: false
+  }
 
   // componentDidMount() {
   //   document.addEventListener("keydown", this.handleKeyPress)
@@ -48,10 +48,11 @@ class EnterPage extends Component {
   //   }
   // }
 
-  // handleSubmit = () => {
-  //   console.log('hi')
-  //   fetch(URL)
-  // }
+  handleSubmit = () => {
+    this.props.updatingPuzzle("enter")
+    this.props.clearNewPuzzle()
+    this.setState({ redirect: true })
+  }
 
   handleAcrossChange = (e, { name, value }) => {
     this.props.updateAcrossClue(name, value)
@@ -62,6 +63,11 @@ class EnterPage extends Component {
   }
 
   render() {
+
+    if (this.state.redirect) {
+      return <Redirect to="/home"/>
+    }
+
     return(
       <Form onSubmit={this.handleSubmit}>
         <Grid columns={3} divided>
@@ -77,8 +83,8 @@ class EnterPage extends Component {
 
           <Grid.Column>
             <h4>Across</h4>
-            <Segment style={{overflow: 'auto', maxHeight: 500}}>
-              {this.props.puzzle.across_clues.map(c => (
+            <Segment id="clue-box">
+              {this.props.puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <Form.Input
                   key={c.id}
                   label={c.number}
@@ -92,8 +98,8 @@ class EnterPage extends Component {
 
           <Grid.Column>
             <h4>Down</h4>
-            <Segment style={{overflow: 'auto', maxHeight: 500}}>
-              {this.props.puzzle.down_clues.map(c => (
+            <Segment id ="clue-box">
+              {this.props.puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <Form.Input
                   key={c.id}
                   label={c.number}
@@ -120,4 +126,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { updateAcrossClue, updateDownClue })(EnterPage)
+export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updatingPuzzle })(EnterPage)

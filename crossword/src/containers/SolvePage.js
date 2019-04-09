@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Grid, Container } from 'semantic-ui-react'
+import { Grid, Container, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { settingKey,
          selectCell,
@@ -55,40 +55,38 @@ class SolvePage extends Component {
     let { puzzle } = this.props
     return (
       <Fragment>
-        <Container>
-          <Grid columns={3} divided>
-            <Grid.Column>
-              <div className="ui container" id="puz-sizer">
-                <h2>{puzzle && puzzle.title}</h2>
-                <h4>by {puzzle && puzzle.constructor.name}</h4>
-                <DeleteButton puzzle={puzzle}/>
-                <Puzzle
-                  key={puzzle && puzzle.id}
-                  puzzle={puzzle}
-                  editable="true"
-                />
-              </div>
-            </Grid.Column>
+        <Grid columns={3} divided>
+          <Grid.Column>
+            <div className="ui container" id="puz-sizer">
+              <h2>{puzzle && puzzle.title}</h2>
+              <h4>by {puzzle && puzzle.constructor.name}</h4>
+              <DeleteButton puzzle={puzzle}/>
+              <Puzzle
+                key={puzzle && puzzle.id}
+                puzzle={puzzle}
+                editable="true"
+              />
+            </div>
+          </Grid.Column>
 
-            <Grid.Column>
-              <div>
-                <h4>Across</h4>
-                { puzzle && puzzle.across_clues.map(c => (
-                  <p key={c && c.id}>{c.number}. {c.content}</p>
-                ))}
-              </div>
-            </Grid.Column>
-
-            <Grid.Column>
-            <div>
-              <h4>Down</h4>
-              { puzzle && puzzle.down_clues.map(c => (
+          <Grid.Column>
+            <h4>Across</h4>
+            <Segment id ="clue-box">
+              { puzzle && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <p key={c && c.id}>{c.number}. {c.content}</p>
               ))}
-            </div>
-            </Grid.Column>
-          </Grid>
-        </Container>
+            </Segment>
+          </Grid.Column>
+
+          <Grid.Column>
+            <h4>Down</h4>
+            <Segment id ="clue-box">
+              { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
+                <p key={c && c.id}>{c.number}. {c.content}</p>
+              ))}
+            </Segment>
+          </Grid.Column>
+        </Grid>
 
         {this.props.gameStatus === "won" && (
           <ResultsModal />

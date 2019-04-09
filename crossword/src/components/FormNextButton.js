@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { setFormStage, postingPuzzle, preparingPuzzle } from '../redux/actions'
+import { setFormStage, postingPuzzle, updatingPuzzle } from '../redux/actions'
 
 class NextButton extends Component {
 
@@ -13,7 +13,7 @@ class NextButton extends Component {
         this.props.setFormStage("shade")
         break
       case "shade":
-        this.props.preparingPuzzle()
+        this.props.updatingPuzzle("setup")
         this.props.setFormStage("enter")
         break
       default:
@@ -42,4 +42,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { setFormStage, postingPuzzle, preparingPuzzle })(NextButton)
+export default connect(mapStateToProps, { setFormStage, postingPuzzle, updatingPuzzle })(NextButton)

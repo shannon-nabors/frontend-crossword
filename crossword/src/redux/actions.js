@@ -35,11 +35,12 @@ function postingPuzzle() {
   }
 }
 
-function preparingPuzzle() {
+// these can be combined
+function updatingPuzzle(str) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
 
-    fetch(`${URL}/setup/${newPuzzle.id}`, {
+    fetch(`${URL}/${str}/${newPuzzle.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -113,10 +114,6 @@ function setNewPuzzleSize(num) {
   return { type: "SET_NEW_PUZZLE_SIZE", num}
 }
 
-// function createNewPuzzleCells(cells) {
-//   return { type: "CREATE_NEW_PUZZLE_CELLS", cells }
-// }
-
 function toggleShade(cellID) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
@@ -157,6 +154,10 @@ function updateDownClue(clueID, content) {
   }
 }
 
+function clearNewPuzzle() {
+  return { type: "CLEAR_PUZZLE" }
+}
+
 export { fetchingPuzzles,
          URL,
          selectCell,
@@ -168,7 +169,8 @@ export { fetchingPuzzles,
          setNewPuzzleSize,
          toggleShade,
          postingPuzzle,
-         preparingPuzzle,
+         updatingPuzzle,
          updateAcrossClue,
          updateDownClue,
+         clearNewPuzzle,
          setFormStage }
