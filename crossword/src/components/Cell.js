@@ -12,7 +12,7 @@ class Cell extends Component {
       return "black"
     } else if (cell === sel) {
       return "#FFA414"
-    } else if (sel && this.props.highlighted.find(c => c === cell.id)){
+    } else if (sel && this.props.highlighted.find(c => c.id === cell.id)){
       return "#FFC368"
     } else {
       return "white"
@@ -25,9 +25,9 @@ class Cell extends Component {
       if (cell.shaded) {
         return
       } else if (cell === this.props.selected) {
-        this.props.toggleDirection()
+        this.props.direction === "across" ? this.props.toggleDirection(this.fellow_down()) : this.props.toggleDirection(this.fellow_across())
       } else {
-        this.props.selectCell(cell)
+        this.props.direction === "across" ? this.props.selectCell(cell, this.fellow_across()) : this.props.selectCell(cell, this.fellow_down())
       }
     } else if (this.props.shadeable) {
       this.props.toggleShade(cell.id)
@@ -41,6 +41,14 @@ class Cell extends Component {
     if (this.props.pressedKey && this.props.cell === this.props.selected) {
       return this.props.pressedKey.toUpperCase()
     }
+  }
+
+  fellow_across() {
+    return this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (this.props.cell.clues.find(c => c.direction === "across")).id) && cell !== this.props.cell)
+  }
+
+  fellow_down() {
+    return this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (this.props.cell.clues.find(c => c.direction === "down")).id) && cell !== this.props.cell)
   }
 
   render() {
@@ -79,7 +87,8 @@ const mapStateToProps = (state) => {
   return {
     selected: state.selectedCell,
     highlighted: state.highlightedCells,
-    enteredLetters: state.enteredLetters
+    enteredLetters: state.enteredLetters,
+    direction: state.direction
   }
 }
 

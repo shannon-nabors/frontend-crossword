@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Container, Form, Segment, Button } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { URL, updateAcrossClue, updateDownClue, updatingPuzzle } from '../redux/actions'
+import { updateAcrossClue, updateDownClue, updatingPuzzle } from '../redux/actions'
 import Puzzle from './Puzzle'
 
 class EnterPage extends Component {
@@ -73,11 +73,11 @@ class EnterPage extends Component {
         <Grid columns={3} divided>
           <Grid.Column>
             <Container id="puz-sizer">
-                <Puzzle
-                  puzzle={this.props.puzzle}
-                  editable="true"
-                  shadeable={null}
-                />
+              <Puzzle
+                puzzle={this.props.puzzle}
+                editable="true"
+                shadeable={null}
+              />
             </Container>
           </Grid.Column>
 

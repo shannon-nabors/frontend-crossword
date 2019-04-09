@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react'
-import { Grid, Container, Segment } from 'semantic-ui-react'
+import { Grid, Segment } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { settingKey,
          selectCell,
          deselectCell,
          resetAllLetters,
+         setCurrentPuzzle,
          toggleGameStatus } from '../redux/actions'
 import { isEqual } from 'lodash'
 import Puzzle from './Puzzle'
@@ -15,6 +16,8 @@ class SolvePage extends Component {
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress)
+    // console.log(parseInt(this.props.match.params.puzzleID))
+    // console.log(this.props.puzzle)
   }
 
   componentWillUnmount() {
@@ -24,7 +27,9 @@ class SolvePage extends Component {
   }
 
   findWord() {
-    let word = this.props.puzzle.cells.filter(c => this.props.direction === "across" ?  this.props.selectedCell.fellow_across.includes(c.id) : this.props.selectedCell.fellow_down.includes(c.id))
+    // let word = this.props.puzzle.cells.filter(c => this.props.direction === "across" ?  this.props.selectedCell.fellow_across.includes(c.id) : this.props.selectedCell.fellow_down.includes(c.id))
+    let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (this.props.selectedCell.clues.find(c => this.props.direction === "across" ? c.direction === "across" : c.direction === "down")).id) )
+
     return word.sort((a, b) => a.id - b.id)
   }
 
@@ -40,10 +45,10 @@ class SolvePage extends Component {
   handleKeyPress = (event) => {
     if (event.key === "Backspace") {
       this.props.settingKey(this.props.selectedCell.id, null)
-      this.props.selectCell(this.shiftSelectedCellBackward())
+      this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord())
     } else if (event.key.length === 1) {
       this.props.settingKey(this.props.selectedCell.id, event.key.toUpperCase())
-      this.props.selectCell(this.shiftSelectedCellForward())
+      this.props.selectCell(this.shiftSelectedCellForward(), this.findWord())
     }
     if (isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)) {
       this.props.toggleGameStatus()
@@ -99,6 +104,7 @@ class SolvePage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     puzzle: state.puzzles.find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
+    // puzzle: state.currentPuzzle,
     selectedCell: state.selectedCell,
     highlightedCells: state.highlightedCells,
     direction: state.direction,
@@ -107,4 +113,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { settingKey, selectCell, deselectCell, toggleGameStatus, resetAllLetters })(SolvePage)
+export default connect(mapStateToProps, { settingKey, selectCell, deselectCell, toggleGameStatus, resetAllLetters, setCurrentPuzzle })(SolvePage)

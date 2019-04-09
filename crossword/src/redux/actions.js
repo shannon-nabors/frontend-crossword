@@ -29,7 +29,6 @@ function postingPuzzle() {
     })
     .then(res => res.json())
     .then(puzzle => {
-      console.log(puzzle)
       dispatch(updatedPuzzle(puzzle))
     })
   }
@@ -56,13 +55,14 @@ function updatingPuzzle(str) {
   }
 }
 
-function selectCell(cell) {
+function selectCell(cell, fellows) {
   return (dispatch, getState) => {
     const { direction } = getState()
     dispatch({
       type: "SELECT_CELL",
       direction: direction,
-      cell: cell
+      cell: cell,
+      fellows: fellows
     })
   }
 }
@@ -71,13 +71,14 @@ function deselectCell() {
   return { type: "DESELECT_CELL" }
 }
 
-function toggleDirection() {
+function toggleDirection(fellows) {
   return (dispatch, getState) => {
     const { direction, selectedCell } = getState()
     dispatch({
       type: "TOGGLE_DIRECTION",
       direction: direction,
-      selectedCell: selectedCell
+      selectedCell: selectedCell,
+      fellows: fellows
     })
   }
 }
@@ -158,6 +159,15 @@ function clearNewPuzzle() {
   return { type: "CLEAR_PUZZLE" }
 }
 
+function setCurrentPuzzle(puzzle) {
+  // return (dispatch, getState) => {
+  //   const { puzzles } = getState()
+  //   let puzzle = puzzles.find(p => p.id === id)
+  //   dispatch ({ type: "SET_CURRENT_PUZZLE", puzzle})
+  // }
+  return { type: "SET_CURRENT_PUZZLE", puzzle }
+}
+
 export { fetchingPuzzles,
          URL,
          selectCell,
@@ -173,4 +183,5 @@ export { fetchingPuzzles,
          updateAcrossClue,
          updateDownClue,
          clearNewPuzzle,
+         setCurrentPuzzle,
          setFormStage }

@@ -35,15 +35,15 @@ const highlightCellReducer = (state = null, action) => {
       return null
     case "SELECT_CELL":
       if (action.direction === "down") {
-        return action.cell.fellow_down
+        return action.fellows
       } else {
-        return action.cell.fellow_across
+        return action.fellows
       }
     case "TOGGLE_DIRECTION":
       if (action.direction === "across") {
-        return action.selectedCell.fellow_down
+        return action.fellows
       } else {
-        return action.selectedCell.fellow_across
+        return action.fellows
       }
     default:
       return state
@@ -98,6 +98,15 @@ const newPuzzleReducer = (state = {}, action) => {
   }
 }
 
+const currentPuzzleReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "SET_CURRENT_PUZZLE":
+      return action.puzzle
+    default:
+      return state
+  }
+}
+
 //
 
 const rootReducer = combineReducers({
@@ -108,7 +117,8 @@ const rootReducer = combineReducers({
   enteredLetters: keyReducer,
   gameStatus: gameStatusReducer,
   formStage: formStageReducer,
-  newPuzzle: newPuzzleReducer
+  newPuzzle: newPuzzleReducer,
+  currentPuzzle: currentPuzzleReducer
 })
 
 export default rootReducer

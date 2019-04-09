@@ -32,6 +32,7 @@ class Puzzle extends Component {
           {cells && cells.map(c =>
             <Cell
               key={c.id}
+              puzzle={this.props.puzzle}
               cell={c}
               editable={this.props.editable ? !this.findIfWon() : null}
               shadeable={this.props.shadeable}
