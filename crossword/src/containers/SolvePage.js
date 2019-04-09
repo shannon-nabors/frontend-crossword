@@ -9,6 +9,7 @@ import { settingKey,
 import { isEqual } from 'lodash'
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
+import DeleteButton from '../components/DeletePuzzleButton'
 
 class SolvePage extends Component {
 
@@ -60,6 +61,7 @@ class SolvePage extends Component {
               <div className="ui container" id="puz-sizer">
                 <h2>{puzzle && puzzle.title}</h2>
                 <h4>by {puzzle && puzzle.constructor.name}</h4>
+                <DeleteButton puzzle={puzzle}/>
                 <Puzzle
                   key={puzzle && puzzle.id}
                   puzzle={puzzle}

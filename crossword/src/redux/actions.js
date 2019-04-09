@@ -137,6 +137,7 @@ function assignNumbers(cells) {
 }
 
 export { fetchingPuzzles,
+         URL,
          selectCell,
          deselectCell,
          toggleDirection,
