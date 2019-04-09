@@ -5,7 +5,6 @@ import { settingKey,
          selectCell,
          deselectCell,
          resetAllLetters,
-         setCurrentPuzzle,
          toggleGameStatus } from '../redux/actions'
 import { isEqual } from 'lodash'
 import Puzzle from './Puzzle'
@@ -16,8 +15,6 @@ class SolvePage extends Component {
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress)
-    // console.log(parseInt(this.props.match.params.puzzleID))
-    // console.log(this.props.puzzle)
   }
 
   componentWillUnmount() {
@@ -27,7 +24,6 @@ class SolvePage extends Component {
   }
 
   findWord() {
-    // let word = this.props.puzzle.cells.filter(c => this.props.direction === "across" ?  this.props.selectedCell.fellow_across.includes(c.id) : this.props.selectedCell.fellow_down.includes(c.id))
     let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (this.props.selectedCell.clues.find(c => this.props.direction === "across" ? c.direction === "across" : c.direction === "down")).id) )
 
     return word.sort((a, b) => a.id - b.id)
@@ -113,4 +109,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { settingKey, selectCell, deselectCell, toggleGameStatus, resetAllLetters, setCurrentPuzzle })(SolvePage)
+export default connect(mapStateToProps, { settingKey, selectCell, deselectCell, toggleGameStatus, resetAllLetters })(SolvePage)

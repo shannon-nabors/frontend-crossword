@@ -155,17 +155,25 @@ function updateDownClue(clueID, content) {
   }
 }
 
-function clearNewPuzzle() {
-  return { type: "CLEAR_PUZZLE" }
+function setLetters() {
+  return (dispatch, getState) => {
+    const { newPuzzle, enteredLetters } = getState()
+    let cells = []
+    for (let key in enteredLetters) {
+      let cell = newPuzzle.cells.find(c => c.id === parseInt(key))
+      let letteredCell = {...cell, letter: enteredLetters[key]}
+      cells.push(letteredCell)
+    }
+    let newCells = newPuzzle.cells.map(c => {
+      let updated = cells.find(cell => cell.id === c.id)
+      return updated ? updated : c
+    })
+    dispatch ({ type: "SET_LETTERS", newCells })
+  }
 }
 
-function setCurrentPuzzle(puzzle) {
-  // return (dispatch, getState) => {
-  //   const { puzzles } = getState()
-  //   let puzzle = puzzles.find(p => p.id === id)
-  //   dispatch ({ type: "SET_CURRENT_PUZZLE", puzzle})
-  // }
-  return { type: "SET_CURRENT_PUZZLE", puzzle }
+function clearNewPuzzle() {
+  return { type: "CLEAR_PUZZLE" }
 }
 
 export { fetchingPuzzles,
@@ -183,5 +191,5 @@ export { fetchingPuzzles,
          updateAcrossClue,
          updateDownClue,
          clearNewPuzzle,
-         setCurrentPuzzle,
+         setLetters,
          setFormStage }

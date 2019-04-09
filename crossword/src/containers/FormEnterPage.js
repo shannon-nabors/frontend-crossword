@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Container, Form, Segment, Button } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { updateAcrossClue, updateDownClue, updatingPuzzle } from '../redux/actions'
+import { updateAcrossClue, updateDownClue, updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters } from '../redux/actions'
 import Puzzle from './Puzzle'
 
 class EnterPage extends Component {
@@ -10,47 +10,48 @@ class EnterPage extends Component {
     redirect: false
   }
 
-  // componentDidMount() {
-  //   document.addEventListener("keydown", this.handleKeyPress)
-  // }
-  //
-  // componentWillUnmount() {
-  //   document.removeEventListener("keydown", this.handleKeyPress)
-  //   this.props.resetAllLetters()
-  //   this.props.deselectCell()
-  // }
-  //
-  // findWord() {
-  //   let word = this.props.puzzle.cells.filter(c => this.props.direction === "across" ?  this.props.selectedCell.fellow_across.includes(c.id) : this.props.selectedCell.fellow_down.includes(c.id))
-  //   return word.sort((a, b) => a.id - b.id)
-  // }
-  //
-  // shiftSelectedCellForward() {
-  //   return this.findWord().find(c => c.id > this.props.selectedCell.id) ? this.findWord().find(c => c.id > this.props.selectedCell.id) : this.props.selectedCell
-  // }
-  //
-  // shiftSelectedCellBackward() {
-  //   let previousLetters = this.findWord().filter(c => c.id < this.props.selectedCell.id)
-  //   return this.findWord().find(c => c.id < this.props.selectedCell.id) ? previousLetters[previousLetters.length - 1]: this.props.selectedCell
-  // }
-  //
-  // handleKeyPress = (event) => {
-  //   if (event.key === "Backspace") {
-  //     this.props.settingKey(this.props.selectedCell.id, null)
-  //     this.props.selectCell(this.shiftSelectedCellBackward())
-  //   } else if (event.key.length === 1) {
-  //     this.props.settingKey(this.props.selectedCell.id, event.key.toUpperCase())
-  //     this.props.selectCell(this.shiftSelectedCellForward())
-  //   }
-  //   if (isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)) {
-  //     this.props.toggleGameStatus()
-  //     document.removeEventListener("keydown", this.handleKeyPress)
-  //   }
-  // }
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyPress)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyPress)
+    this.props.resetAllLetters()
+    this.props.deselectCell()
+  }
+
+  findWord() {
+    let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (this.props.selectedCell.clues.find(c => this.props.direction === "across" ? c.direction === "across" : c.direction === "down")).id) )
+
+    return word.sort((a, b) => a.id - b.id)
+  }
+
+  shiftSelectedCellForward() {
+    return this.findWord().find(c => c.id > this.props.selectedCell.id) ? this.findWord().find(c => c.id > this.props.selectedCell.id) : this.props.selectedCell
+  }
+
+  shiftSelectedCellBackward() {
+    let previousLetters = this.findWord().filter(c => c.id < this.props.selectedCell.id)
+    return this.findWord().find(c => c.id < this.props.selectedCell.id) ? previousLetters[previousLetters.length - 1]: this.props.selectedCell
+  }
+
+  handleKeyPress = (event) => {
+    if (event.key === "Backspace") {
+      this.props.settingKey(this.props.selectedCell.id, null)
+      this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord())
+    } else if (event.key.length === 1) {
+      this.props.settingKey(this.props.selectedCell.id, event.key.toUpperCase())
+      this.props.selectCell(this.shiftSelectedCellForward(), this.findWord())
+    }
+  }
+
+
 
   handleSubmit = () => {
+    this.props.setLetters()
     this.props.updatingPuzzle("enter")
     this.props.clearNewPuzzle()
+    //this.props.fetchingPuzzles()
     this.setState({ redirect: true })
   }
 
@@ -122,8 +123,10 @@ class EnterPage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    puzzle: state.newPuzzle
+    puzzle: state.newPuzzle,
+    selectedCell: state.selectedCell,
+    direction: state.direction
   }
 }
 
-export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updatingPuzzle })(EnterPage)
+export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters })(EnterPage)

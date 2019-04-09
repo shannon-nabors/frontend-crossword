@@ -20,6 +20,7 @@ class Cell extends Component {
   }
 
   handleClick() {
+    console.log(this.props.puzzle)
     let cell = this.props.cell
     if (this.props.editable) {
       if (cell.shaded) {
