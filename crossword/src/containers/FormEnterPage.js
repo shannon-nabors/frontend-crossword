@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Container, Form, Segment, Button } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { updateAcrossClue, updateDownClue, updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters } from '../redux/actions'
+import { updateAcrossClue, updateDownClue, updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle } from '../redux/actions'
 import Puzzle from './Puzzle'
 
 class EnterPage extends Component {
@@ -50,8 +50,8 @@ class EnterPage extends Component {
   handleSubmit = () => {
     this.props.setLetters()
     this.props.updatingPuzzle("enter")
+    this.props.createdPuzzle()
     this.props.clearNewPuzzle()
-    //this.props.fetchingPuzzles()
     this.setState({ redirect: true })
   }
 
@@ -129,4 +129,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters })(EnterPage)
+export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle })(EnterPage)

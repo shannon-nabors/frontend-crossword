@@ -4,6 +4,10 @@ const puzzlesReducer = (state = [], action) => {
   switch (action.type) {
     case "FETCHED_PUZZLES":
       return action.puzzles
+    case "DELETED_PUZZLE":
+      return action.newPuzzles
+    case "CREATED_PUZZLE":
+      return action.newPuzzles
     default:
       return state
   }

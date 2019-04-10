@@ -19,6 +19,22 @@ function updatedPuzzle(puzzle) {
   return { type: "UPDATED_PUZZLE", puzzle}
 }
 
+function deletedPuzzle(puzzle) {
+  return (dispatch, getState) => {
+    const { puzzles } = getState()
+    let newPuzzles = puzzles.filter(p => p.id !== puzzle.id)
+    dispatch({ type: "DELETED_PUZZLE", newPuzzles })
+  }
+}
+
+function createdPuzzle(puzzle) {
+  return (dispatch, getState) => {
+    const { puzzles, newPuzzle } = getState()
+    let newPuzzles = [...puzzles, newPuzzle]
+    dispatch({ type: "CREATED_PUZZLE", newPuzzles })
+  }
+}
+
 function postingPuzzle() {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
@@ -192,4 +208,6 @@ export { fetchingPuzzles,
          updateDownClue,
          clearNewPuzzle,
          setLetters,
+         deletedPuzzle,
+         createdPuzzle,
          setFormStage }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { URL, fetchingPuzzles } from '../redux/actions'
+import { URL, deletedPuzzle } from '../redux/actions'
 
 class DeleteButton extends Component {
   state = {
@@ -14,7 +14,7 @@ class DeleteButton extends Component {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     })
-    this.props.fetchingPuzzles()
+    this.props.deletedPuzzle(this.props.puzzle)
     this.setState({ redirect: true })
   }
 
@@ -36,4 +36,4 @@ class DeleteButton extends Component {
   }
 }
 
-export default connect(null, { fetchingPuzzles })(DeleteButton)
+export default connect(null, { deletedPuzzle })(DeleteButton)
