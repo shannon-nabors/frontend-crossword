@@ -1,17 +1,29 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
-import { URL } from '../redux/actions'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { URL, fetchingPuzzles } from '../redux/actions'
 
 class DeleteButton extends Component {
+  state = {
+    redirect: false
+  }
 
   handleClick = () => {
     fetch(`${URL}/${this.props.puzzle.id}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     })
+    this.props.fetchingPuzzles()
+    this.setState({ redirect: true })
   }
 
   render() {
+
+    if (this.state.redirect) {
+      return <Redirect to="/home"/>
+    }
+
     return(
       <Button
         icon
@@ -24,4 +36,4 @@ class DeleteButton extends Component {
   }
 }
 
-export default DeleteButton
+export default connect(null, { fetchingPuzzles })(DeleteButton)
