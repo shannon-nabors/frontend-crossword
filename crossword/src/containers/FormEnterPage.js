@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Container, Form, Segment, Button } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { updateAcrossClue, updateDownClue, updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle } from '../redux/actions'
+import { updateAcrossClue, updateDownClue, updateTitle,  updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle } from '../redux/actions'
 import Puzzle from './Puzzle'
 
 class EnterPage extends Component {
@@ -36,12 +36,14 @@ class EnterPage extends Component {
   }
 
   handleKeyPress = (event) => {
-    if (event.key === "Backspace") {
-      this.props.settingKey(this.props.selectedCell.id, null)
-      this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord())
-    } else if (event.key.length === 1) {
-      this.props.settingKey(this.props.selectedCell.id, event.key.toUpperCase())
-      this.props.selectCell(this.shiftSelectedCellForward(), this.findWord())
+    if (this.props.selectedCell) {
+      if (event.key === "Backspace") {
+        this.props.settingKey(this.props.selectedCell.id, null)
+        this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord())
+      } else if (event.key.length === 1) {
+        this.props.settingKey(this.props.selectedCell.id, event.key.toUpperCase())
+        this.props.selectCell(this.shiftSelectedCellForward(), this.findWord())
+      }
     }
   }
 
@@ -51,8 +53,12 @@ class EnterPage extends Component {
     this.props.setLetters()
     this.props.updatingPuzzle("enter")
     this.props.createdPuzzle()
-    this.props.clearNewPuzzle()
+    // this.props.clearNewPuzzle()
     this.setState({ redirect: true })
+  }
+
+  handleTitleChange = (e, { value }) => {
+    this.props.updateTitle(value)
   }
 
   handleAcrossChange = (e, { name, value }) => {
@@ -74,6 +80,12 @@ class EnterPage extends Component {
         <Grid columns={3} divided>
           <Grid.Column>
             <Container id="puz-sizer">
+              <Form.Input
+                placeholder="Title"
+                name="title"
+                onChange={this.handleTitleChange}
+              >
+              </Form.Input>
               <Puzzle
                 puzzle={this.props.puzzle}
                 editable="true"
@@ -129,4 +141,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle })(EnterPage)
+export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updateTitle, updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle })(EnterPage)

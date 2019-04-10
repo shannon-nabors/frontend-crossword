@@ -130,6 +130,8 @@ const newPuzzleReducer = (state = {}, action) => {
       return { ...state, across_clues: action.clues}
     case "UPDATE_DOWN_CLUE":
       return { ...state, down_clues: action.clues}
+    case "UPDATE_TITLE":
+      return { ...state, title: action.content}
     case "SET_LETTERS":
       return { ...state, cells: action.newCells }
     case "CLEAR_PUZZLE":

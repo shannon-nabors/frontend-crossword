@@ -71,6 +71,7 @@ function postingPuzzle() {
 function updatingPuzzle(str) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
+    console.log(newPuzzle)
 
     fetch(`${URL}/puzzles/${str}/${newPuzzle.id}`, {
       method: "PATCH",
@@ -84,6 +85,9 @@ function updatingPuzzle(str) {
     .then(puzzle => {
       console.log(puzzle)
       dispatch(updatedPuzzle(puzzle))
+      if (str === "enter") {
+        dispatch(clearNewPuzzle())
+      }
     })
   }
 }
@@ -145,6 +149,10 @@ function updateDownClue(clueID, content) {
     })
     dispatch ({ type: "UPDATE_DOWN_CLUE", clues })
   }
+}
+
+function updateTitle(content) {
+  return { type: "UPDATE_TITLE", content }
 }
 
 // Step 4: submit and clear newPuzzle in state
@@ -258,6 +266,7 @@ export { fetchingPuzzles,
          updatingPuzzle,
          updateAcrossClue,
          updateDownClue,
+         updateTitle,
          clearNewPuzzle,
          setLetters,
          deletedPuzzle,
