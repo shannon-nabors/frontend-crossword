@@ -252,6 +252,12 @@ function toggleGameStatus() {
 }
 
 
+                         // HANDLE USER STUFF //
+
+function logInUser(user) {
+  return { type: "LOG_IN_USER", user}
+}
+
 export { fetchingPuzzles,
          URL,
          selectCell,
@@ -272,4 +278,5 @@ export { fetchingPuzzles,
          deletedPuzzle,
          createdPuzzle,
          solvingPuzzle,
+         logInUser,
          setFormStage }

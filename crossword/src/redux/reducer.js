@@ -150,18 +150,27 @@ const currentPuzzleReducer = (state = {}, action) => {
   }
 }
 
-// const solvedPuzzlesReducer = (state = {}, action) => {
-//   switch (action.type) {
-//     case "SOLVED_PUZZLE":
-//       return action.puzzle
-//     default:
-//       return state
-// }
+const currentUserReducer = (state = {}, action) => {
+  switch (action.type) {
+    case "LOG_IN_USER":
+      return action.user
+    default:
+      return state
+  }
+}
 
-//
+const loggedInReducer = (state = false, action) => {
+  switch (action.type) {
+    case "LOG_IN_USER":
+      return true
+    // case "LOG_OUT_USER":
+    //   return false
+    default:
+      return state
+  }
+}
 
 const rootReducer = combineReducers({
-  // puzzles: puzzlesReducer,
   solvedPuzzles: solvedPuzzlesReducer,
   unsolvedPuzzles: unsolvedPuzzlesReducer,
   userPuzzles: userPuzzlesReducer,
@@ -172,7 +181,9 @@ const rootReducer = combineReducers({
   gameStatus: gameStatusReducer,
   formStage: formStageReducer,
   newPuzzle: newPuzzleReducer,
-  currentPuzzle: currentPuzzleReducer
+  currentPuzzle: currentPuzzleReducer,
+  currentUser: currentUserReducer,
+  loggedIn: loggedInReducer
 })
 
 export default rootReducer

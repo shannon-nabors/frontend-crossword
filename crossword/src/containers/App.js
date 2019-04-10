@@ -11,6 +11,7 @@ import SignUp from '../components/SignupPage'
 import HomePage from './HomePage'
 import PuzzlePage from './PuzzlePage'
 import SolvePage from './SolvePage'
+import CurrentUserPage from './CurrentUserPage'
 import Form from './PuzzleForm'
 
 class App extends Component {
@@ -31,6 +32,10 @@ class App extends Component {
           <Route
             path="/solve/:puzzleID"
             component={SolvePage}
+          />
+          <Route
+            exact path="/profile"
+            component={CurrentUserPage}
           />
           <Route
             exact path="/home"
