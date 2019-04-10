@@ -14,7 +14,12 @@ class Puzzle extends Component {
   }
 
   findIfWon() {
-    return this.props.stage === "enter" ? false : isEqual(this.props.puzzle.correct_letters, this.props.enteredLetters)
+    if (isEqual(this.props.puzzle.correct_letters, this.props.enteredLetters) && this.props.stage !== "enter") {
+      //post solve to back end
+      return true
+    } else {
+      return false
+    }
   }
 
   render() {

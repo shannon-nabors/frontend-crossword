@@ -10,7 +10,7 @@ class DeleteButton extends Component {
   }
 
   handleClick = () => {
-    fetch(`${URL}/${this.props.puzzle.id}`, {
+    fetch(`${URL}/puzzles/${this.props.puzzle.id}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     })

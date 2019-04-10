@@ -1,13 +1,16 @@
 
-const URL = `http://localhost:3000/puzzles`
+const URL = `http://localhost:3000`
 
+                         // DISPLAY ALL PUZZLES //
+
+// Fetch puzzles when app mounts
 function fetchedPuzzles(puzzles) {
   return { type: "FETCHED_PUZZLES", puzzles}
 }
 
 function fetchingPuzzles() {
   return (dispatch) => {
-    fetch(URL)
+    fetch(`${URL}/puzzles`)
     .then(res => res.json())
     .then(puzzles => {
       dispatch(fetchedPuzzles(puzzles))
@@ -15,10 +18,7 @@ function fetchingPuzzles() {
   }
 }
 
-function updatedPuzzle(puzzle) {
-  return { type: "UPDATED_PUZZLE", puzzle}
-}
-
+// Alter "puzzles" state when a puzzle is created or deleted
 function deletedPuzzle(puzzle) {
   return (dispatch, getState) => {
     const { puzzles } = getState()
@@ -35,11 +35,28 @@ function createdPuzzle(puzzle) {
   }
 }
 
+                         // CREATE PUZZLE //
+
+// Allow user to progress through create form
+function setFormStage(stage) {
+ return { type: "SET_FORM_STAGE", stage}
+}
+
+// First step: set puzzle size
+function setNewPuzzleSize(num) {
+ return { type: "SET_NEW_PUZZLE_SIZE", num}
+}
+
+// Update "newPuzzle" in state as user progresses through create form
+function updatedPuzzle(puzzle) {
+  return { type: "UPDATED_PUZZLE", puzzle}
+}
+
 function postingPuzzle() {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
 
-    fetch(`${URL}/create/${newPuzzle.size}`, {
+    fetch(`${URL}/puzzles/create/${newPuzzle.size}`, {
       method: "POST",
       headers: {"Content-Type": "application/json"}
     })
@@ -55,7 +72,7 @@ function updatingPuzzle(str) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
 
-    fetch(`${URL}/${str}/${newPuzzle.id}`, {
+    fetch(`${URL}/puzzles/${str}/${newPuzzle.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -71,66 +88,7 @@ function updatingPuzzle(str) {
   }
 }
 
-function selectCell(cell, fellows) {
-  return (dispatch, getState) => {
-    const { direction } = getState()
-    dispatch({
-      type: "SELECT_CELL",
-      direction: direction,
-      cell: cell,
-      fellows: fellows
-    })
-  }
-}
-
-function deselectCell() {
-  return { type: "DESELECT_CELL" }
-}
-
-function toggleDirection(fellows) {
-  return (dispatch, getState) => {
-    const { direction, selectedCell } = getState()
-    dispatch({
-      type: "TOGGLE_DIRECTION",
-      direction: direction,
-      selectedCell: selectedCell,
-      fellows: fellows
-    })
-  }
-}
-
-function setKey(cellID, pressedKey) {
-  return { type: "SET_KEY", cellID, pressedKey}
-}
-
-function settingKey(cellID, pressedKey) {
-  return (dispatch) => {
-    dispatch(setKey(cellID, pressedKey))
-  }
-}
-
-function resetAllLetters() {
-  return { type: "RESET_ALL_LETTERS" }
-}
-
-function toggleGameStatus() {
-  return (dispatch, getState) => {
-    const { gameStatus } = getState()
-    dispatch({
-      type: "TOGGLE_GAME_STATUS",
-      gameStatus: gameStatus
-    })
-  }
-}
-
-function setFormStage(stage) {
-  return { type: "SET_FORM_STAGE", stage}
-}
-
-function setNewPuzzleSize(num) {
-  return { type: "SET_NEW_PUZZLE_SIZE", num}
-}
-
+// Step 2: shade in squares
 function toggleShade(cellID) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
@@ -143,6 +101,24 @@ function toggleShade(cellID) {
       type: "TOGGLE_SHADE",
       cells: newCells
     })
+  }
+}
+
+// Step 3: enter letters and clues
+function setLetters() {
+  return (dispatch, getState) => {
+    const { newPuzzle, enteredLetters } = getState()
+    let cells = []
+    for (let key in enteredLetters) {
+      let cell = newPuzzle.cells.find(c => c.id === parseInt(key))
+      let letteredCell = {...cell, letter: enteredLetters[key]}
+      cells.push(letteredCell)
+    }
+    let newCells = newPuzzle.cells.map(c => {
+      let updated = cells.find(cell => cell.id === c.id)
+      return updated ? updated : c
+    })
+    dispatch ({ type: "SET_LETTERS", newCells })
   }
 }
 
@@ -171,26 +147,88 @@ function updateDownClue(clueID, content) {
   }
 }
 
-function setLetters() {
-  return (dispatch, getState) => {
-    const { newPuzzle, enteredLetters } = getState()
-    let cells = []
-    for (let key in enteredLetters) {
-      let cell = newPuzzle.cells.find(c => c.id === parseInt(key))
-      let letteredCell = {...cell, letter: enteredLetters[key]}
-      cells.push(letteredCell)
-    }
-    let newCells = newPuzzle.cells.map(c => {
-      let updated = cells.find(cell => cell.id === c.id)
-      return updated ? updated : c
-    })
-    dispatch ({ type: "SET_LETTERS", newCells })
-  }
-}
-
+// Step 4: submit and clear newPuzzle in state
 function clearNewPuzzle() {
   return { type: "CLEAR_PUZZLE" }
 }
+
+
+                         // SOLVE PUZZLE //
+
+function solvedPuzzles(puzzles) {
+ return { type: "SOLVED_PUZZLES", puzzles}
+}
+
+function solvingPuzzles() {
+ return (dispatch) => {
+   fetch(URL)
+   .then(res => res.json())
+   .then(puzzles => {
+     dispatch(solvedPuzzles(puzzles))
+   })
+ }
+}
+
+
+                         // EDIT/TYPE IN PUZZLE //
+
+// select and deselect active cell
+function selectCell(cell, fellows) {
+  return (dispatch, getState) => {
+    const { direction } = getState()
+    dispatch({
+      type: "SELECT_CELL",
+      direction: direction,
+      cell: cell,
+      fellows: fellows
+    })
+  }
+}
+
+function deselectCell() {
+  return { type: "DESELECT_CELL" }
+}
+
+// change direction on second click
+function toggleDirection(fellows) {
+  return (dispatch, getState) => {
+    const { direction, selectedCell } = getState()
+    dispatch({
+      type: "TOGGLE_DIRECTION",
+      direction: direction,
+      selectedCell: selectedCell,
+      fellows: fellows
+    })
+  }
+}
+
+// set pressed key -- I think these can be combined
+function setKey(cellID, pressedKey) {
+  return { type: "SET_KEY", cellID, pressedKey}
+}
+
+function settingKey(cellID, pressedKey) {
+  return (dispatch) => {
+    dispatch(setKey(cellID, pressedKey))
+  }
+}
+
+// remove all "entered letters" when puzzle is done
+function resetAllLetters() {
+  return { type: "RESET_ALL_LETTERS" }
+}
+
+// switch game status between "in progress" and "won"
+function toggleGameStatus() {
+  return (dispatch, getState) => {
+    const { gameStatus } = getState()
+    dispatch({
+      type: "TOGGLE_GAME_STATUS",
+      gameStatus: gameStatus
+    })
+  }
+}
+
 
 export { fetchingPuzzles,
          URL,
