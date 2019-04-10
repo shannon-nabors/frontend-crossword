@@ -5,6 +5,7 @@ import { settingKey,
          selectCell,
          deselectCell,
          resetAllLetters,
+         solvingPuzzle,
          toggleGameStatus } from '../redux/actions'
 import { isEqual } from 'lodash'
 import Puzzle from './Puzzle'
@@ -48,6 +49,7 @@ class SolvePage extends Component {
     }
     if (isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)) {
       this.props.toggleGameStatus()
+      this.props.solvingPuzzle(1, this.props.puzzle.id)
       document.removeEventListener("keydown", this.handleKeyPress)
     }
   }
@@ -90,7 +92,9 @@ class SolvePage extends Component {
         </Grid>
 
         {this.props.gameStatus === "won" && (
-          <ResultsModal />
+          <ResultsModal
+            puzzle={ puzzle }
+          />
         )}
       </Fragment>
     )
@@ -99,8 +103,7 @@ class SolvePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    puzzle: state.puzzles.find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
-    // puzzle: state.currentPuzzle,
+    puzzle: state.unsolvedPuzzles.find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
     selectedCell: state.selectedCell,
     highlightedCells: state.highlightedCells,
     direction: state.direction,
@@ -109,4 +112,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { settingKey, selectCell, deselectCell, toggleGameStatus, resetAllLetters })(SolvePage)
+export default connect(mapStateToProps, { settingKey, selectCell, deselectCell, toggleGameStatus, resetAllLetters, solvingPuzzle })(SolvePage)

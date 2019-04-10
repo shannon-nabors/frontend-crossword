@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import PuzzleCard from './PuzzleCard'
 
 class PuzzleContainer extends Component {
@@ -12,10 +11,4 @@ class PuzzleContainer extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    puzzles: state.puzzles
-  }
-}
-
-export default connect(mapStateToProps)(PuzzleContainer)
+export default PuzzleContainer

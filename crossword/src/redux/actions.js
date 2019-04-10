@@ -1,16 +1,16 @@
 
 const URL = `http://localhost:3000`
 
-                         // DISPLAY ALL PUZZLES //
+                         // DISPLAY PUZZLES //
 
-// Fetch puzzles when app mounts
+// Fetch puzzles and solves when app mounts
 function fetchedPuzzles(puzzles) {
   return { type: "FETCHED_PUZZLES", puzzles}
 }
 
 function fetchingPuzzles() {
   return (dispatch) => {
-    fetch(`${URL}/puzzles`)
+    fetch(`${URL}/puzzles/user/1`)
     .then(res => res.json())
     .then(puzzles => {
       dispatch(fetchedPuzzles(puzzles))
@@ -18,19 +18,19 @@ function fetchingPuzzles() {
   }
 }
 
-// Alter "puzzles" state when a puzzle is created or deleted
+// Alter "userPuzzles" state when a puzzle is created or deleted
 function deletedPuzzle(puzzle) {
   return (dispatch, getState) => {
-    const { puzzles } = getState()
-    let newPuzzles = puzzles.filter(p => p.id !== puzzle.id)
+    const { userPuzzles } = getState()
+    let newPuzzles = userPuzzles.filter(p => p.id !== puzzle.id)
     dispatch({ type: "DELETED_PUZZLE", newPuzzles })
   }
 }
 
 function createdPuzzle(puzzle) {
   return (dispatch, getState) => {
-    const { puzzles, newPuzzle } = getState()
-    let newPuzzles = [...puzzles, newPuzzle]
+    const { userPuzzles, newPuzzle } = getState()
+    let newPuzzles = [...userPuzzles, newPuzzle]
     dispatch({ type: "CREATED_PUZZLE", newPuzzles })
   }
 }
@@ -155,18 +155,32 @@ function clearNewPuzzle() {
 
                          // SOLVE PUZZLE //
 
-function solvedPuzzles(puzzles) {
- return { type: "SOLVED_PUZZLES", puzzles}
+function solvedPuzzle(solve) {
+  return (dispatch, getState) => {
+    const { unsolvedPuzzles, solvedPuzzles } = getState()
+    let puzzle = unsolvedPuzzles.find(puz => puz.id === solve.puzzle_id)
+    let unsolved = unsolvedPuzzles.filter(puz => puz.id !== solve.puzzle_id)
+    let solved = [...solvedPuzzles, puzzle]
+    dispatch ({ type: "SOLVED_PUZZLE", unsolved, solved})
+  }
 }
 
-function solvingPuzzles() {
- return (dispatch) => {
-   fetch(URL)
-   .then(res => res.json())
-   .then(puzzles => {
-     dispatch(solvedPuzzles(puzzles))
-   })
- }
+function solvingPuzzle(userID, puzzleID) {
+  return (dispatch) => {
+    fetch(`${URL}/solves`, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        solver_id: userID,
+        puzzle_id: puzzleID
+      })
+    })
+    .then(res => res.json())
+    .then(solve => {
+      console.log(solve)
+     dispatch(solvedPuzzle(solve))
+    })
+  }
 }
 
 
@@ -248,4 +262,5 @@ export { fetchingPuzzles,
          setLetters,
          deletedPuzzle,
          createdPuzzle,
+         solvingPuzzle,
          setFormStage }

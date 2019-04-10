@@ -1,14 +1,23 @@
 import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
 import PuzzleContainer from './PuzzleContainer'
 
 class HomePage extends Component {
   render() {
     return(
       <Fragment>
-        <PuzzleContainer />
+        <PuzzleContainer
+          puzzles={ this.props.puzzles }
+        />
       </Fragment>
     )
   }
 }
 
-export default HomePage
+const mapStateToProps = (state, ownProps) => {
+  return {
+    puzzles: state.unsolvedPuzzles
+  }
+}
+
+export default connect(mapStateToProps)(HomePage)
