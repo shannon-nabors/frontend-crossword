@@ -11,7 +11,7 @@ import { updatingPuzzle,
          clearNewPuzzle } from '../redux/actions/createPuzzle.js'
 import { selectCell,
          deselectCell,
-         settingKey,
+         setKey,
          resetAllLetters } from '../redux/actions/puzzleInteraction.js'
 import Puzzle from './Puzzle'
 
@@ -167,4 +167,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updateTitle, updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle })(EnterPage)
+export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updateTitle, updatingPuzzle, setKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle })(EnterPage)

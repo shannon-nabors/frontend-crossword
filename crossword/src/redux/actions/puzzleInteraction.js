@@ -31,16 +31,11 @@ function toggleDirection(fellows) {
   }
 }
 
-// set pressed key -- I think these can be combined
+// set pressed key
 function setKey(cellID, pressedKey) {
   return { type: "SET_KEY", cellID, pressedKey}
 }
 
-function settingKey(cellID, pressedKey) {
-  return (dispatch) => {
-    dispatch(setKey(cellID, pressedKey))
-  }
-}
 
 // remove all "entered letters" when puzzle is done
 function resetAllLetters() {
@@ -62,7 +57,6 @@ export { selectCell,
          deselectCell,
          toggleDirection,
          setKey,
-         settingKey,
          resetAllLetters,
          toggleGameStatus
        }
