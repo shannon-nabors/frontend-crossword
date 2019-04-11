@@ -3,7 +3,7 @@ import SizePage from './FormSizePage'
 import ShadePage from './FormShadePage'
 import EnterPage from './FormEnterPage'
 import { connect } from 'react-redux'
-import { setFormStage } from '../redux/actions'
+import { setFormStage } from '../redux/actions/createPuzzle'
 
 class PuzzleForm extends Component {
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Form, Container, Header, Message } from 'semantic-ui-react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { logInUser } from '../redux/actions'
+import { logInUser } from '../redux/actions/manageUsers'
 
 class Login extends Component {
   state = {

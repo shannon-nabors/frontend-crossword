@@ -1,9 +1,19 @@
 import React, { Component } from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { setNewPuzzleSize } from '../redux/actions'
+import { setNewPuzzleSize } from '../redux/actions/createPuzzle'
 
 const sizeOptions = [
+  {
+    key: 5,
+    text: '5 x 5',
+    value: 5,
+  },
+  {
+    key: 7,
+    text: '7 x 7',
+    value: 7,
+  },
   {
     key: 15,
     text: '15 x 15',

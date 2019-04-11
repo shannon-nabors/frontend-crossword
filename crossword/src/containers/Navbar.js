@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Header, Button } from 'semantic-ui-react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { logOutUser } from '../redux/actions'
+import { logOutUser } from '../redux/actions/manageUsers'
 
 class Navbar extends Component {
   state = {

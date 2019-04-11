@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { URL, deletedPuzzle } from '../redux/actions'
+import { URL } from '../redux/constants'
+import { deletedPuzzle } from '../redux/actions/changePuzzles'
 
 class DeleteButton extends Component {
   state = {

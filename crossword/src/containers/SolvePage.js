@@ -5,8 +5,8 @@ import { settingKey,
          selectCell,
          deselectCell,
          resetAllLetters,
-         solvingPuzzle,
-         toggleGameStatus } from '../redux/actions'
+         toggleGameStatus } from '../redux/actions/puzzleInteraction'
+import { solvingPuzzle } from '../redux/actions/solvePuzzle'
 import { isEqual } from 'lodash'
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'

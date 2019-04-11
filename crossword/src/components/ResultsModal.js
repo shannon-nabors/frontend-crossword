@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { toggleGameStatus } from '../redux/actions'
+import { toggleGameStatus } from '../redux/actions/puzzleInteraction'
 
 class ResultsModal extends React.Component {
 

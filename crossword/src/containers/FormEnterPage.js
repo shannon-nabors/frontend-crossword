@@ -2,7 +2,17 @@ import React, { Component, Fragment } from 'react'
 import { Grid, Container, Form, Segment, Button, Dimmer, Loader } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { updateAcrossClue, updateDownClue, updateTitle,  updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle } from '../redux/actions'
+import { createdPuzzle } from '../redux/actions/changePuzzles.js'
+import { updatingPuzzle,
+         setLetters,
+         updateAcrossClue,
+         updateDownClue,
+         updateTitle,
+         clearNewPuzzle } from '../redux/actions/createPuzzle.js'
+import { selectCell,
+         deselectCell,
+         settingKey,
+         resetAllLetters } from '../redux/actions/puzzleInteraction.js'
 import Puzzle from './Puzzle'
 
 class EnterPage extends Component {

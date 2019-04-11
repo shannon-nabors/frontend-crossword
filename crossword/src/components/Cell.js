@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { selectCell, toggleDirection, settingKey, toggleShade } from '../redux/actions'
+import { selectCell,
+         toggleDirection,
+         settingKey } from '../redux/actions/puzzleInteraction'
+import { toggleShade } from '../redux/actions/createPuzzle'
 
 class Cell extends Component {
 

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { setFormStage, postingPuzzle, updatingPuzzle } from '../redux/actions'
+import { setFormStage,
+         postingPuzzle,
+         updatingPuzzle } from '../redux/actions/createPuzzle'
 
 class NextButton extends Component {
 
