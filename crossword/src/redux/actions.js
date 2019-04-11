@@ -75,7 +75,6 @@ function postingPuzzle() {
 function updatingPuzzle(str) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
-    console.log(newPuzzle)
 
     fetch(`${URL}/puzzles/${str}/${newPuzzle.id}`, {
       method: "PATCH",
@@ -87,7 +86,6 @@ function updatingPuzzle(str) {
     })
     .then(res => res.json())
     .then(puzzle => {
-      console.log(puzzle)
       dispatch(updatedPuzzle(puzzle))
       if (str === "enter") {
         dispatch(clearNewPuzzle())

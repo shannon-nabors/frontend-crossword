@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Header, Button } from 'semantic-ui-react'
-import { NavLink, Redirect } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logOutUser } from '../redux/actions'
 

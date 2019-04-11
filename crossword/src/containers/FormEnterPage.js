@@ -36,7 +36,7 @@ class EnterPage extends Component {
   }
 
   handleKeyPress = (event) => {
-    if (this.props.selectedCell) {
+    if (this.props.selectedCell && document.activeElement.type !== "text") {
       if (event.key === "Backspace") {
         this.props.settingKey(this.props.selectedCell.id, null)
         this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord())

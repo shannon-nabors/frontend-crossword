@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import '../App.css'
 import Navbar from './Navbar'
 import Login from '../components/LoginPage'
@@ -14,7 +14,6 @@ import Form from './PuzzleForm'
 class App extends Component {
 
   render() {
-    console.log(this.props.loggedIn)
     return (
       <div className="App">
         <Navbar />
