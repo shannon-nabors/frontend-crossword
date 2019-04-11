@@ -37,15 +37,6 @@ class Cell extends Component {
     }
   }
 
-  setLetter() {
-    if (this.props.answers) {
-      return this.props.cell.letter
-    }
-    if (this.props.pressedKey && this.props.cell === this.props.selected) {
-      return this.props.pressedKey.toUpperCase()
-    }
-  }
-
   fellow_across() {
     return this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (this.props.cell.clues.find(c => c.direction === "across")).id) && cell !== this.props.cell)
   }
@@ -80,7 +71,7 @@ class Cell extends Component {
           y={ (23 * cell.row) + 1.08 }
           textAnchor="middle"
           fontSize="15.33"
-        >{ this.props.enteredLetters[cell.id] }</text>
+        >{ this.props.answers? cell.letter : this.props.enteredLetters[cell.id] }</text>
       </g>
     )
   }

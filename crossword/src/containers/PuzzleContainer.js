@@ -1,15 +1,28 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PuzzleCard from './PuzzleCard'
-import { Container } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { Container, Dimmer, Loader } from 'semantic-ui-react'
 
 class PuzzleContainer extends Component {
   render() {
     return (
-      <Container className="ui cards">
-        {this.props.puzzles.map(p => <PuzzleCard key={p.id} puzzle={p} />)}
-      </Container>
+      <Fragment>
+        <Container className="ui cards">
+          {this.props.puzzles.map(p => <PuzzleCard key={p.id} puzzle={p} />)}
+        </Container>
+
+        <Dimmer active={this.props.loading ? true : false}>
+          <Loader size='large'>Loading puzzles</Loader>
+        </Dimmer>
+      </Fragment>
     )
   }
 }
 
-export default PuzzleContainer
+const mapStateToProps = (state, ownProps) => {
+  return {
+    loading: state.loading
+  }
+}
+
+export default connect(mapStateToProps)(PuzzleContainer)

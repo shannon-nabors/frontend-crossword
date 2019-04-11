@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Grid, Segment } from 'semantic-ui-react'
+import { Grid, Segment, Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { isEqual } from 'lodash'
 
@@ -12,7 +12,6 @@ import { solvingPuzzle } from '../redux/actions/solvePuzzle'
 
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
-import DeleteButton from '../components/DeletePuzzleButton'
 
 ////////
 
@@ -72,16 +71,15 @@ class SolvePage extends Component {
       <Fragment>
         <Grid columns={3} divided>
           <Grid.Column>
-            <div className="ui container" id="puz-sizer">
+            <Container id="puz-sizer">
               <h2>{puzzle && puzzle.title}</h2>
               <h4>by {puzzle && puzzle.constructor.name}</h4>
-              <DeleteButton puzzle={puzzle}/>
               <Puzzle
                 key={puzzle && puzzle.id}
                 puzzle={puzzle}
                 editable="true"
               />
-            </div>
+            </Container>
           </Grid.Column>
 
           <Grid.Column>

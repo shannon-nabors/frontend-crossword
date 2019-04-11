@@ -1,12 +1,16 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import PuzzleContainer from './PuzzleContainer'
 
-class HomePage extends Component {
+class SolveMenu extends Component {
 
   render() {
     return(
       <Fragment>
-        <p>hey</p>
+        <PuzzleContainer
+          puzzles={ this.props.puzzles }
+        />
+
       </Fragment>
     )
   }
@@ -18,4 +22,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(HomePage)
+export default connect(mapStateToProps)(SolveMenu)
