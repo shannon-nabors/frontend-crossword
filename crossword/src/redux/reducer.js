@@ -121,7 +121,7 @@ const formStageReducer = (state = null, action) => {
 const newPuzzleReducer = (state = {}, action) => {
   switch (action.type) {
     case "SET_NEW_PUZZLE_SIZE":
-      return { ...state, size: action.num }
+      return { ...state, size: action.num, constructor: action.currentUser }
     case "UPDATED_PUZZLE":
       return action.puzzle
     case "TOGGLE_SHADE":
@@ -154,6 +154,8 @@ const currentUserReducer = (state = {}, action) => {
   switch (action.type) {
     case "LOG_IN_USER":
       return action.user
+    case "LOG_OUT_USER":
+      return {}
     default:
       return state
   }
@@ -163,8 +165,8 @@ const loggedInReducer = (state = false, action) => {
   switch (action.type) {
     case "LOG_IN_USER":
       return true
-    // case "LOG_OUT_USER":
-    //   return false
+    case "LOG_OUT_USER":
+      return false
     default:
       return state
   }

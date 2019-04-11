@@ -8,9 +8,9 @@ function fetchedPuzzles(puzzles) {
   return { type: "FETCHED_PUZZLES", puzzles}
 }
 
-function fetchingPuzzles() {
+function fetchingPuzzles(id) {
   return (dispatch) => {
-    fetch(`${URL}/puzzles/user/1`)
+    fetch(`${URL}/puzzles/user/${id}`)
     .then(res => res.json())
     .then(puzzles => {
       dispatch(fetchedPuzzles(puzzles))
@@ -44,7 +44,10 @@ function setFormStage(stage) {
 
 // First step: set puzzle size
 function setNewPuzzleSize(num) {
- return { type: "SET_NEW_PUZZLE_SIZE", num}
+  return (dispatch, getState) => {
+    const { currentUser } = getState()
+    dispatch({ type: "SET_NEW_PUZZLE_SIZE", num, currentUser })
+  }
 }
 
 // Update "newPuzzle" in state as user progresses through create form
@@ -58,7 +61,8 @@ function postingPuzzle() {
 
     fetch(`${URL}/puzzles/create/${newPuzzle.size}`, {
       method: "POST",
-      headers: {"Content-Type": "application/json"}
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ newPuzzle })
     })
     .then(res => res.json())
     .then(puzzle => {
@@ -255,7 +259,14 @@ function toggleGameStatus() {
                          // HANDLE USER STUFF //
 
 function logInUser(user) {
-  return { type: "LOG_IN_USER", user}
+  return (dispatch, getState) => {
+    dispatch(fetchingPuzzles(user.id))
+    dispatch({ type: "LOG_IN_USER", user })
+  }
+}
+
+function logOutUser(user) {
+  return { type: "LOG_OUT_USER", user}
 }
 
 export { fetchingPuzzles,
@@ -279,4 +290,5 @@ export { fetchingPuzzles,
          createdPuzzle,
          solvingPuzzle,
          logInUser,
+         logOutUser,
          setFormStage }

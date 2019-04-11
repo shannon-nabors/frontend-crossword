@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PuzzleContainer from './PuzzleContainer'
 
 class HomePage extends Component {
+  
   render() {
     return(
       <Fragment>

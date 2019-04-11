@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { Header, Button } from 'semantic-ui-react'
 import { NavLink, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { logOutUser } from '../redux/actions'
 
 class Navbar extends Component {
   state = {
     redirect: false
-  }
-
-  handleClick = (page) => {
-    this.setState({ redirect: page })
   }
 
   render() {
@@ -30,14 +28,20 @@ class Navbar extends Component {
         /NavLink>
 
         <NavLink
-          to="/"
+          to="/profile"
+          id="navbar-link"
+          >Profile<
+        /NavLink>
+
+        <Button
+          onClick={this.props.logOutUser}
           id="navbar-link"
           >Log out<
-        /NavLink>
+        /Button>
 
       </Header>
     )
   }
 }
 
-export default Navbar
+export default connect(null, { logOutUser })(Navbar)

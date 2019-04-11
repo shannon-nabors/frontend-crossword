@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Route, Switch } from 'react-router-dom'
-//import { withRouter } from 'react-router-dom'
-
-import { fetchingPuzzles } from '../redux/actions'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import '../App.css'
 import Navbar from './Navbar'
 import Login from '../components/LoginPage'
@@ -16,14 +13,12 @@ import Form from './PuzzleForm'
 
 class App extends Component {
 
-  componentDidMount() {
-    this.props.fetchingPuzzles()
-  }
-
   render() {
+    console.log(this.props.loggedIn)
     return (
       <div className="App">
         <Navbar />
+
         <Switch>
           <Route
             path="/puzzles/:puzzleID"
@@ -57,11 +52,12 @@ class App extends Component {
       </div>
     )
   }
-
 }
 
-const mapStateToProps = state => ({
- ...state
-})
+const mapStateToProps = state => {
+  return {
+    loggedIn: state.loggedIn
+  }
+}
 
-export default connect(mapStateToProps, { fetchingPuzzles })(App)
+export default connect(mapStateToProps)(App)
