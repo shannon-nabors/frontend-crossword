@@ -1,18 +1,5 @@
 import { combineReducers } from 'redux'
 
-// const puzzlesReducer = (state = [], action) => {
-//   switch (action.type) {
-//     case "FETCHED_PUZZLES":
-//       return action.puzzles
-//     case "DELETED_PUZZLE":
-//       return action.newPuzzles
-//     case "CREATED_PUZZLE":
-//       return action.newPuzzles
-//     default:
-//       return state
-//   }
-// }
-
 const solvedPuzzlesReducer = (state = [], action) => {
   switch (action.type) {
     case "FETCHED_PUZZLES":
@@ -172,6 +159,19 @@ const loggedInReducer = (state = false, action) => {
   }
 }
 
+const loadingReducer = (state = false, action) => {
+  switch(action.type){
+    case "LOADING":
+      return true
+    case "FETCHED_PUZZLES":
+      return false
+    case "UPDATED_PUZZLE":
+      return false
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   solvedPuzzles: solvedPuzzlesReducer,
   unsolvedPuzzles: unsolvedPuzzlesReducer,
@@ -185,7 +185,8 @@ const rootReducer = combineReducers({
   newPuzzle: newPuzzleReducer,
   currentPuzzle: currentPuzzleReducer,
   currentUser: currentUserReducer,
-  loggedIn: loggedInReducer
+  loggedIn: loggedInReducer,
+  loading: loadingReducer
 })
 
 export default rootReducer

@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Grid, Container, Form, Segment, Button } from 'semantic-ui-react'
+import React, { Component, Fragment } from 'react'
+import { Grid, Container, Form, Segment, Button, Dimmer, Loader } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { updateAcrossClue, updateDownClue, updateTitle,  updatingPuzzle, settingKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle } from '../redux/actions'
@@ -75,60 +75,75 @@ class EnterPage extends Component {
       return <Redirect to="/home"/>
     }
 
-    return(
-      <Form onSubmit={this.handleSubmit}>
-        <Grid columns={3} divided>
-          <Grid.Column>
-            <Container id="puz-sizer">
-              <Form.Input
-                placeholder="Title"
-                name="title"
-                onChange={this.handleTitleChange}
-              >
-              </Form.Input>
-              <Puzzle
-                puzzle={this.props.puzzle}
-                editable="true"
-                shadeable={null}
-              />
-            </Container>
-          </Grid.Column>
+    if (this.state.loading) {
+      return (
+        <Dimmer active>
+          <Loader size='large'>Loading</Loader>
+        </Dimmer>
+      )
+    }
 
-          <Grid.Column>
-            <h4>Across</h4>
-            <Segment id="clue-box">
-              {this.props.puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
+    return (
+      <Fragment>
+        <Form onSubmit={this.handleSubmit}>
+          <Grid columns={3} divided>
+            <Grid.Column>
+              <Container id="puz-sizer">
                 <Form.Input
-                  key={c.id}
-                  label={c.number}
-                  name={c.id}
-                  onChange={this.handleAcrossChange}
+                  placeholder="Title"
+                  name="title"
+                  onChange={this.handleTitleChange}
                 >
                 </Form.Input>
-              ))}
-            </Segment>
-          </Grid.Column>
+                <Puzzle
+                  puzzle={this.props.puzzle}
+                  editable="true"
+                  shadeable={null}
+                />
+              </Container>
+            </Grid.Column>
 
-          <Grid.Column>
-            <h4>Down</h4>
-            <Segment id ="clue-box">
-              {this.props.puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
-                <Form.Input
-                  key={c.id}
-                  label={c.number}
-                  name={c.id}
-                  onChange={this.handleDownChange}
-                >
-                </Form.Input>
-              ))}
-            </Segment>
-          </Grid.Column>
-        </Grid>
+            <Grid.Column>
+              <h4>Across</h4>
+              <Segment id="clue-box">
+                {this.props.puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
+                  <Form.Input
+                    key={c.id}
+                    label={c.number}
+                    name={c.id}
+                    onChange={this.handleAcrossChange}
+                  >
+                  </Form.Input>
+                ))}
+              </Segment>
+            </Grid.Column>
 
-        <div>
-          <Button type='submit'>Submit</Button>
-        </div>
-      </Form>
+            <Grid.Column>
+              <h4>Down</h4>
+              <Segment id ="clue-box">
+                {this.props.puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
+                  <Form.Input
+                    key={c.id}
+                    label={c.number}
+                    name={c.id}
+                    onChange={this.handleDownChange}
+                  >
+                  </Form.Input>
+                ))}
+              </Segment>
+            </Grid.Column>
+          </Grid>
+
+          <div>
+            <Button type='submit'>Submit</Button>
+          </div>
+        </Form>
+
+          <Dimmer active={this.props.loading ? true : false}>
+            <Loader size='large'>Creating clues</Loader>
+          </Dimmer>
+
+      </Fragment>
     )
   }
 }
@@ -137,7 +152,8 @@ const mapStateToProps = (state) => {
   return {
     puzzle: state.newPuzzle,
     selectedCell: state.selectedCell,
-    direction: state.direction
+    direction: state.direction,
+    loading: state.loading
   }
 }
 

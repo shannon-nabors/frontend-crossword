@@ -10,6 +10,7 @@ function fetchedPuzzles(puzzles) {
 
 function fetchingPuzzles(id) {
   return (dispatch) => {
+    dispatch(loading())
     fetch(`${URL}/puzzles/user/${id}`)
     .then(res => res.json())
     .then(puzzles => {
@@ -55,10 +56,14 @@ function updatedPuzzle(puzzle) {
   return { type: "UPDATED_PUZZLE", puzzle}
 }
 
+function loading() {
+  return { type: "LOADING"}
+}
+
 function postingPuzzle() {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
-
+    dispatch(loading())
     fetch(`${URL}/puzzles/create/${newPuzzle.size}`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -75,7 +80,7 @@ function postingPuzzle() {
 function updatingPuzzle(str) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
-
+    dispatch(loading())
     fetch(`${URL}/puzzles/${str}/${newPuzzle.id}`, {
       method: "PATCH",
       headers: {
