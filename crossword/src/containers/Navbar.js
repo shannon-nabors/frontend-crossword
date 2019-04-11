@@ -30,7 +30,7 @@ class Navbar extends Component {
         <NavLink
           to="/profile"
           id="navbar-link"
-          >Profile<
+          >{this.props.currentUser.name ? this.props.currentUser.name : "Profile"}<
         /NavLink>
 
         <Button
@@ -44,4 +44,10 @@ class Navbar extends Component {
   }
 }
 
-export default connect(null, { logOutUser })(Navbar)
+const mapStateToProps = (state) => {
+  return {
+    currentUser: state.currentUser
+  }
+}
+
+export default connect(mapStateToProps, { logOutUser })(Navbar)
