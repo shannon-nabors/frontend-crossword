@@ -24,12 +24,15 @@ class ResultsModal extends React.Component {
 
           <i className="close icon" id="exit-icon"></i>
 
-          <div className="header">
+          <div className="ui centered header">
             Congratulations!
           </div>
 
-          <div className="description">
-            You finished this puzzle.
+          <div className="ui centered description">
+            <br/>
+            <br/>
+            <br/>
+            You completed {this.props.puzzle ? `${this.props.puzzle.title}` : "this puzzle"}.
           </div>
 
         </div>
