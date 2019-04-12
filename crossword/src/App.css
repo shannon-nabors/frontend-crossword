@@ -1,19 +1,31 @@
 /* Navbar */
 #header {
   background-color: #00B273;
-  height: 70px;
-  padding: 1em;
+  height: 75px;
+  padding: .5em;
 }
 
-#navbar-link {
-  margin-left: 2em;
-  color: black;
-  background-color: lightgray;
-  padding: 5px;
-  border-radius: 5px;
-  font-size: .9em;
+#navbar-logo {
+  height: 52.08px;
+  width: 144px;
+  margin: 2px;
 }
 
+#nav-menu {
+  width: 750px;
+}
+
+/* Login page */
+#form-area {
+  width: 50vw;
+}
+
+/* Home page */
+#logo-sizer {
+  width: 75vw;
+}
+
+/* Puzzle pages */
 #puz-sizer {
   width: 50vw;
 }

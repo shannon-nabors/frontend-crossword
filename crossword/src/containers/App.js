@@ -6,6 +6,7 @@ import Navbar from './Navbar'
 import Login from '../components/LoginPage'
 import SignUp from '../components/SignupPage'
 import HomePage from './HomePage'
+import SolveMenu from './SolveMenu'
 import PuzzlePage from './PuzzlePage'
 import SolvePage from './SolvePage'
 import CurrentUserPage from './CurrentUserPage'
@@ -26,6 +27,10 @@ class App extends Component {
           <Route
             path="/solve/:puzzleID"
             component={SolvePage}
+          />
+          <Route
+            path="/solve"
+            component={SolveMenu}
           />
           <Route
             exact path="/profile"

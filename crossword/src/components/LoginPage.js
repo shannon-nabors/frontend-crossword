@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { Button, Form, Container, Header, Message } from 'semantic-ui-react'
+import { Button, Form, Container,
+         Header, Message } from 'semantic-ui-react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+
 import { logInUser } from '../redux/actions/manageUsers'
+import { URL } from '../redux/constants'
 
 class Login extends Component {
   state = {
@@ -16,7 +19,7 @@ class Login extends Component {
   }
 
   handleSubmit = (e) => {
-    fetch('http://localhost:3000/users/login', {
+    fetch(`${URL}/users/login`, {
       method: "POST",
       headers: {
         "Content-Type":"application/json",

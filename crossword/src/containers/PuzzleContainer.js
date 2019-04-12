@@ -7,7 +7,7 @@ class PuzzleContainer extends Component {
   render() {
     return (
       <Fragment>
-        <Container className="ui cards">
+        <Container className="ui cards centered">
           {this.props.puzzles.map(p => <PuzzleCard key={p.id} puzzle={p} />)}
         </Container>
 

@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Header, Button } from 'semantic-ui-react'
-import { NavLink } from 'react-router-dom'
+import { Header, Menu, Container } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { logOutUser } from '../redux/actions/manageUsers'
+
+import HomeLogo from '../components/HomeLogo'
 
 class Navbar extends Component {
   state = {
@@ -13,31 +15,40 @@ class Navbar extends Component {
 
     return(
       <Header id="header">
+        <Container id="nav-menu">
+        <Menu widths={5} >
+          <Menu.Item
+            fitted
+            as={ Link }
+            to="/home"
+          >
+            <HomeLogo id="navbar-logo"/>
+          </Menu.Item>
 
-        <NavLink
-          to="/home"
-          className="ui header"
-          id="logo"
-          >crosspost<
-        /NavLink>
+          <Menu.Item
+            as={ Link }
+            to="/create"
+          > Create
+          </Menu.Item>
 
-        <NavLink
-          to="/create"
-          id="navbar-link"
-          >Create<
-        /NavLink>
+          <Menu.Item
+            as={ Link }
+            to="/solve"
+          > Solve
+          </Menu.Item>
 
-        <NavLink
-          to="/profile"
-          id="navbar-link"
-          >{this.props.currentUser.name ? this.props.currentUser.name : "Profile"}<
-        /NavLink>
+          <Menu.Item
+            as={ Link }
+            to="/profile"
+          > {this.props.currentUser.name ? this.props.currentUser.name : "Profile"}
+          </Menu.Item>
 
-        <Button
-          onClick={this.props.logOutUser}
-          id="navbar-link"
-          >Log out<
-        /Button>
+          <Menu.Item
+            onClick={this.props.logOutUser}
+          > Log out
+          </Menu.Item>
+        </Menu>
+        </Container>
 
       </Header>
     )
