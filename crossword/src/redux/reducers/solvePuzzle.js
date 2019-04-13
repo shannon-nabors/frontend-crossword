@@ -1,7 +1,7 @@
-const gameStatusReducer = (state = "in progress", action) => {
+const gameStatusReducer = (state = null, action) => {
   switch (action.type) {
-    case "TOGGLE_GAME_STATUS":
-      return state === "won" ? "in progress" : "won"
+    case "CHANGE_GAME_STATUS":
+      return action.gameStatus
     default:
       return state
   }

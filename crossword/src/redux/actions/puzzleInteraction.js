@@ -42,21 +42,9 @@ function resetAllLetters() {
   return { type: "RESET_ALL_LETTERS" }
 }
 
-// switch game status between "in progress" and "won"
-function toggleGameStatus() {
-  return (dispatch, getState) => {
-    const { gameStatus } = getState()
-    dispatch({
-      type: "TOGGLE_GAME_STATUS",
-      gameStatus: gameStatus
-    })
-  }
-}
-
 export { selectCell,
          deselectCell,
          toggleDirection,
          setKey,
-         resetAllLetters,
-         toggleGameStatus
+         resetAllLetters
        }

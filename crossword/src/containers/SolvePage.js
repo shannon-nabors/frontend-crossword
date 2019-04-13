@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react'
 import { Grid, Segment, Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { isEqual } from 'lodash'
+import { isEqual, size, values } from 'lodash'
 
 import { setKey,
          selectCell,
          deselectCell,
-         resetAllLetters,
-         toggleGameStatus } from '../redux/actions/puzzleInteraction'
-import { solvingPuzzle } from '../redux/actions/solvePuzzle'
+         resetAllLetters } from '../redux/actions/puzzleInteraction'
+import { solvingPuzzle,
+         changeGameStatus } from '../redux/actions/solvePuzzle'
 
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
@@ -20,10 +20,12 @@ class SolvePage extends Component {
   // Add/remove event listeners; reset state when leaving page
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress)
+    this.props.changeGameStatus("in progress")
   }
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyPress)
+    this.props.changeGameStatus("in progress")
     this.props.resetAllLetters()
     this.props.deselectCell()
   }
@@ -57,9 +59,11 @@ class SolvePage extends Component {
       this.props.selectCell(this.shiftSelectedCellForward(), this.findWord())
     }
     if (isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)) {
-      this.props.toggleGameStatus()
-      this.props.solvingPuzzle(1, this.props.puzzle.id)
+      this.props.changeGameStatus("won")
+      this.props.solvingPuzzle(this.props.user.id, this.props.puzzle.id)
       document.removeEventListener("keydown", this.handleKeyPress)
+    } else if (size(this.props.enteredLetters) === size(this.props.puzzle.correct_letters) && !values(this.props.enteredLetters).includes(null)) {
+      this.props.changeGameStatus("completed incorrectly")
     }
   }
 
@@ -77,7 +81,8 @@ class SolvePage extends Component {
               <Puzzle
                 key={puzzle && puzzle.id}
                 puzzle={puzzle}
-                editable="true"
+                editable={this.props.gameStatus === "in progress" ? "true" : null}
+                answers={this.props.gameStatus === "review" ? "true" : null}
               />
             </Container>
           </Grid.Column>
@@ -101,7 +106,7 @@ class SolvePage extends Component {
           </Grid.Column>
         </Grid>
 
-        {this.props.gameStatus === "won" && (
+        {(this.props.gameStatus === "won" || this.props.gameStatus === "completed incorrectly") && (
           <ResultsModal
             puzzle={ puzzle }
           />
@@ -113,13 +118,14 @@ class SolvePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    puzzle: state.unsolvedPuzzles.find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
+    puzzle: [...state.unsolvedPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
     selectedCell: state.selectedCell,
     highlightedCells: state.highlightedCells,
     direction: state.direction,
     enteredLetters: state.enteredLetters,
-    gameStatus: state.gameStatus
+    gameStatus: state.gameStatus,
+    user: state.currentUser
   }
 }
 
-export default connect(mapStateToProps, { setKey, selectCell, deselectCell, toggleGameStatus, resetAllLetters, solvingPuzzle })(SolvePage)
+export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle })(SolvePage)

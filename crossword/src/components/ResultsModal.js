@@ -1,14 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { toggleGameStatus } from '../redux/actions/puzzleInteraction'
+import { changeGameStatus } from '../redux/actions/solvePuzzle'
 
 class ResultsModal extends React.Component {
 
   handleExitClick(e) {
     let modal = document.querySelector('#results-modal')
     if ((e.target !== modal && ![...modal.querySelectorAll('*')].includes(e.target)) || e.target === document.querySelector('#exit-icon')) {
-      this.props.toggleGameStatus()
+      this.props.gameStatus === "won" ? this.props.changeGameStatus("review") : this.props.changeGameStatus("in progress")
     }
   }
 
@@ -25,14 +25,14 @@ class ResultsModal extends React.Component {
           <i className="close icon" id="exit-icon"></i>
 
           <div className="ui centered header">
-            Congratulations!
+            {this.props.gameStatus === "won" ? "Congratulations!" : "Hmm..."}
           </div>
 
           <div className="ui centered description">
             <br/>
             <br/>
             <br/>
-            You completed {this.props.puzzle ? `${this.props.puzzle.title}` : "this puzzle"}.
+            {this.props.gameStatus === "won" ? "You completed this puzzle!" : "The puzzle is filled, but something's not quite right.  Keep trying!"}
           </div>
 
         </div>
@@ -42,4 +42,10 @@ class ResultsModal extends React.Component {
   }
 }
 
-export default connect(null, { toggleGameStatus })(ResultsModal)
+const mapStateToProps = (state, ownProps) => {
+  return {
+    gameStatus: state.gameStatus
+  }
+}
+
+export default connect(mapStateToProps, { changeGameStatus })(ResultsModal)

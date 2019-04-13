@@ -30,5 +30,10 @@ function solvingPuzzle(userID, puzzleID) {
   }
 }
 
+function changeGameStatus(status) {
+  return { type: "CHANGE_GAME_STATUS", gameStatus: status}
+}
+
 export { solvedPuzzle,
-         solvingPuzzle }
+         solvingPuzzle,
+         changeGameStatus }
