@@ -29,9 +29,10 @@ class DeleteButton extends Component {
       <Button
         icon
         labelPosition='right'
+        id="delete-button"
         onClick={this.handleClick}>
-        Delete
-        <Icon name='right arrow' />
+        Delete this puzzle
+        <Icon name='trash' />
       </Button>
     )
   }

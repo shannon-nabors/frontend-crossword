@@ -14,7 +14,6 @@ class PuzzlePage extends Component {
           <Grid.Column width={8}>
             <Container id="puz-sizer">
               <h2>{puzzle && puzzle.title}</h2>
-              <h4>by {puzzle && puzzle.constructor.name}</h4>
               <DeleteButton puzzle={puzzle}/>
               <Puzzle
                 puzzle={puzzle}

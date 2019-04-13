@@ -49,3 +49,7 @@
   height: 25vh;
   overflow-y: auto;
 }
+
+#delete-button {
+  margin-bottom: 10px;
+}
