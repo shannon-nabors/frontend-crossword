@@ -8,7 +8,6 @@ import WelcomeLogo from '../components/WelcomeLogo'
 class HomePage extends Component {
 
   render() {
-    console.log(this.props.puzzles.length === 0)
     return(
       <Fragment>
         <Container id="welcome">

@@ -34,6 +34,18 @@
   height: 250px;
 }
 
+/* Create process */
+#grid-sizer-form {
+  width: 50vw;
+  margin-top: 10vh;
+  padding: 2em;
+  border: 1px solid #d4d4d5;
+}
+
+#size-dropdown {
+  margin-bottom: 1.5em;
+}
+
 /* Puzzle pages */
 #puz-sizer {
   width: 50vw;

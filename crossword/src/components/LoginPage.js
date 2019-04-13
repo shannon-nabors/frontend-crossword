@@ -19,24 +19,28 @@ class Login extends Component {
   }
 
   handleSubmit = (e) => {
-    fetch(`${URL}/users/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type":"application/json",
-        "Accept": "application/json"
-      },
-    	body:JSON.stringify({
-    		username: this.state.username,
-    	})
-    }).then(res => res.json())
-    .then(data => {
-      if (!data.error) {
-        this.props.logInUser(data)
-        this.setState({redirect: true})
-      } else {
-        this.setState({failed: true})
-      }
-    })
+    if (this.state.username === "") {
+      this.setState({failed: true})
+    } else {
+      fetch(`${URL}/users/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type":"application/json",
+          "Accept": "application/json"
+        },
+        body:JSON.stringify({
+          username: this.state.username,
+        })
+      }).then(res => res.json())
+      .then(data => {
+        if (data) {
+          this.props.logInUser(data)
+          this.setState({redirect: true})
+        } else {
+          this.setState({failed: true})
+        }
+      })
+    }
   }
 
   render() {

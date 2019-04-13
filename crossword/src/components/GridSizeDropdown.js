@@ -50,6 +50,7 @@ class GridSizeDropdown extends Component {
       <Dropdown
         onChange={this.handleChange}
         placeholder='Select Grid Size'
+        id="size-dropdown"
         selection
         options={sizeOptions}
         value={this.props.newPuzzle.size}
