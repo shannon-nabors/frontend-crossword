@@ -1,8 +1,15 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import { fetchingGuestPuzzles } from '../redux/actions/changePuzzles'
 import PuzzleContainer from './PuzzleContainer'
 
 class SolveMenu extends Component {
+
+  componentDidMount() {
+    if (this.props.puzzles.length === 0) {
+      this.props.fetchingGuestPuzzles()
+    }
+  }
 
   render() {
     return(
@@ -22,4 +29,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps)(SolveMenu)
+export default connect(mapStateToProps, { fetchingGuestPuzzles })(SolveMenu)

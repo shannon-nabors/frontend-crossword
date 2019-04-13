@@ -52,8 +52,19 @@
   margin-left: -20vw;
   height: 25vh;
   overflow-y: auto;
+  text-align: center;
 }
 
 #delete-button {
   margin-bottom: 10px;
+}
+
+#results-tag {
+  font-size: 1.25em;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#results-tag a {
+  color: #00B273;
 }

@@ -6,7 +6,7 @@ function loading() {
   return { type: "LOADING"}
 }
 
-// Fetch puzzles when app mounts
+// Fetch puzzles
 function fetchedPuzzles(puzzles) {
   return { type: "FETCHED_PUZZLES", puzzles}
 }
@@ -22,6 +22,18 @@ function fetchingPuzzles(id) {
     dispatch(fetchedPuzzles(puzzles))
   })
  }
+}
+
+function fetchingGuestPuzzles() {
+  return (dispatch) => {
+    dispatch(loading())
+    fetch(`${URL}/puzzles`)
+    .then(res => res.json())
+
+    .then(puzzles => {
+    dispatch(fetchedPuzzles(puzzles))
+  })
+  }
 }
 
 // Alter "userPuzzles" state when a puzzle is created or deleted
@@ -48,5 +60,6 @@ function createdPuzzle(puzzle) {
 export { loading,
          fetchedPuzzles,
          fetchingPuzzles,
+         fetchingGuestPuzzles,
          deletedPuzzle,
          createdPuzzle }

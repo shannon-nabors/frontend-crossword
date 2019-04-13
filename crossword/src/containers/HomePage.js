@@ -1,13 +1,14 @@
 import React, { Component, Fragment } from 'react'
-import { Container, Grid, Card, Image } from 'semantic-ui-react'
+import { Container, Card, Image } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { fetchingGuestPuzzles } from '../redux/actions/changePuzzles'
 import WelcomeLogo from '../components/WelcomeLogo'
 
 class HomePage extends Component {
 
   render() {
-
+    console.log(this.props.puzzles.length === 0)
     return(
       <Fragment>
         <Container id="welcome">
@@ -27,7 +28,10 @@ class HomePage extends Component {
               <Card.Description>Have a crossword you've written?  Want to share it with your friends?  Enter and host your puzzle here so others on the site can solve it!</Card.Description>
             </Card.Content>
           </Card>
-          <Card as={ Link } to="/solve">
+          <Card
+            as={ Link }
+            to="/solve"
+          >
             <Image id="card-image" src="http://www.teamqualitypro.com/wp-content/uploads/b-TeamQualityPro-TestingTypes-Crossword-Puzzle.jpg"></Image>
             <Card.Content>
               <Card.Header textAlign="center">SOLVE PUZZLES</Card.Header>
@@ -42,9 +46,9 @@ class HomePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    user: state.currentUser
+    user: state.currentUser,
+    puzzles: state.unsolvedPuzzles
   }
 }
 
-export default connect(mapStateToProps)(HomePage)
-// <HomeLogo viewBox="0 0 144 52"/>
+export default connect(mapStateToProps, { fetchingGuestPuzzles })(HomePage)

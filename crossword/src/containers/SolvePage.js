@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { Grid, Segment, Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { isEqual, size, values } from 'lodash'

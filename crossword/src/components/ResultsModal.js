@@ -32,6 +32,8 @@ class ResultsModal extends React.Component {
           <br/>
           <div className="ui description">
             {this.props.gameStatus === "won" ? "You completed this puzzle!" : "The puzzle is filled, but something's not quite right.  Keep trying!"}
+            {!this.props.user.name ? (
+              <p id="results-tag">Want to save your results? <a href="/signup">Create an account!</a></p>) : null}
           </div>
 
         </div>
@@ -43,7 +45,8 @@ class ResultsModal extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    gameStatus: state.gameStatus
+    gameStatus: state.gameStatus,
+    user: state.currentUser
   }
 }
 
