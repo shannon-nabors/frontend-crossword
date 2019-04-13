@@ -44,6 +44,8 @@ class Navbar extends Component {
           </Menu.Item>
 
           <Menu.Item
+            as={ Link }
+            to="/"
             onClick={this.props.logOutUser}
           > Log out
           </Menu.Item>
