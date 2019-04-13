@@ -46,6 +46,14 @@
   margin-bottom: 1.5em;
 }
 
+#shade-sizer {
+  width: 40vw;
+}
+
+#shade-sizer div {
+  margin-bottom: 1em;
+}
+
 /* Puzzle pages */
 #puz-sizer {
   width: 50vw;

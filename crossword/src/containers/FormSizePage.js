@@ -4,11 +4,11 @@ import GridSizer from '../components/GridSizeDropdown'
 import Next from '../components/FormNextButton'
 
 class SizePage extends Component {
+
   render() {
     return(
       <Container id="grid-sizer-form">
-        <Header as="h2"> Step 1: Choose your grid dimensions
-        </Header>
+        <Header as="h2"> Step 1: Choose your grid dimensions</Header>
         <div>
           <GridSizer/>
         </div>

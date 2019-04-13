@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Container, Dimmer, Loader } from 'semantic-ui-react'
+import { Container, Dimmer, Loader, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import Next from '../components/FormNextButton'
 import Puzzle from './Puzzle'
@@ -9,7 +9,8 @@ class ShadePage extends Component {
   render() {
     return(
       <Fragment>
-        <Container id="puz-sizer">
+        <Container id="shade-sizer">
+        <Header as="h2"> Step 2: Click to shade squares</Header>
           <div>
             <Puzzle
               puzzle={this.props.puzzle}

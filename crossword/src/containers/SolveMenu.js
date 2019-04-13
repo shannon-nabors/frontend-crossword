@@ -6,7 +6,7 @@ import PuzzleContainer from './PuzzleContainer'
 class SolveMenu extends Component {
 
   componentDidMount() {
-    if (this.props.puzzles.length === 0) {
+    if (!this.props.user.name) {
       this.props.fetchingGuestPuzzles()
     }
   }
@@ -25,7 +25,8 @@ class SolveMenu extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    puzzles: state.unsolvedPuzzles
+    puzzles: state.unsolvedPuzzles,
+    user: state.currentUser
   }
 }
 
