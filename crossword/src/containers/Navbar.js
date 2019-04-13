@@ -15,42 +15,56 @@ class Navbar extends Component {
 
     return(
       <Header id="header">
-        <Container id="nav-menu">
-        <Menu widths={5} >
-          <Menu.Item
-            fitted
-            as={ Link }
-            to="/home"
-          >
-            <HomeLogo id="navbar-logo"/>
-          </Menu.Item>
+        {this.props.currentUser.name ? (
+          <Container id="nav-menu-full">
+            <Menu widths={5} >
+              <Menu.Item
+                fitted
+                as={ Link }
+                to="/home"
+              >
+                <HomeLogo id="navbar-logo"/>
+              </Menu.Item>
 
-          <Menu.Item
-            as={ Link }
-            to="/create"
-          > Create
-          </Menu.Item>
+              <Menu.Item
+                as={ Link }
+                to="/create"
+              > Create
+              </Menu.Item>
 
-          <Menu.Item
-            as={ Link }
-            to="/solve"
-          > Solve
-          </Menu.Item>
+              <Menu.Item
+                as={ Link }
+                to="/solve"
+              > Solve
+              </Menu.Item>
 
-          <Menu.Item
-            as={ Link }
-            to="/profile"
-          > {this.props.currentUser.name ? this.props.currentUser.name : "Profile"}
-          </Menu.Item>
+              <Menu.Item
+                as={ Link }
+                to="/profile"
+              > {this.props.currentUser.name}
+              </Menu.Item>
 
-          <Menu.Item
-            as={ Link }
-            to="/"
-            onClick={this.props.logOutUser}
-          > Log out
-          </Menu.Item>
-        </Menu>
-        </Container>
+              <Menu.Item
+                as={ Link }
+                to="/"
+                onClick={this.props.logOutUser}
+              > Log out
+              </Menu.Item>
+            </Menu>
+          </Container>
+        ) : (
+          <Container id="nav-menu-half">
+            <Menu >
+              <Menu.Item
+                fitted
+                as={ Link }
+                to="/home"
+              >
+                <HomeLogo id="navbar-logo"/>
+              </Menu.Item>
+            </Menu>
+          </Container>
+        )}
 
       </Header>
     )

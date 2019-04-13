@@ -11,8 +11,12 @@
   margin: 2px;
 }
 
-#nav-menu {
+#nav-menu-full {
   width: 750px;
+}
+
+#nav-menu-half {
+  width: 150px;
 }
 
 /* Login page */
