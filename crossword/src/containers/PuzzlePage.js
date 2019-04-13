@@ -9,38 +9,39 @@ class PuzzlePage extends Component {
     let { puzzle } = this.props
 
     return (
-      <Grid columns={3} divided>
-        <Grid.Column>
-          <Container id="puz-sizer">
-            <h2>{puzzle && puzzle.title}</h2>
-            <h4>by {puzzle && puzzle.constructor.name}</h4>
-            <DeleteButton puzzle={puzzle}/>
-            <Puzzle
-              puzzle={puzzle}
-              answers="true"
-            />
-          </Container>
-        </Grid.Column>
+      <Container>
+        <Grid columns={4} divided>
+          <Grid.Column width={8}>
+            <Container id="puz-sizer">
+              <h2>{puzzle && puzzle.title}</h2>
+              <h4>by {puzzle && puzzle.constructor.name}</h4>
+              <DeleteButton puzzle={puzzle}/>
+              <Puzzle
+                puzzle={puzzle}
+                answers="true"
+              />
+            </Container>
+          </Grid.Column>
 
-        <Grid.Column>
-          <h4>Across</h4>
-          <Segment id ="clue-box">
-            { puzzle && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
-              <p key={c && c.id}>{c.number}. {c.content}</p>
-            ))}
-          </Segment>
-        </Grid.Column>
+          <Grid.Column>
+            <h4>Across</h4>
+            <Segment id ="clue-box">
+              { puzzle && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
+                <p key={c && c.id}>{c.number}. {c.content}</p>
+              ))}
+            </Segment>
+          </Grid.Column>
 
-        <Grid.Column>
-          <h4>Down</h4>
-          <Segment id ="clue-box">
-            { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
-              <p key={c && c.id}>{c.number}. {c.content}</p>
-            ))}
-          </Segment>
-        </Grid.Column>
-
-      </Grid>
+          <Grid.Column>
+            <h4>Down</h4>
+            <Segment id ="clue-box">
+              { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
+                <p key={c && c.id}>{c.number}. {c.content}</p>
+              ))}
+            </Segment>
+          </Grid.Column>
+        </Grid>
+      </Container>
     )
   }
 }

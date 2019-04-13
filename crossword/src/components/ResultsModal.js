@@ -28,10 +28,9 @@ class ResultsModal extends React.Component {
             {this.props.gameStatus === "won" ? "Congratulations!" : "Hmm..."}
           </div>
 
-          <div className="ui centered description">
-            <br/>
-            <br/>
-            <br/>
+          <br/>
+          <br/>
+          <div className="ui description">
             {this.props.gameStatus === "won" ? "You completed this puzzle!" : "The puzzle is filled, but something's not quite right.  Keep trying!"}
           </div>
 

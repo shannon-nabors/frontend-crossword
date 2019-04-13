@@ -72,9 +72,9 @@ class SolvePage extends Component {
   render() {
     let { puzzle } = this.props
     return (
-      <Fragment>
-        <Grid columns={3} divided>
-          <Grid.Column>
+      <Container>
+        <Grid columns={4} divided>
+          <Grid.Column width={8}>
             <Container id="puz-sizer">
               <h2>{puzzle && puzzle.title}</h2>
               <h4>by {puzzle && puzzle.constructor.name}</h4>
@@ -111,7 +111,7 @@ class SolvePage extends Component {
             puzzle={ puzzle }
           />
         )}
-      </Fragment>
+      </Container>
     )
   }
 }
