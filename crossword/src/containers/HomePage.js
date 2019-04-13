@@ -7,6 +7,7 @@ import WelcomeLogo from '../components/WelcomeLogo'
 class HomePage extends Component {
 
   render() {
+
     return(
       <Fragment>
         <Container id="welcome">
@@ -16,7 +17,10 @@ class HomePage extends Component {
 
         <br/>
         <Card.Group centered>
-          <Card as={ Link } to="/create">
+          <Card
+            as={ Link }
+            to={ this.props.user.name ? "/create" : "/home"}
+          >
             <Image id="card-image" src="https://media2.fdncms.com/chicago/imager/the-puzzler-and-the-puzzled/u/mobilestory/5932280/crossword-magnum.jpg"></Image>
             <Card.Content>
               <Card.Header textAlign="center">CREATE A PUZZLE</Card.Header>
@@ -38,7 +42,7 @@ class HomePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    puzzles: state.unsolvedPuzzles
+    user: state.currentUser
   }
 }
 

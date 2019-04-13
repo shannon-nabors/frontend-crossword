@@ -12,7 +12,6 @@ class Navbar extends Component {
   }
 
   render() {
-
     return(
       <Header id="header">
         {this.props.currentUser.name ? (
@@ -54,7 +53,7 @@ class Navbar extends Component {
           </Container>
         ) : (
           <Container id="nav-menu-half">
-            <Menu >
+            <Menu widths={3}>
               <Menu.Item
                 fitted
                 as={ Link }
@@ -62,6 +61,19 @@ class Navbar extends Component {
               >
                 <HomeLogo id="navbar-logo"/>
               </Menu.Item>
+
+              <Menu.Item
+                as={ Link }
+                to="/"
+              > Log in
+              </Menu.Item>
+
+              <Menu.Item
+                as={ Link }
+                to="/signup"
+              > Sign up
+              </Menu.Item>
+
             </Menu>
           </Container>
         )}
