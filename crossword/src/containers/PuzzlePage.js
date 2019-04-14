@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Segment, Container } from 'semantic-ui-react'
+import { Grid, Segment, Container, Header } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import Puzzle from './Puzzle'
 import DeleteButton from '../components/DeletePuzzleButton'
@@ -13,10 +13,11 @@ class PuzzlePage extends Component {
         <Grid columns={4}>
           <Grid.Column width={8}>
             <Container id="puz-sizer">
-              <h2>{puzzle && puzzle.title}</h2>
+              <Header as="h2" id="puz-title">{puzzle && puzzle.title}</Header>
+
               {puzzle && user.id === puzzle.constructor.id ? (
                 <DeleteButton puzzle={puzzle}/>
-              ) : <h4>by {puzzle && puzzle.constructor.name}</h4>}
+              ) : <Header as="h4" id="puz-author">by {puzzle && puzzle.constructor.name}</Header>}
               <Puzzle
                 puzzle={puzzle}
                 answers="true"
