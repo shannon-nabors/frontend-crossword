@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Grid, Container,
+import { Grid, Container, Header,
          Form, Segment, Message,
          Button, Dimmer, Loader } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
@@ -124,6 +124,8 @@ class EnterPage extends Component {
     return (
       <Fragment>
         <Container>
+          <Header as="h2">Step 3: Enter your letters and clues</Header>
+          <Header as="h4">Click on a square to enter a letter, and click the same square to toggle the word direction.</Header>
           <Form error={this.state.failed} onSubmit={this.handleSubmit}>
             <Grid columns={4} divided>
               <Grid.Column width={8}>
@@ -134,6 +136,10 @@ class EnterPage extends Component {
                     onChange={this.handleTitleChange}
                   >
                   </Form.Input>
+                  <Message
+                    error
+                    content="Please don't leave any fields blank"
+                  />
                   <Puzzle
                     puzzle={this.props.puzzle}
                     editable="true"
@@ -173,13 +179,9 @@ class EnterPage extends Component {
               </Grid.Column>
             </Grid>
 
-            <span>
+            <div>
               <Button type='submit'>Submit</Button>
-              <Message
-                error
-                content="Please don't leave any fields blank"
-              />
-            </span>
+            </div>
           </Form>
         </Container>
 
