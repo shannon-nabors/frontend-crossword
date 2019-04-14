@@ -7,4 +7,13 @@ const gameStatusReducer = (state = null, action) => {
   }
 }
 
-export { gameStatusReducer }
+const pausedReducer = (state = false, action) => {
+  switch (action.type) {
+    case "HANDLE_TIMER":
+      return action.status
+    default:
+      return state
+  }
+}
+
+export { gameStatusReducer, pausedReducer }

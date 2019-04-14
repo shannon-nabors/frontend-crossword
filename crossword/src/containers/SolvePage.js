@@ -1,19 +1,23 @@
 import React, { Component } from 'react'
-import { Grid, Segment, Container } from 'semantic-ui-react'
+import { Grid, Segment, Container, Header, Button, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { isEqual, size, values } from 'lodash'
+import { Timer } from 'easytimer.js'
 
 import { setKey,
          selectCell,
          deselectCell,
          resetAllLetters } from '../redux/actions/puzzleInteraction'
 import { solvingPuzzle,
-         changeGameStatus } from '../redux/actions/solvePuzzle'
+         changeGameStatus,
+         handleTimer } from '../redux/actions/solvePuzzle'
 
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
+import PauseModal from '../components/PauseModal'
 
 ////////
+const timer = new Timer()
 
 class SolvePage extends Component {
 
@@ -21,13 +25,31 @@ class SolvePage extends Component {
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress)
     this.props.changeGameStatus("in progress")
+
+    timer.start()
+    timer.addEventListener('secondsUpdated', this.incrementTimer)
   }
 
   componentWillUnmount() {
+    timer.stop()
+    document.removeEventListener('secondsUpdated', this.incrementTimer)
     document.removeEventListener("keydown", this.handleKeyPress)
     this.props.changeGameStatus("in progress")
     this.props.resetAllLetters()
     this.props.deselectCell()
+  }
+
+  incrementTimer(e) {
+    document.querySelector('#puz-timer').innerText = (timer.getTimeValues().toString())
+  }
+
+  handleTimerClick() {
+    this.props.handleTimer()
+    if (this.props.paused) {
+      timer.start()
+    } else {
+      timer.pause()
+    }
   }
 
   // Navigate within across or down word
@@ -75,9 +97,17 @@ class SolvePage extends Component {
       <Container>
         <Grid columns={4}>
           <Grid.Column width={8}>
+
             <Container id="puz-sizer">
-              <h2>{puzzle && puzzle.title}</h2>
-              <h4>by {puzzle && puzzle.constructor.name}</h4>
+              <Header as="h2" id="puz-title">{puzzle && puzzle.title}</Header>
+              <Header as="h4" id="puz-author">by {puzzle && puzzle.constructor.name}</Header>
+              <Button
+                icon
+                id="timer-button"
+                color="black"
+                onClick={() => this.handleTimerClick()}
+                labelPosition="right"
+              ><span id="puz-timer">00:00:00</span><Icon name="pause"/></Button>
               <Puzzle
                 key={puzzle && puzzle.id}
                 puzzle={puzzle}
@@ -85,6 +115,7 @@ class SolvePage extends Component {
                 answers={this.props.gameStatus === "review" ? "true" : null}
               />
             </Container>
+
           </Grid.Column>
 
           <Grid.Column>
@@ -111,6 +142,10 @@ class SolvePage extends Component {
             puzzle={ puzzle }
           />
         )}
+
+        {(this.props.paused && (
+          <PauseModal exit={() => this.handleTimerClick()}/>
+        ))}
       </Container>
     )
   }
@@ -124,8 +159,9 @@ const mapStateToProps = (state, ownProps) => {
     direction: state.direction,
     enteredLetters: state.enteredLetters,
     gameStatus: state.gameStatus,
-    user: state.currentUser
+    user: state.currentUser,
+    paused: state.paused
   }
 }
 
-export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle })(SolvePage)
+export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer })(SolvePage)

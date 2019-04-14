@@ -34,6 +34,18 @@ function changeGameStatus(status) {
   return { type: "CHANGE_GAME_STATUS", gameStatus: status}
 }
 
+function handleTimer() {
+  return (dispatch, getState) => {
+    const { paused } = getState()
+    if (paused) {
+      dispatch({ type: "HANDLE_TIMER", status: false})
+    } else {
+      dispatch({ type: "HANDLE_TIMER", status: true})
+    }
+  }
+}
+
 export { solvedPuzzle,
          solvingPuzzle,
-         changeGameStatus }
+         changeGameStatus,
+         handleTimer }

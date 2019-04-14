@@ -9,7 +9,8 @@ import { selectCellReducer,
          directionReducer,
          highlightCellReducer,
          keyReducer } from './puzzleInteraction'
-import { gameStatusReducer } from './solvePuzzle'
+import { gameStatusReducer,
+         pausedReducer } from './solvePuzzle'
 import { currentUserReducer,
          loggedInReducer } from './manageUsers'
 
@@ -28,7 +29,8 @@ const rootReducer = combineReducers({
   newPuzzle: newPuzzleReducer,
   currentUser: currentUserReducer,
   loggedIn: loggedInReducer,
-  loading: loadingReducer
+  loading: loadingReducer,
+  paused: pausedReducer
 })
 
 

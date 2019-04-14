@@ -78,6 +78,19 @@ body {
   width: 70vh;
 }
 
+#puz-title {
+  margin-bottom: 0px;
+}
+
+#puz-author {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+#timer-button {
+  margin-bottom: 5px;
+}
+
 #clue-box {
   overflow: auto;
   max-height: 78vh;
@@ -92,6 +105,21 @@ body {
   min-height: 25vh;
   overflow-y: auto;
   text-align: center;
+}
+
+#pause-modal {
+  width: 40vw;
+  position: relative;
+  top: 20%;
+  padding: .5em 1.5em 1.5em 1.5em;
+  margin-left: -20vw;
+  height: 150px;
+  overflow-y: auto;
+  text-align: center;
+}
+
+#resume-button {
+  margin-top: 20px;
 }
 
 #delete-button {
