@@ -29,7 +29,7 @@ class PuzzlePage extends Component {
             <h4>Across</h4>
             <Segment id ="clue-box">
               { puzzle && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
-                <p key={c && c.id}>{c.number}. {c.content}</p>
+                <p key={c && c.id}><span className="clue-number">{c.number}</span> {c.content}</p>
               ))}
             </Segment>
           </Grid.Column>
@@ -38,7 +38,7 @@ class PuzzlePage extends Component {
             <h4>Down</h4>
             <Segment id ="clue-box">
               { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
-                <p key={c && c.id}>{c.number}. {c.content}</p>
+                <p key={c && c.id}><span className="clue-number">{c.number}</span> {c.content}</p>
               ))}
             </Segment>
           </Grid.Column>
