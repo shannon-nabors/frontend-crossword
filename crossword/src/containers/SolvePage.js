@@ -115,6 +115,7 @@ class SolvePage extends Component {
                 icon
                 id="timer-button"
                 color="black"
+                disabled={this.props.gameStatus === "review" ? true : false}
                 onClick={() => this.handleTimerClick()}
                 labelPosition="right"
               ><span id="puz-timer">00:00:00</span><Icon name="pause"/></Button>
