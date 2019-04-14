@@ -107,3 +107,8 @@ body {
 #results-tag a {
   color: #00B273;
 }
+
+/* User page */
+#user-page-puzzles {
+  min-height: 50vh;
+}
