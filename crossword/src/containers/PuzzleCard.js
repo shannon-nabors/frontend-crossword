@@ -5,10 +5,10 @@ import Puzzle from './Puzzle'
 
 class PuzzleCard extends Component {
   render() {
-    let { puzzle, currentUser } = this.props
+    let { puzzle, userPuzzles, solvedPuzzles } = this.props
 
     return(
-      <NavLink to={puzzle.constructor.id === currentUser.id ? `/puzzles/${puzzle.id}` : `/solve/${puzzle.id}`} className="ui card">
+      <NavLink to={ userPuzzles.includes(puzzle) || solvedPuzzles.includes(puzzle) ? `/puzzles/${puzzle.id}` : `/solve/${puzzle.id}`} className="ui card">
         <div className="image">
           <Puzzle
             puzzle={puzzle}
@@ -27,7 +27,8 @@ class PuzzleCard extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    currentUser: state.currentUser
+    userPuzzles: state.userPuzzles,
+    solvedPuzzles: state.solvedPuzzles
   }
 }
 

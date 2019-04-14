@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { changeGameStatus } from '../redux/actions/solvePuzzle'
 
@@ -32,8 +33,8 @@ class ResultsModal extends React.Component {
           <br/>
           <div className="ui description">
             {this.props.gameStatus === "won" ? "You completed this puzzle!" : "The puzzle is filled, but something's not quite right.  Keep trying!"}
-            {!this.props.user.name ? (
-              <p id="results-tag">Want to save your results? <a href="/signup">Create an account!</a></p>) : null}
+            {!this.props.user.name && this.props.gameStatus === "won"? (
+              <p id="results-tag">Want to save your results? <a href="/signup">Create an account!</a></p>) : <div><br/><Icon color="yellow" size="huge" name="star"/></div>}
           </div>
 
         </div>

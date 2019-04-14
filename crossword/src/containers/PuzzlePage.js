@@ -6,7 +6,7 @@ import DeleteButton from '../components/DeletePuzzleButton'
 
 class PuzzlePage extends Component {
   render() {
-    let { puzzle } = this.props
+    let { puzzle, user } = this.props
 
     return (
       <Container>
@@ -14,7 +14,9 @@ class PuzzlePage extends Component {
           <Grid.Column width={8}>
             <Container id="puz-sizer">
               <h2>{puzzle && puzzle.title}</h2>
-              <DeleteButton puzzle={puzzle}/>
+              {puzzle && user.id === puzzle.constructor.id ? (
+                <DeleteButton puzzle={puzzle}/>
+              ) : <h4>by {puzzle && puzzle.constructor.name}</h4>}
               <Puzzle
                 puzzle={puzzle}
                 answers="true"
@@ -47,7 +49,8 @@ class PuzzlePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    puzzle: state.userPuzzles.find(p => p.id === parseInt(ownProps.match.params.puzzleID))
+    puzzle: [...state.userPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
+    user: state.currentUser
   }
 }
 
