@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Icon, Button, Modal } from 'semantic-ui-react'
+import { Button, Modal } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { handleTimer } from '../redux/actions/solvePuzzle'
 

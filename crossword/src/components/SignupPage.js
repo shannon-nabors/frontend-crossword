@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Form, Container,
-         Header, Message } from 'semantic-ui-react'
-import { Link, Redirect } from 'react-router-dom'
+         Header } from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { URL } from '../redux/constants'

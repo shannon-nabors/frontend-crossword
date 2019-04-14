@@ -12,8 +12,11 @@ function solvedPuzzle(solve) {
   }
 }
 
+function newSolve(solve) {
+  return { type: "NEW_SOLVE", solve }
+}
+
 function solvingPuzzle(userID, puzzleID, time) {
-  console.log(time, typeof(time))
   return (dispatch) => {
     fetch(`${URL}/solves`, {
       method: "POST",
@@ -28,6 +31,7 @@ function solvingPuzzle(userID, puzzleID, time) {
     .then(solve => {
       console.log(solve)
      dispatch(solvedPuzzle(solve))
+     dispatch(newSolve(solve))
     })
   }
 }

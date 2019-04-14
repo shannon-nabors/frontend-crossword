@@ -13,6 +13,7 @@ import { gameStatusReducer,
          pausedReducer } from './solvePuzzle'
 import { currentUserReducer,
          loggedInReducer } from './manageUsers'
+import { solvesReducer } from './stats'
 
 
 
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
   currentUser: currentUserReducer,
   loggedIn: loggedInReducer,
   loading: loadingReducer,
-  paused: pausedReducer
+  paused: pausedReducer,
+  solves: solvesReducer
 })
 
 
