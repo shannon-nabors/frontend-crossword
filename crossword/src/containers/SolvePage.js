@@ -52,6 +52,11 @@ class SolvePage extends Component {
     }
   }
 
+  handleTimerWin() {
+    timer.pause()
+    return document.querySelector('#puz-timer').innerText
+  }
+
   // Navigate within across or down word
   findWord() {
     let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (this.props.selectedCell.clues.find(c => this.props.direction === "across" ? c.direction === "across" : c.direction === "down")).id) )
@@ -140,6 +145,7 @@ class SolvePage extends Component {
         {(this.props.gameStatus === "won" || this.props.gameStatus === "completed incorrectly") && (
           <ResultsModal
             puzzle={ puzzle }
+            time={this.handleTimerWin()}
           />
         )}
 
