@@ -43,7 +43,7 @@ class SolvePage extends Component {
     document.querySelector('#puz-timer').innerText = (timer.getTimeValues().toString())
   }
 
-  handleTimerClick() {
+  handleTimerClick = () => {
     this.props.handleTimer()
     if (this.props.paused) {
       timer.start()
@@ -55,6 +55,11 @@ class SolvePage extends Component {
   handleTimerWin() {
     timer.pause()
     return document.querySelector('#puz-timer').innerText
+  }
+
+  handleTimerIncorrect() {
+    timer.pause()
+    return this.handleTimerClick
   }
 
   // Navigate within across or down word
@@ -145,13 +150,13 @@ class SolvePage extends Component {
         {(this.props.gameStatus === "won" || this.props.gameStatus === "completed incorrectly") && (
           <ResultsModal
             puzzle={ puzzle }
-            time={this.handleTimerWin()}
+            time={this.props.gameStatus === "won" ? this.handleTimerWin() : this.handleTimerIncorrect()}
           />
         )}
 
-        {(this.props.paused && (
+        {(this.props.paused && this.props.gameStatus === "in progress") ? (
           <PauseModal exit={() => this.handleTimerClick()}/>
-        ))}
+        ) : null}
       </Container>
     )
   }

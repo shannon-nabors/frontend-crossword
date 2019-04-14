@@ -2,14 +2,23 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { changeGameStatus } from '../redux/actions/solvePuzzle'
+import { changeGameStatus, handleTimer } from '../redux/actions/solvePuzzle'
 
 class ResultsModal extends React.Component {
+
+  componentDidMount() {
+    this.props.handleTimer()
+  }
+
+  // componentWillUnmount() {
+  //   this.props.handleTimer()
+  // }
 
   handleExitClick(e) {
     let modal = document.querySelector('#results-modal')
     if ((e.target !== modal && ![...modal.querySelectorAll('*')].includes(e.target)) || e.target === document.querySelector('#exit-icon')) {
       this.props.gameStatus === "won" ? this.props.changeGameStatus("review") : this.props.changeGameStatus("in progress")
+      this.props.gameStatus === "completed incorrectly" && this.props.time()
     }
   }
 
@@ -32,9 +41,11 @@ class ResultsModal extends React.Component {
           <br/>
           <br/>
           <div className="ui description">
-            {this.props.gameStatus === "won" ? `You solved this puzzle in ${this.props.time}!` : "The puzzle is filled, but something's not quite right.  Keep trying!"}
+            {this.props.gameStatus === "won" ? (
+              <div>You solved this puzzle in {this.props.time}!<br/><br/><Icon color="yellow" size="huge" name="star"/></div>
+            ) : "The puzzle is filled, but something's not quite right.  Keep trying!"}
             {!this.props.user.name && this.props.gameStatus === "won"? (
-              <p id="results-tag">Want to save your results? <a href="/signup">Create an account!</a></p>) : <div><br/><Icon color="yellow" size="huge" name="star"/></div>}
+              <p id="results-tag">Want to save your results? <a href="/signup">Create an account!</a></p>) : null}
           </div>
 
         </div>
@@ -51,4 +62,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { changeGameStatus })(ResultsModal)
+export default connect(mapStateToProps, { changeGameStatus, handleTimer })(ResultsModal)
