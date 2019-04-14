@@ -35,6 +35,7 @@ class SolvePage extends Component {
     document.removeEventListener('secondsUpdated', this.incrementTimer)
     document.removeEventListener("keydown", this.handleKeyPress)
     this.props.changeGameStatus("in progress")
+    this.props.handleTimer()
     this.props.resetAllLetters()
     this.props.deselectCell()
   }
@@ -92,7 +93,7 @@ class SolvePage extends Component {
     }
     if (isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)) {
       this.props.changeGameStatus("won")
-      this.props.solvingPuzzle(this.props.user.id, this.props.puzzle.id)
+      this.props.solvingPuzzle(this.props.user.id, this.props.puzzle.id, timer.getTotalTimeValues().seconds)
       document.removeEventListener("keydown", this.handleKeyPress)
     } else if (size(this.props.enteredLetters) === size(this.props.puzzle.correct_letters) && !values(this.props.enteredLetters).includes(null)) {
       this.props.changeGameStatus("completed incorrectly")

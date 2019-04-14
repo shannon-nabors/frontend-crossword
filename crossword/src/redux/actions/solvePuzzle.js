@@ -12,14 +12,16 @@ function solvedPuzzle(solve) {
   }
 }
 
-function solvingPuzzle(userID, puzzleID) {
+function solvingPuzzle(userID, puzzleID, time) {
+  console.log(time, typeof(time))
   return (dispatch) => {
     fetch(`${URL}/solves`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({
         solver_id: userID,
-        puzzle_id: puzzleID
+        puzzle_id: puzzleID,
+        time: time
       })
     })
     .then(res => res.json())
