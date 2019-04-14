@@ -1,6 +1,16 @@
+body {
+  /* background-color: #00B273; */
+  /* background-color: #f8aa9e; */
+  background-color: #C2CBEB;
+}
+
+#pages {
+  padding-top: 90px;
+}
+
 /* Navbar */
 #header {
-  background-color: #00B273;
+  background-color: white;
   height: 75px;
   padding: .5em;
 }
@@ -27,7 +37,7 @@
 
 /* Home page */
 #welcome {
-  width: 65vw;
+  width: 40vw;
 }
 
 #card-image {
@@ -39,7 +49,7 @@
   width: 50vw;
   margin-top: 10vh;
   padding: 2em;
-  border: 1px solid #d4d4d5;
+  background-color: white;
 }
 
 #size-dropdown {
@@ -47,21 +57,29 @@
 }
 
 #shade-sizer {
-  width: 40vw;
+  width: 70vh;
 }
 
 #shade-sizer div {
   margin-bottom: 1em;
 }
 
+#enter-form {
+  margin-top: 10px;
+}
+
+#enter-sizer {
+  width: 50vh;
+}
+
 /* Puzzle pages */
 #puz-sizer {
-  width: 50vw;
+  width: 70vh;
 }
 
 #clue-box {
   overflow: auto;
-  max-height: 500px;
+  max-height: 78vh;
 }
 
 #results-modal {

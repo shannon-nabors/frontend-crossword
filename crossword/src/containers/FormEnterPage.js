@@ -124,12 +124,20 @@ class EnterPage extends Component {
     return (
       <Fragment>
         <Container>
-          <Header as="h2">Step 3: Enter your letters and clues</Header>
-          <Header as="h4">Click on a square to enter a letter, and click the same square to toggle the word direction.</Header>
-          <Form error={this.state.failed} onSubmit={this.handleSubmit}>
-            <Grid columns={4} divided>
+          <Header
+            as="h2"
+            attached="top">
+            Step 3: Enter your letters and clues
+          </Header>
+          <Segment attached>Click on a square to enter a letter, and click the same square to toggle the word direction.</Segment>
+          <Form
+            error={this.state.failed}
+            onSubmit={this.handleSubmit}
+            id="enter-form"
+          >
+            <Grid columns={4}>
               <Grid.Column width={8}>
-                <Container id="puz-sizer">
+                <Container id="enter-sizer">
                   <Form.Input
                     placeholder="Title"
                     name="title"
@@ -145,6 +153,9 @@ class EnterPage extends Component {
                     editable="true"
                     shadeable={null}
                   />
+                  <div>
+                    <Button color="black" type='submit'>Submit</Button>
+                  </div>
                 </Container>
               </Grid.Column>
 
@@ -178,10 +189,6 @@ class EnterPage extends Component {
                 </Segment>
               </Grid.Column>
             </Grid>
-
-            <div>
-              <Button type='submit'>Submit</Button>
-            </div>
           </Form>
         </Container>
 

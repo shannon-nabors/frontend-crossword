@@ -28,6 +28,8 @@ class DeleteButton extends Component {
     return(
       <Button
         icon
+        
+        color="black"
         labelPosition='right'
         id="delete-button"
         onClick={this.handleClick}>

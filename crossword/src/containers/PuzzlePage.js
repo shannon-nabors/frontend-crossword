@@ -10,7 +10,7 @@ class PuzzlePage extends Component {
 
     return (
       <Container>
-        <Grid columns={4} divided>
+        <Grid columns={4}>
           <Grid.Column width={8}>
             <Container id="puz-sizer">
               <h2>{puzzle && puzzle.title}</h2>

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import '../App.css'
@@ -19,6 +19,7 @@ class App extends Component {
       <div className="App">
         <Navbar />
 
+        <div id="pages">
         <Switch>
           <Route
             path="/puzzles/:puzzleID"
@@ -53,6 +54,7 @@ class App extends Component {
             component={Login}
           />
         </Switch>
+        </div>
       </div>
     )
   }

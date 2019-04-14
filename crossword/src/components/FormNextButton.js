@@ -40,6 +40,7 @@ class NextButton extends Component {
         )}
         <Button
           icon
+          color="black"
           labelPosition='right'
           onClick={this.handleClick}>
           Next
