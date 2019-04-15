@@ -10,7 +10,8 @@ import { logInUser } from '../redux/actions/manageUsers'
 class SignupPage extends Component {
   state = {
     username: "",
-    name: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
     redirect: false,
@@ -30,7 +31,8 @@ class SignupPage extends Component {
       },
     	body:JSON.stringify({
     		username: this.state.username,
-        name: this.state.name,
+        first_name: this.state.first_name,
+        last_name: this.state.last_name,
         email: this.state.email,
         password: this.state.password
     	})
@@ -56,10 +58,16 @@ class SignupPage extends Component {
         <Header as='h3'>Sign up</Header>
         <Form error={this.state.failed} onSubmit={this.handleSubmit}>
           <Form.Input
-            name="name"
-            placeholder="Full name"
+            name="first_name"
+            placeholder="First name"
             onChange={this.handleChange}
-            value={this.state.name}
+            value={this.state.first_name}
+          />
+          <Form.Input
+            name="last_name"
+            placeholder="Last name"
+            onChange={this.handleChange}
+            value={this.state.last_name}
           />
           <Form.Input
             name="username"

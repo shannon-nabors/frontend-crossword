@@ -14,7 +14,7 @@ class Navbar extends Component {
   render() {
     return(
       <Header className="ui top fixed menu" id="header">
-        {this.props.currentUser.name ? (
+        {this.props.currentUser.username ? (
           <Container id="nav-menu-full">
             <Menu widths={5} inverted>
               <Menu.Item

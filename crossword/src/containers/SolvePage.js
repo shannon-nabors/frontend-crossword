@@ -113,7 +113,7 @@ class SolvePage extends Component {
 
             <Container id="puz-sizer">
               <Header as="h2" id="puz-title">{puzzle && puzzle.title}</Header>
-              <Header as="h4" id="puz-author">by {puzzle && puzzle.constructor.name}</Header>
+              <Header as="h4" id="puz-author">by {puzzle && `${puzzle.constructor.first_name} ${puzzle.constructor.last_name}`}</Header>
               <Button
                 icon
                 id="timer-button"
