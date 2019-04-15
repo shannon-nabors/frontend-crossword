@@ -87,11 +87,11 @@ body {
   margin-bottom: 10px;
 }
 
-#solve-badge {
+#stats-button {
   margin-bottom: 10px;
 }
 
-.clue-number {
+.order-number {
   font-weight: bold;
   padding-right: 5px;
 }

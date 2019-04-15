@@ -6,7 +6,7 @@ import { findSolveData } from './stats'
 function logInUser(user) {
   return (dispatch, getState) => {
     dispatch(fetchingPuzzles(user.id))
-    dispatch(findSolveData(user.id))
+    dispatch(findSolveData("user", user.id))
     dispatch({ type: "LOG_IN_USER", user })
   }
 }

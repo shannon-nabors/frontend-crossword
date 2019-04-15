@@ -6,15 +6,23 @@ function userSolves(solves) {
   return { type: "USER_SOLVES", solves}
 }
 
-function findSolveData(userID) {
+function puzzleSolves(solves) {
+  return { type: "PUZZLE_SOLVES", solves}
+}
+
+function resetPuzzleSolves() {
+  return { type: "RESET_PUZZLE_SOLVES" }
+}
+
+function findSolveData(type, id) {
   return (dispatch) => {
-    fetch(`${URL}/solves/user/${userID}`)
+    fetch(`${URL}/solves/${type}/${id}`)
     .then(res => res.json())
     .then(solves => {
       console.log(solves)
-     dispatch(userSolves(solves))
+     type === "user" ? dispatch(userSolves(solves)) : dispatch(puzzleSolves(solves))
     })
   }
 }
 
-export { findSolveData }
+export { findSolveData, resetPuzzleSolves }

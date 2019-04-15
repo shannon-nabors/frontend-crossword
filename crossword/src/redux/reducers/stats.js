@@ -9,4 +9,16 @@ const solvesReducer = (state = [], action) => {
   }
 }
 
-export { solvesReducer }
+const puzzleSolvesReducer = (state = [], action) => {
+  switch (action.type) {
+    case "PUZZLE_SOLVES":
+      return action.solves
+    case "RESET_PUZZLE_SOLVES":
+      return []
+    default:
+      return state
+  }
+}
+
+export { solvesReducer,
+         puzzleSolvesReducer }
