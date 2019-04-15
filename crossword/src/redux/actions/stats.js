@@ -19,7 +19,6 @@ function findSolveData(type, id) {
     fetch(`${URL}/solves/${type}/${id}`)
     .then(res => res.json())
     .then(solves => {
-      console.log(solves)
      type === "user" ? dispatch(userSolves(solves)) : dispatch(puzzleSolves(solves))
     })
   }

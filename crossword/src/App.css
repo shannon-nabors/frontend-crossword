@@ -91,9 +91,14 @@ body {
   margin-bottom: 10px;
 }
 
-.order-number {
+.clue-number {
   font-weight: bold;
   padding-right: 5px;
+}
+
+.order-number {
+  font-weight: bold;
+  padding-right: 15px;
 }
 
 #timer-button {

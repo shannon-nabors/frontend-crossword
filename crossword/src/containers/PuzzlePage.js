@@ -4,6 +4,7 @@ import { Grid, Segment, Icon,
 import { connect } from 'react-redux'
 import { findSolveData,
          resetPuzzleSolves } from '../redux/actions/stats'
+import { formatTime } from '../redux/constants'
 import Puzzle from './Puzzle'
 import DeleteButton from '../components/DeletePuzzleButton'
 
@@ -14,15 +15,7 @@ class PuzzlePage extends Component {
     this.props.resetPuzzleSolves()
   }
 
-  formatTime(time) {
-    let minutes = Math.floor(time/60)
-    minutes.toString().length === 1 ? minutes = `0${minutes.toString()}` : minutes = minutes.toString()
-    let hours = Math.floor(minutes/60).toString()
-    hours.length === 1 ? hours = `0${hours}` : hours = hours
-    let seconds = (time % 60).toString()
-    seconds.length === 1 ? seconds = `0${seconds}` : seconds = seconds
-    return `${hours}:${minutes}:${seconds}`
-  }
+
 
   handleStatsClick = () => {
     this.props.findSolveData("puzzle", this.props.puzzle.id)
@@ -52,7 +45,7 @@ class PuzzlePage extends Component {
                     onClick={this.handleStatsClick}
                   >
                     <Icon color="yellow" size="big" name="star"/>
-                    You solved in {this.formatTime(this.props.time)}! See how others compare.
+                    You solved in {formatTime(this.props.time)}! See how others compare.
                   </Button>
                 </div>
               )}
@@ -67,9 +60,12 @@ class PuzzlePage extends Component {
             <Grid.Column width={8}>
               <h4>Stats</h4>
               <Segment id ="clue-box">
-                {this.props.puzzleSolves.map(s => (
-                  <p key={s.id}>{s.solver.name} - {this.formatTime(s.time)}</p>
-                ))}
+                {this.props.puzzleSolves.map((s,i) => (
+                  <p key={s.id}><span className="order-number">{i+1}</span>
+                  {formatTime(s.time)} ({s.solver.name} on {s.created_at.slice(0,10)})</p>
+                  )
+                )}
+                <h5>The average solve time for this puzzle is  {formatTime(puzzle.average)}.</h5>
               </Segment>
             </Grid.Column>
           ) : (
@@ -78,7 +74,7 @@ class PuzzlePage extends Component {
                 <h4>Across</h4>
                 <Segment id ="clue-box">
                   { puzzle && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
-                    <p key={c && c.id}><span className="order-number">{c.number}</span> {c.content}</p>
+                    <p key={c && c.id}><span className="clue-number">{c.number}</span> {c.content}</p>
                   ))}
                 </Segment>
               </Grid.Column>
@@ -87,7 +83,7 @@ class PuzzlePage extends Component {
                 <h4>Down</h4>
                 <Segment id ="clue-box">
                   { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
-                    <p key={c && c.id}><span className="order-number">{c.number}</span> {c.content}</p>
+                    <p key={c && c.id}><span className="clue-number">{c.number}</span> {c.content}</p>
                   ))}
                 </Segment>
               </Grid.Column>
