@@ -85,6 +85,10 @@ class SolvePage extends Component {
 
     let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
 
+    while (this.props.enteredLetters[next.id]) {
+      next = cells.find(cell => cell.id === next.id + 1)
+    }
+
     return next
   }
 
