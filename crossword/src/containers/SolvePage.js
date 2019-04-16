@@ -66,32 +66,55 @@ class SolvePage extends Component {
   }
 
   // Navigate within across or down word
-  findWord() {
-    let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (this.props.selectedCell.clues.find(c => this.props.direction === "across" ? c.direction === "across" : c.direction === "down")).id) )
+  findWord(ce) {
+    let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (ce.clues.find(c => this.props.direction === "across" ? c.direction === "across" : c.direction === "down")).id))
 
     return word.sort((a, b) => a.id - b.id)
   }
 
+
+
+  findNextWordStart() {
+    let dir = this.props.direction
+    let sel = this.props.selectedCell
+    let puz = this.props.puzzle
+    let cells = puz.cells.sort((a, b) => a.id - b.id)
+
+    let clue = (sel.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down").id)
+    let nextClue = (dir === "across" ? puz.across_clues.find(c => c.id > clue) : puz.down_clues.find(c => c.id > clue))
+
+    let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
+
+    return next
+  }
+
   shiftSelectedCellForward() {
     let sel = this.props.selectedCell
-    let next = this.findWord().find(c => c.id > sel.id)
+    let next = this.findWord(sel).find(c => c.id > sel.id)
+    // console.log("next:", next.id, next.letter, "next word:", this.findNextWordStart().id, this.findNextWordStart().letter)
+    // if (!this.props.puzzle.cells.find(c => c.id > sel.id)) {
+    //   return sel
+    // }
     return next ? next : sel
   }
 
   shiftSelectedCellBackward() {
     let sel = this.props.selectedCell
-    let prev = this.findWord().filter(c => c.id < sel.id)
-    return this.findWord().find(c => c.id < sel.id) ? prev[prev.length - 1]: sel
+    let prev = this.findWord(sel).filter(c => c.id < sel.id)
+    return this.findWord(sel).find(c => c.id < sel.id) ? prev[prev.length - 1]: sel
   }
 
   // Enter letters into puzzle
   handleKeyPress = (event) => {
+    let sel = this.props.selectedCell
     if (event.key === "Backspace") {
-      this.props.setKey(this.props.selectedCell.id, null)
-      this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord())
+      this.props.setKey(sel.id, null)
+      this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord(sel))
+    } else if (event.key === "Tab"){
+      this.props.selectCell(this.findNextWordStart(), this.findWord(this.findNextWordStart()))
     } else if (event.key.length === 1) {
-      this.props.setKey(this.props.selectedCell.id, event.key.toUpperCase())
-      this.props.selectCell(this.shiftSelectedCellForward(), this.findWord())
+      this.props.setKey(sel.id, event.key.toUpperCase())
+      this.props.selectCell(this.shiftSelectedCellForward(), this.findWord(sel))
     }
     if (isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)) {
       this.props.changeGameStatus("won")
