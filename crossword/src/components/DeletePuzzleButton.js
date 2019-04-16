@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { URL } from '../redux/constants'
 import { deletedPuzzle } from '../redux/actions/changePuzzles'
@@ -15,8 +15,8 @@ class DeleteButton extends Component {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     })
+    // this.setState({ redirect: true })
     this.props.deletedPuzzle(this.props.puzzle)
-    this.setState({ redirect: true })
   }
 
   render() {
@@ -28,7 +28,8 @@ class DeleteButton extends Component {
     return(
       <Button
         icon
-        
+        as={ Link }
+        to="/profile"
         color="black"
         labelPosition='right'
         id="delete-button"
