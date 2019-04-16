@@ -87,8 +87,18 @@ body {
   margin-bottom: 10px;
 }
 
-#stats-button {
+.puz-header {
   margin-bottom: 10px;
+}
+
+#solved-bar {
+  margin-bottom: 10px;
+  background-color: white;
+  height: 30px;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
 }
 
 .clue-number {
@@ -108,6 +118,7 @@ body {
 #clue-box {
   overflow: auto;
   max-height: 78vh;
+  margin-bottom: 15px;
 }
 
 #results-modal {
@@ -137,6 +148,7 @@ body {
 }
 
 #delete-button {
+  margin-top: 5px;
   margin-bottom: 10px;
 }
 

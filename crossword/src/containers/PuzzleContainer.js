@@ -19,7 +19,7 @@ class PuzzleContainer extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     loading: state.loading
   }

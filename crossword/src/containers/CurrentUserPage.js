@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { Menu, Segment, Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import PuzzleContainer from './PuzzleContainer'
+import TimeChart from '../components/TimeCompareChart'
 
 class CurrentUserPage extends Component {
   state = {
-    menu: "Published"
+    menu: this.props.user.first_name
   }
 
   handleMenuClick = (e, { name }) => {
@@ -16,6 +17,11 @@ class CurrentUserPage extends Component {
     return(
       <Container>
         <Menu attached='top' tabular>
+          <Menu.Item
+            name={this.props.user.first_name}
+            active={this.state.menu === this.props.user.first_name}
+            onClick={this.handleMenuClick}
+          />
           <Menu.Item
             name='Published'
             active={this.state.menu === "Published"}
@@ -31,9 +37,21 @@ class CurrentUserPage extends Component {
           attached="bottom"
           id="user-page-puzzles"
         >
-          <PuzzleContainer
-            puzzles={ this.state.menu === "Published" ? this.props.userPuzzles : this.props.solvedPuzzles }
-          />
+          {this.state.menu === this.props.user.first_name ? (
+            <Fragment>
+              <Container>
+                <p>Name: {this.props.user.name}</p>
+                <p>Username: {this.props.user.username}</p>
+                <p>Puzzles created: {this.props.userPuzzles.length}</p>
+                <p>Puzzles solved: {this.props.solvedPuzzles.length}</p>
+              </Container>
+              <TimeChart/>
+            </Fragment>
+          ) : (
+            <PuzzleContainer
+              puzzles={ this.state.menu === "Published" ? this.props.userPuzzles : this.props.solvedPuzzles }
+            />
+          )}
         </Segment>
       </Container>
     )
@@ -43,7 +61,8 @@ class CurrentUserPage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     userPuzzles: state.userPuzzles,
-    solvedPuzzles: state.solvedPuzzles
+    solvedPuzzles: state.solvedPuzzles,
+    user: state.currentUser
   }
 }
 
