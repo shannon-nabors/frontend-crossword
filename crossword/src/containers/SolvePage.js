@@ -67,6 +67,7 @@ class SolvePage extends Component {
 
   // Navigate within across or down word
   findWord(ce) {
+
     let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (ce.clues.find(c => this.props.direction === "across" ? c.direction === "across" : c.direction === "down")).id))
 
     return word.sort((a, b) => a.id - b.id)
@@ -83,6 +84,9 @@ class SolvePage extends Component {
     let clue = (sel.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down").id)
     let nextClue = (dir === "across" ? puz.across_clues.find(c => c.id > clue) : puz.down_clues.find(c => c.id > clue))
 
+    if (!nextClue) {
+      return sel
+    }
     let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
 
     while (this.props.enteredLetters[next.id]) {
@@ -94,11 +98,17 @@ class SolvePage extends Component {
 
   shiftSelectedCellForward() {
     let sel = this.props.selectedCell
+    let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id)
     let next = this.findWord(sel).find(c => c.id > sel.id)
     // console.log("next:", next.id, next.letter, "next word:", this.findNextWordStart().id, this.findNextWordStart().letter)
     // if (!this.props.puzzle.cells.find(c => c.id > sel.id)) {
     //   return sel
     // }
+    // let start = this.findWord(sel)[0]
+    // while (this.props.enteredLetters[start.id]) {
+    //   start = cells.find(cell => cell.id === start.id + 1)
+    // }
+    // return next ? next : start
     return next ? next : sel
   }
 
