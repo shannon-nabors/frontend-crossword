@@ -104,6 +104,7 @@ class SolvePage extends Component {
     // if (!this.props.puzzle.cells.find(c => c.id > sel.id)) {
     //   return sel
     // }
+    
     // let start = this.findWord(sel)[0]
     // while (this.props.enteredLetters[start.id]) {
     //   start = cells.find(cell => cell.id === start.id + 1)

@@ -6,7 +6,7 @@ import TimeChart from '../components/TimeCompareChart'
 
 class CurrentUserPage extends Component {
   state = {
-    menu: this.props.user.first_name
+    menu: "Published"
   }
 
   handleMenuClick = (e, { name }) => {
@@ -17,11 +17,7 @@ class CurrentUserPage extends Component {
     return(
       <Container>
         <Menu attached='top' tabular>
-          <Menu.Item
-            name={this.props.user.first_name}
-            active={this.state.menu === this.props.user.first_name}
-            onClick={this.handleMenuClick}
-          />
+
           <Menu.Item
             name='Published'
             active={this.state.menu === "Published"}
@@ -67,3 +63,9 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default connect(mapStateToProps)(CurrentUserPage)
+
+// <Menu.Item
+//   name={this.props.user.first_name}
+//   active={this.state.menu === this.props.user.first_name}
+//   onClick={this.handleMenuClick}
+// />

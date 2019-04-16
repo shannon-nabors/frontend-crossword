@@ -41,18 +41,7 @@ class HomePage extends Component {
               <Card.Description>Solve crossword puzzles that have been created by other users on the site.</Card.Description>
             </Card.Content>
           </Card>
-          <Card
-            as={ Link }
-            to="/leaderboard"
-          >
-            <Card.Content textAlign="center">
-            <Icon name="chart bar" color="black" size="massive"></Icon>
-            </Card.Content>
-            <Card.Content>
-              <Card.Header textAlign="center">LEADERBOARD</Card.Header>
-              <Card.Description>See solving statistics for users across the site.</Card.Description>
-            </Card.Content>
-          </Card>
+
         </Card.Group>
       </Fragment>
     )
@@ -67,3 +56,17 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default connect(mapStateToProps, { fetchingGuestPuzzles })(HomePage)
+
+// 
+// <Card
+//   as={ Link }
+//   to="/leaderboard"
+// >
+//   <Card.Content textAlign="center">
+//   <Icon name="chart bar" color="black" size="massive"></Icon>
+//   </Card.Content>
+//   <Card.Content>
+//     <Card.Header textAlign="center">LEADERBOARD</Card.Header>
+//     <Card.Description>See solving statistics for users across the site.</Card.Description>
+//   </Card.Content>
+// </Card>

@@ -9,6 +9,9 @@ class PuzzleContainer extends Component {
       <Fragment>
         <Container className="ui cards centered">
           {this.props.puzzles.map(p => <PuzzleCard key={p.id} puzzle={p} />)}
+          {this.props.puzzles.length === 0 && (
+            <h2 id="no-puzzles">No puzzles yet!</h2>
+          )}
         </Container>
 
         <Dimmer active={this.props.loading ? true : false}>

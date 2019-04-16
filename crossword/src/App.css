@@ -166,3 +166,7 @@ body {
 #user-page-puzzles {
   min-height: 50vh;
 }
+
+#no-puzzles {
+  padding-top: 20vh;
+}
