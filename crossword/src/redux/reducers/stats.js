@@ -20,5 +20,27 @@ const puzzleSolvesReducer = (state = [], action) => {
   }
 }
 
+const userFavoritesReducer = (state = [], action) => {
+  switch (action.type) {
+    case "USER_FAVORITES":
+      return action.favorites
+    default:
+      return state
+  }
+}
+
+const puzzleFavoritesReducer = (state = [], action) => {
+  switch (action.type) {
+    case "PUZZLE_FAVORITES":
+      return action.favorites
+    case "RESET_PUZZLE_FAVORITES":
+      return []
+    default:
+      return state
+  }
+}
+
 export { solvesReducer,
-         puzzleSolvesReducer }
+         puzzleSolvesReducer,
+         userFavoritesReducer,
+         puzzleFavoritesReducer }

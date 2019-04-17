@@ -93,12 +93,15 @@ body {
 
 #solved-bar {
   margin-bottom: 10px;
-  background-color: white;
+  background-color: black;
+  color: white;
   height: 30px;
   padding-top: 5px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   padding-right: 10px;
+  padding-left: 10px;
   border-radius: 5px;
+  font-size: 1.2em;
 }
 
 .clue-number {

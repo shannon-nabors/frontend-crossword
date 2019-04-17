@@ -4,7 +4,9 @@ import { Grid, Segment, Icon,
          Menu } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { findSolveData,
-         resetPuzzleSolves } from '../redux/actions/stats'
+         resetPuzzleSolves,
+         addFavorite,
+         getFavorites } from '../redux/actions/stats'
 import { formatTime } from '../redux/constants'
 import Puzzle from './Puzzle'
 import DeleteButton from '../components/DeletePuzzleButton'
@@ -21,10 +23,16 @@ class PuzzlePage extends Component {
 
   componentDidMount() {
     this.props.findSolveData("puzzle", this.props.puzzle.id)
+    this.props.getFavorites("puzzle", this.props.puzzle.id)
   }
 
   componentWillUnmount() {
     this.props.resetPuzzleSolves()
+  }
+
+  belongsToCurrentUser() {
+    let { puzzle, user } = this.props
+    return (puzzle && user.id && user.id === puzzle.constructor.id) ? true : false
   }
 
   render() {
@@ -37,17 +45,23 @@ class PuzzlePage extends Component {
             <Container id="puz-sizer">
               <Header as="h2" id="puz-title">{puzzle && puzzle.title}</Header>
 
-              {puzzle && user.id && user.id === puzzle.constructor.id ? (
+              {this.belongsToCurrentUser() ? (
                 <DeleteButton puzzle={puzzle}/>
               ) : (
                 <div className="puz-header">
                   <Header as="h4" id="puz-author">by {puzzle && `${puzzle.constructor.first_name} ${puzzle.constructor.last_name}`}</Header>
                   <span id="solved-bar">
-                    <Icon color="yellow" size="big" name="star"/>
+                    <Icon color="yellow" name="star"/>
                     <span id="solved-tag">You solved in {formatTime(this.props.time)}</span>
                   </span>
                 </div>
               )}
+              {puzzle && user.id && user.id !== puzzle.constructor.id ? (
+                <Button onClick={() => this.props.addFavorite(puzzle.id)}><Icon color="red" size="big" name="heart" /></Button>
+              ) : null }
+              <ul>{this.props.favorites.map(f => (
+                <li>{f.user_id}</li>
+              ))}</ul>
               <Puzzle
                 puzzle={puzzle}
                 answers="true"
@@ -118,8 +132,9 @@ const mapStateToProps = (state, ownProps) => {
     puzzle: [...state.userPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
     user: state.currentUser,
     puzzleSolves: state.puzzleSolves,
+    favorites: state.puzzleFavorites,
     time: (state.currentUser.id && state.currentUser.id !==  [...state.userPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)).constructor.id ? state.solves.find(s => s.puzzle_id === parseInt(ownProps.match.params.puzzleID)).time : null)
   }
 }
 
-export default connect(mapStateToProps, { findSolveData, resetPuzzleSolves })(PuzzlePage)
+export default connect(mapStateToProps, { findSolveData, resetPuzzleSolves, addFavorite, getFavorites })(PuzzlePage)
