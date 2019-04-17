@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { findSolveData,
          resetPuzzleSolves,
          addFavorite,
+         deleteFavorite,
          getFavorites } from '../redux/actions/stats'
 import { formatTime } from '../redux/constants'
 import Puzzle from './Puzzle'
@@ -35,6 +36,19 @@ class PuzzlePage extends Component {
     return (puzzle && user.id && user.id === puzzle.constructor.id) ? true : false
   }
 
+  favorited() {
+    let { puzzle, userFavorites } = this.props
+    return (userFavorites.find(f => f.puzzle_id === puzzle.id)) ? true : false
+  }
+
+  handleFavClick = () => {
+    if (this.favorited()) {
+      this.props.deleteFavorite(this.props.puzzle.id)
+    } else {
+      this.props.addFavorite(this.props.puzzle.id)
+    }
+  }
+
   render() {
     let { puzzle, user } = this.props
 
@@ -46,22 +60,26 @@ class PuzzlePage extends Component {
               <Header as="h2" id="puz-title">{puzzle && puzzle.title}</Header>
 
               {this.belongsToCurrentUser() ? (
-                <DeleteButton puzzle={puzzle}/>
+                <Fragment>
+                  <Header as="h4" id="puz-author"><Icon color="red" name="heart"/>{this.props.favorites.length} favorites</Header>
+                  <DeleteButton puzzle={puzzle}/>
+                </Fragment>
               ) : (
                 <div className="puz-header">
                   <Header as="h4" id="puz-author">by {puzzle && `${puzzle.constructor.first_name} ${puzzle.constructor.last_name}`}</Header>
-                  <span id="solved-bar">
-                    <Icon color="yellow" name="star"/>
-                    <span id="solved-tag">You solved in {formatTime(this.props.time)}</span>
+                  <span>
+                    <span id="solved-bar">
+                      <Icon color="yellow" name="star"/>
+                      <span id="solved-tag">You solved in {formatTime(this.props.time)}</span>
+                    </span>
+                    {this.favorited() ? (
+                      <Button color="black" id="fav-bar" onClick={this.handleFavClick}><Icon color="red" name="heart"/>{this.props.favorites.length} favorites</Button>
+                    ) : (
+                      <Button color="black" id="fav-bar" onClick={this.handleFavClick}><Icon color="red" name="heart outline"/>{this.props.favorites.length} favorites</Button>
+                    )}
                   </span>
                 </div>
               )}
-              {puzzle && user.id && user.id !== puzzle.constructor.id ? (
-                <Button onClick={() => this.props.addFavorite(puzzle.id)}><Icon color="red" size="big" name="heart" /></Button>
-              ) : null }
-              <ul>{this.props.favorites.map(f => (
-                <li>{f.user_id}</li>
-              ))}</ul>
               <Puzzle
                 puzzle={puzzle}
                 answers="true"
@@ -87,7 +105,6 @@ class PuzzlePage extends Component {
             >
               {this.state.menu === "Stats" && (
                 <Fragment>
-                  <h4>Stats</h4>
                   <Segment id="clue-box">
                     {this.props.puzzleSolves.map((s,i) => (
                       <p key={s.id}><span className="order-number">{i+1}</span>
@@ -132,9 +149,10 @@ const mapStateToProps = (state, ownProps) => {
     puzzle: [...state.userPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
     user: state.currentUser,
     puzzleSolves: state.puzzleSolves,
+    userFavorites: state.userFavorites,
     favorites: state.puzzleFavorites,
     time: (state.currentUser.id && state.currentUser.id !==  [...state.userPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)).constructor.id ? state.solves.find(s => s.puzzle_id === parseInt(ownProps.match.params.puzzleID)).time : null)
   }
 }
 
-export default connect(mapStateToProps, { findSolveData, resetPuzzleSolves, addFavorite, getFavorites })(PuzzlePage)
+export default connect(mapStateToProps, { findSolveData, resetPuzzleSolves, addFavorite, deleteFavorite, getFavorites })(PuzzlePage)

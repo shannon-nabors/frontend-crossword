@@ -66,4 +66,24 @@ function addFavorite(puzzleID) {
   }
 }
 
-export { findSolveData, resetPuzzleSolves, resetPuzzleFavorites, getFavorites, addFavorite }
+function deletedFavorite(puzzleID) {
+  return (dispatch, getState) => {
+    const { currentUser, userFavorites, puzzleFavorites } = getState()
+    let newUserFavs = userFavorites.filter(f => f.puzzle_id != puzzleID)
+    let newPuzzleFavs = puzzleFavorites.filter(f => f.user_id != currentUser.id)
+    dispatch({ type: "DELETED_FAVORITE", newUserFavs: newUserFavs, newPuzzleFavs: newPuzzleFavs })
+  }
+}
+
+function deleteFavorite(puzzleID) {
+  return (dispatch, getState) => {
+    const { userFavorites } = getState()
+    let favID = userFavorites.find(f => f.puzzle_id === puzzleID).id
+    fetch(`${URL}/favorites/${favID}`, {
+      method: "DELETE",
+      headers: {"Content-Type": "application/json"}
+    }).then(dispatch(deletedFavorite(puzzleID)))
+  }
+}
+
+export { findSolveData, resetPuzzleSolves, resetPuzzleFavorites, getFavorites, addFavorite, deleteFavorite }

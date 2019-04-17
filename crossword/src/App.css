@@ -93,7 +93,7 @@ body {
 
 #solved-bar {
   margin-bottom: 10px;
-  background-color: black;
+  background-color: #1b1c1d;
   color: white;
   height: 30px;
   padding-top: 5px;
@@ -101,7 +101,11 @@ body {
   padding-right: 10px;
   padding-left: 10px;
   border-radius: 5px;
-  font-size: 1.2em;
+}
+
+#fav-bar {
+  padding: 7px 10px 6px 10px;
+  margin-left: 10px;
 }
 
 .clue-number {
@@ -163,6 +167,10 @@ body {
 
 #results-tag a {
   color: #00B273;
+}
+
+#title-fav {
+  margin-left: 15px;
 }
 
 /* User page */

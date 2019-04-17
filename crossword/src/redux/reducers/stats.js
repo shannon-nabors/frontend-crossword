@@ -24,6 +24,8 @@ const userFavoritesReducer = (state = [], action) => {
   switch (action.type) {
     case "USER_FAVORITES":
       return action.favorites
+    case "DELETED_FAVORITE":
+      return action.newUserFavs
     default:
       return state
   }
@@ -33,6 +35,8 @@ const puzzleFavoritesReducer = (state = [], action) => {
   switch (action.type) {
     case "PUZZLE_FAVORITES":
       return action.favorites
+    case "DELETED_FAVORITE":
+      return action.newPuzzleFavs
     case "RESET_PUZZLE_FAVORITES":
       return []
     default:
