@@ -74,14 +74,14 @@ body {
 .home-card h2 {
   font-family: 'Nunito', sans-serif;
   font-weight: lighter;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   color: #1b1c1d;
 }
 
 .home-card h1 {
   font-family: 'Nunito', sans-serif;
   font-weight: lighter;
-  margin-bottom: 15px;
+  margin-bottom: 40px;
   color: #1b1c1d;
 }
 
