@@ -95,6 +95,9 @@ class SolvePage extends Component {
     if (this.props.enteredLetters[nextID]) {
       // next = cells.find(cell => cell.id === nextID + 1)
       next = this.findWord(next).find(cell => !this.props.enteredLetters[cell.id])
+      if (!next) {
+        return sel
+      }
     }
 
     return next

@@ -36,31 +36,65 @@ class EnterPage extends Component {
     this.props.setFormStage("size")
   }
 
-  findWord() {
-    let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (this.props.selectedCell.clues.find(c => this.props.direction === "across" ? c.direction === "across" : c.direction === "down")).id) )
+  findWord(ce) {
+    let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (ce.clues.find(c => this.props.direction === "across" ? c.direction === "across" : c.direction === "down")).id) )
 
     return word.sort((a, b) => a.id - b.id)
   }
 
   shiftSelectedCellForward() {
-    return this.findWord().find(c => c.id > this.props.selectedCell.id) ? this.findWord().find(c => c.id > this.props.selectedCell.id) : this.props.selectedCell
+    let sel = this.props.selectedCell
+    let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id)
+    let next = this.findWord(sel).find(c => c.id > sel.id)
+    return next ? next : sel
+    // return this.findWord().find(c => c.id > this.props.selectedCell.id) ? this.findWord().find(c => c.id > this.props.selectedCell.id) : this.props.selectedCell
   }
 
   shiftSelectedCellBackward() {
-    let previousLetters = this.findWord().filter(c => c.id < this.props.selectedCell.id)
-    return this.findWord().find(c => c.id < this.props.selectedCell.id) ? previousLetters[previousLetters.length - 1]: this.props.selectedCell
+    let sel = this.props.selectedCell
+    let previousLetters = this.findWord(sel).filter(c => c.id < this.props.selectedCell.id)
+    return this.findWord(sel).find(c => c.id < this.props.selectedCell.id) ? previousLetters[previousLetters.length - 1]: this.props.selectedCell
   }
 
   handleKeyPress = (event) => {
+    let sel = this.props.selectedCell
     if (this.props.selectedCell && document.activeElement.type !== "text") {
       if (event.key === "Backspace") {
         this.props.setKey(this.props.selectedCell.id, null)
-        this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord())
+        this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord(sel))
+      } else if (event.key === "Tab"){
+        this.props.selectCell(this.findNextWordStart(), this.findWord(this.findNextWordStart()))
       } else if (event.key.length === 1) {
         this.props.setKey(this.props.selectedCell.id, event.key.toUpperCase())
-        this.props.selectCell(this.shiftSelectedCellForward(), this.findWord())
+        this.props.selectCell(this.shiftSelectedCellForward(), this.findWord(sel))
       }
     }
+  }
+
+  findNextWordStart() {
+    let dir = this.props.direction
+    let sel = this.props.selectedCell
+    let puz = this.props.puzzle
+    let cells = puz.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
+
+    let clue = (sel.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down").id)
+    let nextClue = (dir === "across" ? puz.across_clues.find(c => c.id > clue) : puz.down_clues.find(c => c.id > clue))
+
+    if (!nextClue) {
+      return sel
+    }
+    let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
+    let nextID = next.id
+
+    if (this.props.enteredLetters[nextID]) {
+      // next = cells.find(cell => cell.id === nextID + 1)
+      next = this.findWord(next).find(cell => !this.props.enteredLetters[cell.id])
+      if (!next) {
+        return sel
+      }
+    }
+
+    return next
   }
 
   checkForCompletion() {
