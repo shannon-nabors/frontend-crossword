@@ -21,6 +21,7 @@ class Navbar extends Component {
                 fitted
                 as={ Link }
                 to="/home"
+                id="menu-item"
               >
                 <HomeLogo id="navbar-logo"/>
               </Menu.Item>
@@ -28,24 +29,28 @@ class Navbar extends Component {
               <Menu.Item
                 as={ Link }
                 to="/create"
+                id="menu-item"
               > Create
               </Menu.Item>
 
               <Menu.Item
                 as={ Link }
                 to="/solve"
+                id="menu-item"
               > Solve
               </Menu.Item>
 
               <Menu.Item
                 as={ Link }
                 to="/profile"
+                id="menu-item"
               > {this.props.currentUser.name}
               </Menu.Item>
 
               <Menu.Item
                 as={ Link }
                 to="/"
+                id="menu-item"
                 onClick={this.props.logOutUser}
               > Log out
               </Menu.Item>
@@ -58,6 +63,7 @@ class Navbar extends Component {
                 fitted
                 as={ Link }
                 to="/home"
+                id="menu-item"
               >
                 <HomeLogo id="navbar-logo"/>
               </Menu.Item>
@@ -65,12 +71,14 @@ class Navbar extends Component {
               <Menu.Item
                 as={ Link }
                 to="/"
+                id="menu-item"
               > Log in
               </Menu.Item>
 
               <Menu.Item
                 as={ Link }
                 to="/signup"
+                id="menu-item"
               > Sign up
               </Menu.Item>
 

@@ -31,6 +31,7 @@ class Puzzle extends Component {
         viewBox={`0 0 ${23*dim+6} ${23*dim+6}`}
         preserveAspectRatio="xMidYMin meet"
         xmlns="http://www.w3.org/2000/svg"
+        id="puz"
         >
         <g>
           {cells && cells.map(c =>
@@ -54,7 +55,7 @@ class Puzzle extends Component {
             y="1.50"
             width={ (23 * dim + 3).toString() }
             height={ (23 * dim + 3).toString() }
-            stroke="black"
+            stroke="#1b1c1d"
             strokeWidth="3.00"
             fill="none">
           </rect>

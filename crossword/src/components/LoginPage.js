@@ -10,6 +10,7 @@ import { URL } from '../redux/constants'
 class Login extends Component {
   state = {
     username: "",
+    password: "",
     redirect: false,
     failed: false
   }
@@ -58,6 +59,13 @@ class Login extends Component {
             placeholder="Username"
             onChange={this.handleChange}
             value={this.state.username}
+          />
+          <Form.Input
+            name="password"
+            type="password"
+            placeholder="Password"
+            onChange={this.handleChange}
+            value={this.state.password}
           />
           <Message
             error

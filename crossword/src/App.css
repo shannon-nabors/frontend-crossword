@@ -3,6 +3,7 @@ body {
   /* background-color: #f8aa9e; */
   /* background-color: #C2CBEB; */
   background-color: #8B99A4;
+  font-family: 'Nunito', sans-serif;
 }
 
 #pages {
@@ -14,6 +15,10 @@ body {
   background-color: white;
   height: 75px;
   padding: .5em;
+}
+
+#menu-item {
+  font-family: 'Nunito', sans-serif;
 }
 
 #navbar-logo {
@@ -45,6 +50,24 @@ body {
   height: 250px;
 }
 
+/* Solve menu */
+#puz-card {
+  /* box-shadow: none; */
+  font-weight: bold;
+  /* background-color: #FFA414; */
+  font-family: 'Nunito', sans-serif;
+}
+
+#puz-card-title {
+  font-family: 'Nunito', sans-serif;
+}
+
+#extra-card-content {
+  background-color: #1b1c1d;
+  color: white;
+  font-weight: bold;
+}
+
 /* Create process */
 #grid-sizer-form {
   width: 50vw;
@@ -74,17 +97,23 @@ body {
 }
 
 /* Puzzle pages */
+#puz {
+  /* font-family: 'Josefin Sans', sans-serif; */
+}
+
 #puz-sizer {
   width: 70vh;
 }
 
 #puz-title {
   margin-bottom: 0px;
+  font-family: 'Nunito', sans-serif;
 }
 
 #puz-author {
   margin-top: 5px;
   margin-bottom: 10px;
+  font-family: 'Nunito', sans-serif;
 }
 
 .puz-header {
@@ -106,6 +135,8 @@ body {
 #fav-bar {
   padding: 7px 10px 6px 10px;
   margin-left: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: lighter;
 }
 
 #fav-bar-solve {
@@ -131,6 +162,7 @@ body {
   overflow: auto;
   max-height: 78vh;
   margin-bottom: 15px;
+  /* font-family: 'Nunito', sans-serif; */
 }
 
 #results-modal {

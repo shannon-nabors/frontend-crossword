@@ -36,6 +36,22 @@ function resetPuzzleFavorites() {
   return { type: "RESET_PUZZLE_FAVORITES" }
 }
 
+function editPuzzleFavNumber(puzzleID, num) {
+  console.log('edit called')
+  return (dispatch, getState) => {
+    const { unsolvedPuzzles, solvedPuzzles } = getState()
+    let puzzle = [...unsolvedPuzzles, ...solvedPuzzles].find(p => p.id === puzzleID)
+    puzzle = {...puzzle, favorites: puzzle.favorites + num }
+    if (unsolvedPuzzles.find(p => p.id === puzzle.id)) {
+      let puzzles = unsolvedPuzzles.filter(p => p.id !== puzzleID)
+      dispatch({ type: "EDIT_UNSOLVED_FAVS", puzzles: [...puzzles, puzzle] })
+    } else {
+      let puzzles = solvedPuzzles.filter(p => p.id !== puzzleID)
+      dispatch({ type: "EDIT_SOLVED_FAVS", puzzles: [...puzzles, puzzle] })
+    }
+  }
+}
+
 function getFavorites(type, id) {
   return (dispatch) => {
     fetch(`${URL}/favorites/${type}/${id}`)
@@ -62,6 +78,7 @@ function addFavorite(puzzleID) {
       let newPuzzleFavs = [...puzzleFavorites, favorite]
       dispatch(setUserFavorites(newUserFavs))
       dispatch(setPuzzleFavorites(newPuzzleFavs))
+      dispatch(editPuzzleFavNumber(puzzleID, 1))
     })
   }
 }
@@ -72,6 +89,7 @@ function deletedFavorite(puzzleID) {
     let newUserFavs = userFavorites.filter(f => f.puzzle_id != puzzleID)
     let newPuzzleFavs = puzzleFavorites.filter(f => f.user_id != currentUser.id)
     dispatch({ type: "DELETED_FAVORITE", newUserFavs: newUserFavs, newPuzzleFavs: newPuzzleFavs })
+    dispatch(editPuzzleFavNumber(puzzleID, (-1)))
   }
 }
 

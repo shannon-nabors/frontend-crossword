@@ -12,7 +12,7 @@ class Cell extends Component {
     let sel = this.props.selected
 
     if (cell.shaded) {
-      return "black"
+      return "#1b1c1d"
     } else if (cell === sel) {
       return "#FFA414"
     } else if (sel && this.props.highlighted.find(c => c.id === cell.id)){
@@ -64,6 +64,7 @@ class Cell extends Component {
           y={ (23 * cell.row) - 11.83 }
           textAnchor="start"
           fontSize="7.67"
+          fill="#1b1c1d"
         >{ cell.number }</text>
 
         <text
@@ -71,6 +72,7 @@ class Cell extends Component {
           y={ (23 * cell.row) + 1.08 }
           textAnchor="middle"
           fontSize="15.33"
+          fill="#1b1c1d"
         >{ this.props.answers? cell.letter : this.props.enteredLetters[cell.id] }</text>
       </g>
     )

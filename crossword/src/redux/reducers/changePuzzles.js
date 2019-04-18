@@ -17,6 +17,9 @@ const solvedPuzzlesReducer = (state = [], action) => {
       return action.puzzles.solved_puzzles
     case "SOLVED_PUZZLE":
       return action.solved
+    case "EDIT_SOLVED_FAVS":
+      debugger
+      return action.puzzles
     case "LOG_OUT_USER":
       return []
     default:
@@ -30,6 +33,9 @@ const unsolvedPuzzlesReducer = (state = [], action) => {
       return action.puzzles.unsolved_puzzles
     case "SOLVED_PUZZLE":
       return action.unsolved
+    case "EDIT_UNSOLVED_FAVS":
+      debugger
+      return action.puzzles
     case "LOG_OUT_USER":
       return []
     default:

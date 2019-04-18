@@ -61,7 +61,7 @@ class PuzzlePage extends Component {
 
               {this.belongsToCurrentUser() ? (
                 <Fragment>
-                  <Header as="h4" id="puz-author"><Icon color="red" name="heart"/>{this.props.favorites.length} favorites</Header>
+                  <div id="puz-author"><Icon color="red" name="heart"/>{this.props.favorites.length} favorites</div>
                   <DeleteButton puzzle={puzzle}/>
                 </Fragment>
               ) : (
@@ -73,9 +73,9 @@ class PuzzlePage extends Component {
                       <span id="solved-tag">You solved in {formatTime(this.props.time)}</span>
                     </span>
                     {this.favorited() ? (
-                      <Button color="black" id="fav-bar" onClick={this.handleFavClick}><Icon color="red" name="heart"/>{this.props.favorites.length} favorites</Button>
+                      <Button color="black" id="fav-bar" onClick={this.handleFavClick}><Icon color="red" name="heart"/>{this.props.favorites.length} {this.props.favorites.length === 1 ? "favorite" : "favorites"}</Button>
                     ) : (
-                      <Button color="black" id="fav-bar" onClick={this.handleFavClick}><Icon color="red" name="heart outline"/>{this.props.favorites.length} favorites</Button>
+                      <Button color="black" id="fav-bar" onClick={this.handleFavClick}><Icon color="red" name="heart outline"/>{this.props.favorites.length} {this.props.favorites.length === 1 ? "favorite" : "favorites"}</Button>
                     )}
                   </span>
                 </div>

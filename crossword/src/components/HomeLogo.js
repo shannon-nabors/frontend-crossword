@@ -34,13 +34,13 @@ const HomeLogo = (props) => (
           <text x="106.50" y="24.08" textAnchor="middle" fontSize="15.33">S</text>
         </g>
         <g>
-          <rect x="118.00" y="3.00" width="23.00" height="23.00" fill="black"></rect>
+          <rect x="118.00" y="3.00" width="23.00" height="23.00" fill="#1b1c1d"></rect>
         </g>
         <g>
-          <rect x="3.00" y="26.00" width="23.00" height="23.00" fill="black"></rect>
+          <rect x="3.00" y="26.00" width="23.00" height="23.00" fill="#1b1c1d"></rect>
         </g>
         <g>
-          <rect x="26.00" y="26.00" width="23.00" height="23.00" fill="black"></rect>
+          <rect x="26.00" y="26.00" width="23.00" height="23.00" fill="#1b1c1d"></rect>
         </g>
         <g>
           <rect x="49.00" y="26.00" width="23.00" height="23.00" fill="white"></rect>
@@ -64,8 +64,8 @@ const HomeLogo = (props) => (
         </g>
       </g>
       <g>
-        <path d="M 3 26 l 141 0 M 26 3 l 0 49 M 49 3 l 0 49 M 72 3 l 0 49 M 95 3 l 0 49 M 118 3 l 0 49" stroke="dimgray"></path>
-        <rect x="1.50" y="1.50" width="141.00" height="49.00" stroke="black" strokeWidth="3.00" fill="none"></rect>
+        <path d="M 3 26 l 141 0 M 26 3 l 0 23 M 49 3 l 0 49 M 72 3 l 0 49 M 95 3 l 0 49 M 118 3 l 0 49" stroke="dimgray"></path>
+        <rect x="1.50" y="1.50" width="141.00" height="49.00" stroke="#1b1c1d" strokeWidth="3.00" fill="none"></rect>
       </g>
   </svg>
 )
