@@ -108,6 +108,11 @@ body {
   margin-left: 10px;
 }
 
+#fav-bar-solve {
+  padding: 11px 10px 11px 10px;
+  margin-left: 10px;
+}
+
 .clue-number {
   font-weight: bold;
   padding-right: 5px;

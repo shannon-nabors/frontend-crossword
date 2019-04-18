@@ -11,6 +11,9 @@ import { setKey,
 import { solvingPuzzle,
          changeGameStatus,
          handleTimer } from '../redux/actions/solvePuzzle'
+import { addFavorite,
+         deleteFavorite,
+         getFavorites } from '../redux/actions/stats'
 
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
@@ -25,7 +28,7 @@ class SolvePage extends Component {
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress)
     this.props.changeGameStatus("in progress")
-
+    this.props.getFavorites("puzzle", this.props.puzzle.id)
     timer.start()
     timer.addEventListener('secondsUpdated', this.incrementTimer)
   }
@@ -89,8 +92,9 @@ class SolvePage extends Component {
     let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
     let nextID = next.id
 
-    while (this.props.enteredLetters[nextID]) {
-      next = cells.find(cell => cell.id === nextID + 1)
+    if (this.props.enteredLetters[nextID]) {
+      // next = cells.find(cell => cell.id === nextID + 1)
+      next = findWord(next).find(cell => cell.id > nextID)
     }
 
     return next
@@ -140,6 +144,19 @@ class SolvePage extends Component {
     }
   }
 
+  favorited() {
+    let { puzzle, userFavorites } = this.props
+    return (userFavorites.find(f => f.puzzle_id === puzzle.id)) ? true : false
+  }
+
+  handleFavClick = () => {
+    if (this.favorited()) {
+      this.props.deleteFavorite(this.props.puzzle.id)
+    } else {
+      this.props.addFavorite(this.props.puzzle.id)
+    }
+  }
+
   ///////
 
   render() {
@@ -152,14 +169,23 @@ class SolvePage extends Component {
             <Container id="puz-sizer">
               <Header as="h2" id="puz-title">{puzzle && puzzle.title}</Header>
               <Header as="h4" id="puz-author">by {puzzle && `${puzzle.constructor.first_name} ${puzzle.constructor.last_name}`}</Header>
-              <Button
-                icon
-                id="timer-button"
-                color="black"
-                disabled={this.props.gameStatus === "review" ? true : false}
-                onClick={() => this.handleTimerClick()}
-                labelPosition="right"
-              ><span id="puz-timer">00:00:00</span><Icon name="pause"/></Button>
+              <span>
+                <Button
+                  icon
+                  id="timer-button"
+                  color="black"
+                  disabled={this.props.gameStatus === "review" ? true : false}
+                  onClick={() => this.handleTimerClick()}
+                  labelPosition="right"
+                ><span id="puz-timer">00:00:00</span><Icon name="pause"/></Button>
+
+                {this.favorited() ? (
+                  <Button color="black" id="fav-bar-solve" onClick={this.handleFavClick}><Icon color="red" name="heart"/>{this.props.favorites.length} {this.props.favorites.length === 1 ? "favorite" : "favorites"}</Button>
+                ) : (
+                  <Button color="black" id="fav-bar-solve" onClick={this.handleFavClick}><Icon color="red" name="heart outline"/>{this.props.favorites.length} {this.props.favorites.length === 1 ? "favorite" : "favorites"}</Button>
+                )}
+
+              </span>
               <Puzzle
                 key={puzzle && puzzle.id}
                 puzzle={puzzle}
@@ -213,8 +239,10 @@ const mapStateToProps = (state, ownProps) => {
     enteredLetters: state.enteredLetters,
     gameStatus: state.gameStatus,
     user: state.currentUser,
-    paused: state.paused
+    paused: state.paused,
+    userFavorites: state.userFavorites,
+    favorites: state.puzzleFavorites
   }
 }
 
-export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer })(SolvePage)
+export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites })(SolvePage)
