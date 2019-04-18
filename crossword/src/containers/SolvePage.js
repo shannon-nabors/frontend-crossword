@@ -94,7 +94,7 @@ class SolvePage extends Component {
 
     if (this.props.enteredLetters[nextID]) {
       // next = cells.find(cell => cell.id === nextID + 1)
-      next = findWord(next).find(cell => cell.id > nextID)
+      next = this.findWord(next).find(cell => cell.id > nextID)
     }
 
     return next
