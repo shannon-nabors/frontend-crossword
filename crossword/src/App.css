@@ -41,20 +41,60 @@ body {
   margin-top: 10vh;
 }
 
+#form-area .header {
+  font-family: 'Nunito', sans-serif;
+}
+
+#form-area .button {
+  font-family: 'Nunito', sans-serif;
+}
+
 /* Home page */
 #welcome {
   width: 40vw;
+  margin-top: 5vh;
 }
 
-#card-image {
-  height: 250px;
+.home-card {
+  background-color: white;
+  padding: 1em;
+  text-align: center;
+  border-radius: 5px;
+  margin-top: 20px;
+  height: 150px;
+  transition: transform 100ms;
+  color: #1b1c1d;
+}
+
+.home-card:hover {
+  transform: translate(1px, -3px);
+  color: #1b1c1d;
+}
+
+.home-card h2 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: lighter;
+  margin-bottom: 5px;
+  color: #1b1c1d;
+}
+
+.home-card h1 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: lighter;
+  margin-bottom: 15px;
+  color: #1b1c1d;
+}
+
+#middle-card {
+  margin-top: 0px;
+  height: 190px;
 }
 
 /* Solve menu */
 #puz-card {
-  /* box-shadow: none; */
+  box-shadow: none;
   font-weight: bold;
-  /* background-color: #FFA414; */
+  background-color: #E6E4E3;
   font-family: 'Nunito', sans-serif;
 }
 
@@ -76,6 +116,10 @@ body {
   background-color: white;
 }
 
+#grid-sizer-form .header {
+  font-family: 'Nunito', sans-serif;
+}
+
 #size-dropdown {
   margin-bottom: 1.5em;
 }
@@ -84,8 +128,16 @@ body {
   width: 70vh;
 }
 
+#shade-sizer .header {
+  font-family: 'Nunito', sans-serif;
+}
+
 #shade-sizer div {
   margin-bottom: 1em;
+}
+
+#enter-header {
+  font-family: 'Nunito', sans-serif;
 }
 
 #enter-form {
@@ -94,6 +146,10 @@ body {
 
 #enter-sizer {
   width: 50vh;
+}
+
+h4 {
+  font-family: 'Nunito', sans-serif;
 }
 
 /* Puzzle pages */
@@ -217,4 +273,5 @@ body {
 
 #no-puzzles {
   padding-top: 20vh;
+  font-family: 'Nunito', sans-serif;
 }

@@ -126,6 +126,7 @@ class EnterPage extends Component {
         <Container>
           <Header
             as="h2"
+            id="enter-header"
             attached="top">
             Step 3: Enter your letters and clues
           </Header>

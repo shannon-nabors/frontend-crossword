@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Container, Card, Image, Icon } from 'semantic-ui-react'
+import { Container, Grid, Icon, Item } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchingGuestPuzzles } from '../redux/actions/changePuzzles'
@@ -8,6 +8,8 @@ import WelcomeLogo from '../components/WelcomeLogo'
 class HomePage extends Component {
 
   render() {
+    let { user } = this.props
+
     return(
       <Fragment>
         <Container id="welcome">
@@ -16,28 +18,29 @@ class HomePage extends Component {
         <br/>
 
         <br/>
-        <Card.Group centered>
-          <Card
-            as={ Link }
-            to={ this.props.user.name ? "/create" : "/home"}
-          >
-            <Card.Content>
-              <Card.Header textAlign="center"
-              id="puz-card-title">CREATE A PUZZLE</Card.Header>
-              <Card.Description>Have a crossword you've written?  Want to share it with your friends?  Enter and host your puzzle here so others on the site can solve it!</Card.Description>
-            </Card.Content>
-          </Card>
-          <Card
-            as={ Link }
-            to="/solve"
-          >
-            <Card.Content>
-              <Card.Header textAlign="center" id="puz-card-title">SOLVE PUZZLES</Card.Header>
-              <Card.Description>Solve crossword puzzles that have been created by other users on the site.</Card.Description>
-            </Card.Content>
-          </Card>
 
-        </Card.Group>
+        <Container>
+          <Grid columns={3}>
+            <Grid.Column>
+              <Container as={ Link } to="/create" className="home-card">
+                <h2>CREATE</h2>
+                Have a crossword you've written?  Want to share it with your friends?  Enter and host your puzzle here so others on the site can solve it!
+              </Container>
+            </Grid.Column>
+            <Grid.Column>
+              <Container as={ Link } to="/profile" className="home-card" id="middle-card">
+                <h1>Hi {user.first_name}!</h1>
+                See your published and solved puzzles on your profile.
+              </Container>
+            </Grid.Column>
+            <Grid.Column>
+              <Container as={ Link } to="/solve" className="home-card">
+                <h2>SOLVE</h2>
+                Solve crossword puzzles that have been created by other users on the site, and choose your favorites to recommend to other solvers.
+              </Container>
+            </Grid.Column>
+          </Grid>
+        </Container>
       </Fragment>
     )
   }
