@@ -45,6 +45,7 @@ class SolvePage extends Component {
     this.props.deselectCell()
   }
 
+  // Handle timer
   incrementTimer(e) {
     document.querySelector('#puz-timer').innerText = (timer.getTimeValues().toString())
   }
@@ -93,7 +94,6 @@ class SolvePage extends Component {
     let nextID = next.id
 
     if (this.props.enteredLetters[nextID]) {
-      // next = cells.find(cell => cell.id === nextID + 1)
       next = this.findWord(next).find(cell => !this.props.enteredLetters[cell.id])
       if (!next) {
         return sel
@@ -107,16 +107,7 @@ class SolvePage extends Component {
     let sel = this.props.selectedCell
     let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id)
     let next = this.findWord(sel).find(c => c.id > sel.id)
-    // console.log("next:", next.id, next.letter, "next word:", this.findNextWordStart().id, this.findNextWordStart().letter)
-    // if (!this.props.puzzle.cells.find(c => c.id > sel.id)) {
-    //   return sel
-    // }
 
-    // let start = this.findWord(sel)[0]
-    // while (this.props.enteredLetters[start.id]) {
-    //   start = cells.find(cell => cell.id === start.id + 1)
-    // }
-    // return next ? next : start
     return next ? next : sel
   }
 
@@ -129,21 +120,32 @@ class SolvePage extends Component {
   // Enter letters into puzzle
   handleKeyPress = (event) => {
     let sel = this.props.selectedCell
+    let entered = this.props.enteredLetters
+    let { setKey, selectCell, solvingPuzzle,
+          puzzle, user, changeGameStatus } = this.props
+
     if (event.key === "Backspace") {
-      this.props.setKey(sel.id, null)
-      this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord(sel))
-    } else if (event.key === "Tab"){
-      this.props.selectCell(this.findNextWordStart(), this.findWord(this.findNextWordStart()))
+      setKey(sel.id, null)
+      selectCell(this.shiftSelectedCellBackward(),
+                 this.findWord( sel ))
+
+    } else if (event.key === "Tab") {
+      selectCell(this.findNextWordStart(),
+                 this.findWord( this.findNextWordStart() ))
+
     } else if (event.key.length === 1) {
-      this.props.setKey(sel.id, event.key.toUpperCase())
-      this.props.selectCell(this.shiftSelectedCellForward(), this.findWord(sel))
+      setKey(sel.id, event.key.toUpperCase())
+      selectCell(this.shiftSelectedCellForward(),
+                 this.findWord( sel ))
     }
-    if (isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)) {
-      this.props.changeGameStatus("won")
-      this.props.solvingPuzzle(this.props.user.id, this.props.puzzle.id, timer.getTotalTimeValues().seconds)
+
+    if (isEqual(this.props.enteredLetters, puzzle.correct_letters)) {
+      changeGameStatus("won")
+      solvingPuzzle(user.id, puzzle.id, timer.getTotalTimeValues().seconds)
       document.removeEventListener("keydown", this.handleKeyPress)
-    } else if (size(this.props.enteredLetters) === size(this.props.puzzle.correct_letters) && !values(this.props.enteredLetters).includes(null)) {
-      this.props.changeGameStatus("completed incorrectly")
+      
+    } else if (size(this.props.enteredLetters) === size(puzzle.correct_letters) && !values(this.props.enteredLetters).includes(null)) {
+      changeGameStatus("completed incorrectly")
     }
   }
 
