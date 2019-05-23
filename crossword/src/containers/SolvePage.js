@@ -7,6 +7,7 @@ import { Timer } from 'easytimer.js'
 import { setKey,
          selectCell,
          deselectCell,
+         selectClue,
          resetAllLetters,
          toggleDirection } from '../redux/actions/puzzleInteraction'
 import { solvingPuzzle,
@@ -159,12 +160,16 @@ class SolvePage extends Component {
   // Select word from clue click
   handleClueClick = (clue) => {
     let sel = this.props.puzzle.cells.find(cell => cell.number === clue.number)
-    if (this.props.direction !== clue.direction) {
-      this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
-      this.props.toggleDirection(this.findNewDirectionWord(sel, clue.direction))
-    } else {
-      this.props.selectCell(sel, this.findWord(sel))
-    }
+    this.props.selectClue(clue)
+    this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
+
+    // if (this.props.direction !== clue.direction) {
+    //   this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
+    //   this.props.toggleDirection(this.findNewDirectionWord(sel, clue.direction))
+    // } else {
+    //   this.props.selectCell(sel, this.findWord(sel))
+    // }
+
   }
 
   favorited() {
@@ -224,6 +229,7 @@ class SolvePage extends Component {
             <Segment id ="clue-box">
               { puzzle && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <p key={c && c.id}
+                   id={`clue-${c.id}`}
                    onClick={() => this.handleClueClick(c)}>
                 <span className="clue-number">{c.number}</span> {c.content}</p>
               ))}
@@ -235,6 +241,7 @@ class SolvePage extends Component {
             <Segment id ="clue-box">
               { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <p key={c && c.id}
+                   id={`clue-${c.id}`}
                    onClick={() => this.handleClueClick(c)}>
                 <span className="clue-number">{c.number}</span> {c.content}</p>
               ))}
@@ -272,4 +279,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleDirection })(SolvePage)
+export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleDirection, selectClue })(SolvePage)
