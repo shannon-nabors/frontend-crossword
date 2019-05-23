@@ -7,7 +7,8 @@ import { Timer } from 'easytimer.js'
 import { setKey,
          selectCell,
          deselectCell,
-         resetAllLetters } from '../redux/actions/puzzleInteraction'
+         resetAllLetters,
+         toggleDirection } from '../redux/actions/puzzleInteraction'
 import { solvingPuzzle,
          changeGameStatus,
          handleTimer } from '../redux/actions/solvePuzzle'
@@ -160,6 +161,7 @@ class SolvePage extends Component {
     let sel = this.props.puzzle.cells.find(cell => cell.number === clue.number)
     if (this.props.direction !== clue.direction) {
       this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
+      this.props.toggleDirection(this.findNewDirectionWord(sel, clue.direction))
     } else {
       this.props.selectCell(sel, this.findWord(sel))
     }
@@ -270,4 +272,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites })(SolvePage)
+export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleDirection })(SolvePage)
