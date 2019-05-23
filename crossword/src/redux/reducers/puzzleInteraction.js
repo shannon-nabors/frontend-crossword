@@ -15,6 +15,8 @@ const selectClueReducer = (state = null, action) => {
       return action.clue
     case "SELECT_CELL":
       return action.cell.clues.find(clue => clue.direction === action.direction)
+    case "TOGGLE_DIRECTION":
+      return action.selectedCell.clues.find(clue => clue.direction !== action.direction)
     case "DESELECT_CLUE":
       return null
     default:
