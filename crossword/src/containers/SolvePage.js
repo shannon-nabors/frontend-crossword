@@ -76,6 +76,12 @@ class SolvePage extends Component {
     return word.sort((a, b) => a.id - b.id)
   }
 
+  findNewDirectionWord(ce, dir) {
+    let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (ce.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down")).id))
+
+    return word.sort((a, b) => a.id - b.id)
+  }
+
 
 
   findNextWordStart() {
@@ -152,7 +158,11 @@ class SolvePage extends Component {
   // Select word from clue click
   handleClueClick = (clue) => {
     let sel = this.props.puzzle.cells.find(cell => cell.number === clue.number)
-    this.props.selectCell(sel, this.findWord(sel))
+    if (this.props.direction !== clue.direction) {
+      this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
+    } else {
+      this.props.selectCell(sel, this.findWord(sel))
+    }
   }
 
   favorited() {
