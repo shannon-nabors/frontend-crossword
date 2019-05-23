@@ -143,10 +143,16 @@ class SolvePage extends Component {
       changeGameStatus("won")
       solvingPuzzle(user.id, puzzle.id, timer.getTotalTimeValues().seconds)
       document.removeEventListener("keydown", this.handleKeyPress)
-      
+
     } else if (size(this.props.enteredLetters) === size(puzzle.correct_letters) && !values(this.props.enteredLetters).includes(null)) {
       changeGameStatus("completed incorrectly")
     }
+  }
+
+  // Select word from clue click
+  handleClueClick = (clue) => {
+    let sel = this.props.puzzle.cells.find(cell => cell.number === clue.number)
+    this.props.selectCell(sel, this.findWord(sel))
   }
 
   favorited() {
@@ -205,7 +211,9 @@ class SolvePage extends Component {
             <h4>Across</h4>
             <Segment id ="clue-box">
               { puzzle && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
-                <p key={c && c.id}><span className="clue-number">{c.number}</span> {c.content}</p>
+                <p key={c && c.id}
+                   onClick={() => this.handleClueClick(c)}>
+                <span className="clue-number">{c.number}</span> {c.content}</p>
               ))}
             </Segment>
           </Grid.Column>
@@ -214,7 +222,9 @@ class SolvePage extends Component {
             <h4>Down</h4>
             <Segment id ="clue-box">
               { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
-                <p key={c && c.id}><span className="clue-number">{c.number}</span> {c.content}</p>
+                <p key={c && c.id}
+                   onClick={() => this.handleClueClick(c)}>
+                <span className="clue-number">{c.number}</span> {c.content}</p>
               ))}
             </Segment>
           </Grid.Column>
