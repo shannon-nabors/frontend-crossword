@@ -161,15 +161,8 @@ class SolvePage extends Component {
   handleClueClick = (clue) => {
     let sel = this.props.puzzle.cells.find(cell => cell.number === clue.number)
     this.props.selectClue(clue)
+    // below is a temp. workaround for delay w/toggling dir.
     this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
-
-    // if (this.props.direction !== clue.direction) {
-    //   this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
-    //   this.props.toggleDirection(this.findNewDirectionWord(sel, clue.direction))
-    // } else {
-    //   this.props.selectCell(sel, this.findWord(sel))
-    // }
-
   }
 
   favorited() {
@@ -230,6 +223,7 @@ class SolvePage extends Component {
               { puzzle && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <p key={c && c.id}
                    id={`clue-${c.id}`}
+                   style={{backgroundColor: this.props.clue && this.props.clue.id === c.id ? "#FFC368" : "#FFFFFF"}}
                    onClick={() => this.handleClueClick(c)}>
                 <span className="clue-number">{c.number}</span> {c.content}</p>
               ))}
@@ -242,6 +236,7 @@ class SolvePage extends Component {
               { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <p key={c && c.id}
                    id={`clue-${c.id}`}
+                   style={{backgroundColor: this.props.clue && this.props.clue.id === c.id ? "#FFC368" : "#FFFFFF"}}
                    onClick={() => this.handleClueClick(c)}>
                 <span className="clue-number">{c.number}</span> {c.content}</p>
               ))}
@@ -275,7 +270,8 @@ const mapStateToProps = (state, ownProps) => {
     user: state.currentUser,
     paused: state.paused,
     userFavorites: state.userFavorites,
-    favorites: state.puzzleFavorites
+    favorites: state.puzzleFavorites,
+    clue: state.selectedClue
   }
 }
 
