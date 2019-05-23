@@ -13,6 +13,8 @@ const selectClueReducer = (state = null, action) => {
   switch (action.type) {
     case "SELECT_CLUE":
       return action.clue
+    case "SELECT_CELL":
+      return action.cell.clues.find(clue => clue.direction === action.direction)
     case "DESELECT_CLUE":
       return null
     default:
