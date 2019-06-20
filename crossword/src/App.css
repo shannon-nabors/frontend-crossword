@@ -125,8 +125,17 @@ body {
   margin-bottom: 1.5em;
 }
 
+#shade-header {
+  width: 100vh;
+  margin-bottom: 1em;
+}
+
+#form-toggler {
+  margin-bottom: 1em;
+}
+
 #shade-sizer {
-  width: 70vh;
+  width: 55vh;
 }
 
 #shade-sizer .header {

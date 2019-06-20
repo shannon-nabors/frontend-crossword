@@ -4,7 +4,8 @@ import { loadingReducer,
          unsolvedPuzzlesReducer,
          userPuzzlesReducer } from './changePuzzles'
 import { formStageReducer,
-         newPuzzleReducer } from './createPuzzle'
+         newPuzzleReducer,
+         interactionTypeReducer } from './createPuzzle'
 import { selectCellReducer,
          directionReducer,
          highlightCellReducer,
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   enteredLetters: keyReducer,
   gameStatus: gameStatusReducer,
   formStage: formStageReducer,
+  interactionType: interactionTypeReducer,
   newPuzzle: newPuzzleReducer,
   currentUser: currentUserReducer,
   loggedIn: loggedInReducer,

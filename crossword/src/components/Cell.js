@@ -24,14 +24,12 @@ class Cell extends Component {
 
   handleClick() {
     let cell = this.props.cell
-    console.log('cell clicked')
     if (this.props.editable) {
       if (cell.shaded) {
         return
       } else if (cell === this.props.selected) {
         this.props.direction === "across" ? this.props.toggleDirection(this.fellow_down()) : this.props.toggleDirection(this.fellow_across())
       } else {
-        console.log('selecting cell from handleClick')
         this.props.direction === "across" ? this.props.selectCell(cell, this.fellow_across()) : this.props.selectCell(cell, this.fellow_down())
       }
     } else if (this.props.shadeable) {

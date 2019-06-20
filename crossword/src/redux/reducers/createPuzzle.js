@@ -7,6 +7,15 @@ const formStageReducer = (state = null, action) => {
   }
 }
 
+const interactionTypeReducer = (state = null, action) => {
+  switch (action.type) {
+    case "TOGGLE_INTERACTION_TYPE":
+      return action.interactionType
+    default:
+      return state
+  }
+}
+
 const newPuzzleReducer = (state = {}, action) => {
   switch (action.type) {
     case "SET_NEW_PUZZLE_SIZE":
@@ -31,4 +40,5 @@ const newPuzzleReducer = (state = {}, action) => {
 }
 
 export { formStageReducer,
-         newPuzzleReducer }
+         newPuzzleReducer,
+         interactionTypeReducer }

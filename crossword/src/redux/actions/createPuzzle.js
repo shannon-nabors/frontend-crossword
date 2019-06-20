@@ -60,7 +60,12 @@ function updatingPuzzle(str) {
   }
 }
 
-// Step 2: shade in squares
+// Step 2: shade in squares, enter letters
+function toggleInteractionType(interactionType) {
+  return {type: "TOGGLE_INTERACTION_TYPE",
+          interactionType: interactionType}
+}
+
 function toggleShade(cellID) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
@@ -76,7 +81,6 @@ function toggleShade(cellID) {
   }
 }
 
-// Step 3: enter letters and clues
 function setLetters() {
   return (dispatch, getState) => {
     const { newPuzzle, enteredLetters } = getState()
@@ -133,6 +137,7 @@ export { setFormStage,
          updatedPuzzle,
          postingPuzzle,
          updatingPuzzle,
+         toggleInteractionType,
          toggleShade,
          setLetters,
          updateAcrossClue,
