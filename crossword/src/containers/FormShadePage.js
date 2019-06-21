@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { Container, Dimmer, Loader,
          Header, Segment, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { size, values } from 'lodash'
 import { updatingPuzzle,
          setLetters,
          toggleInteractionType,
@@ -109,27 +108,6 @@ class ShadePage extends Component {
     }
 
     return next
-  }
-
-  checkForCompletion() {
-    let letterCells = this.props.puzzle.cells.filter(c => c.shaded === false)
-    if (!this.props.puzzle.title) {
-      return false
-    } else if (values(this.props.enteredLetters).includes(null)) {
-      return false
-    } else if (size(this.props.enteredLetters) !== letterCells.length) {
-      console.log("entered: ", this.props.enteredLetters)
-      console.log("size", size(this.props.enteredLetters))
-      console.log("total: ", letterCells)
-      console.log("size: ", letterCells.length)
-      return false
-    } else if (this.props.puzzle.across_clues.find(cl => cl.content === null)) {
-      return false
-    } else if (this.props.puzzle.down_clues.find(cl => cl.content === null)) {
-      return false
-    } else {
-      return true
-    }
   }
 
   render() {
