@@ -73,7 +73,7 @@ class Cell extends Component {
           textAnchor="middle"
           fontSize="15.33"
           fill="#1b1c1d"
-        >{ this.props.answers? cell.letter : this.props.enteredLetters[cell.id] }</text>
+        >{ this.props.answers ? cell.letter : this.props.enteredLetters[cell.id] }</text>
       </g>
     )
   }

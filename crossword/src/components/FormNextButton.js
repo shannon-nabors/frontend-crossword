@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { size, values } from 'lodash'
 import { setFormStage,
          postingPuzzle,
-         updatingPuzzle } from '../redux/actions/createPuzzle'
+         updatingPuzzle,
+         setLetters } from '../redux/actions/createPuzzle'
 
 class NextButton extends Component {
   state = {
@@ -28,6 +29,7 @@ class NextButton extends Component {
         } else if (size(this.props.enteredLetters) !== letterCells.length) {
           this.setState({failed: true})
         } else {
+          this.props.setLetters()
           this.props.updatingPuzzle("setup")
           this.props.setFormStage("enter")
         }
@@ -74,4 +76,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { setFormStage, postingPuzzle, updatingPuzzle })(NextButton)
+export default connect(mapStateToProps, { setFormStage, postingPuzzle, updatingPuzzle, setLetters })(NextButton)
