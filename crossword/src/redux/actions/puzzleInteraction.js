@@ -19,6 +19,21 @@ function deselectCell() {
   return { type: "DESELECT_CELL" }
 }
 
+// select and deselect active clue
+function selectClue(clue) {
+  return (dispatch) => {
+    dispatch({
+      type: "SELECT_CLUE",
+      direction: clue.direction,
+      clue: clue
+    })
+  }
+}
+
+function deselectClue() {
+  return { type: "DESELECT_CLUE" }
+}
+
 // change direction on second click
 function toggleDirection(fellows) {
   return (dispatch, getState) => {
@@ -47,5 +62,7 @@ export { selectCell,
          deselectCell,
          toggleDirection,
          setKey,
-         resetAllLetters
+         resetAllLetters,
+         selectClue,
+         deselectClue
        }

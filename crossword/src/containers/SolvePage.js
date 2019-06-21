@@ -7,7 +7,9 @@ import { Timer } from 'easytimer.js'
 import { setKey,
          selectCell,
          deselectCell,
-         resetAllLetters } from '../redux/actions/puzzleInteraction'
+         selectClue,
+         resetAllLetters,
+         toggleDirection } from '../redux/actions/puzzleInteraction'
 import { toggleInteractionType } from '../redux/actions/createPuzzle.js'
 import { solvingPuzzle,
          changeGameStatus,
@@ -74,6 +76,12 @@ class SolvePage extends Component {
   // Navigate within across or down word
   findWord(ce) {
     let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (ce.clues.find(c => this.props.direction === "across" ? c.direction === "across" : c.direction === "down")).id))
+
+    return word.sort((a, b) => a.id - b.id)
+  }
+
+  findNewDirectionWord(ce, dir) {
+    let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (ce.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down")).id))
 
     return word.sort((a, b) => a.id - b.id)
   }
@@ -154,7 +162,9 @@ class SolvePage extends Component {
   // Select word from clue click
   handleClueClick = (clue) => {
     let sel = this.props.puzzle.cells.find(cell => cell.number === clue.number)
-    this.props.selectCell(sel, this.findWord(sel))
+    this.props.selectClue(clue)
+    // below is a temp. workaround for delay w/toggling dir.
+    this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
   }
 
   favorited() {
@@ -214,6 +224,8 @@ class SolvePage extends Component {
             <Segment id ="clue-box">
               { puzzle && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <p key={c && c.id}
+                   id={`clue-${c.id}`}
+                   style={{backgroundColor: this.props.clue && this.props.clue.id === c.id ? "#FFC368" : "#FFFFFF"}}
                    onClick={() => this.handleClueClick(c)}>
                 <span className="clue-number">{c.number}</span> {c.content}</p>
               ))}
@@ -225,6 +237,8 @@ class SolvePage extends Component {
             <Segment id ="clue-box">
               { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <p key={c && c.id}
+                   id={`clue-${c.id}`}
+                   style={{backgroundColor: this.props.clue && this.props.clue.id === c.id ? "#FFC368" : "#FFFFFF"}}
                    onClick={() => this.handleClueClick(c)}>
                 <span className="clue-number">{c.number}</span> {c.content}</p>
               ))}
@@ -258,8 +272,9 @@ const mapStateToProps = (state, ownProps) => {
     user: state.currentUser,
     paused: state.paused,
     userFavorites: state.userFavorites,
-    favorites: state.puzzleFavorites
+    favorites: state.puzzleFavorites,
+    clue: state.selectedClue
   }
 }
 
-export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleInteractionType })(SolvePage)
+export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleInteractionType, toggleDirection, selectClue })(SolvePage)
