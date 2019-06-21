@@ -22,6 +22,7 @@ class ShadePage extends Component {
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress)
+    this.props.toggleInteractionType("shade")
   }
 
   componentWillUnmount() {
@@ -33,9 +34,10 @@ class ShadePage extends Component {
 
   handleInteractionChange(interactionType) {
     this.props.toggleInteractionType(interactionType)
-    if (interactionType === "letter") {
+    if (interactionType === "letter" && this.props.interaction !== "letter") {
       this.props.updatingPuzzle("setup")
-    } else if (interactionType === "shade") {
+    } else if (interactionType === "shade" && this.props.interaction !== "shade") {
+      this.props.deselectCell()
       this.props.updatingPuzzle("enter")
     }
   }
@@ -147,9 +149,11 @@ class ShadePage extends Component {
         <Container textAlign="center" id="form-toggler">
           <Button.Group color="black">
             <Button
+              active={this.props.interaction === "shade"}
               onClick={() => this.handleInteractionChange("shade")}
             >Shade</Button>
             <Button
+              active={this.props.interaction === "letter"}
               onClick={ () => this.handleInteractionChange("letter")}
             >Letter</Button>
           </Button.Group>

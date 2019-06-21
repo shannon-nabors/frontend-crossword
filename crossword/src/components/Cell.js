@@ -24,7 +24,7 @@ class Cell extends Component {
 
   handleClick() {
     let cell = this.props.cell
-    if (this.props.editable) {
+    if (this.props.editable || this.props.interaction === "letter") {
       if (cell.shaded) {
         return
       } else if (cell === this.props.selected) {
@@ -84,7 +84,8 @@ const mapStateToProps = (state) => {
     selected: state.selectedCell,
     highlighted: state.highlightedCells,
     enteredLetters: state.enteredLetters,
-    direction: state.direction
+    direction: state.direction,
+    interaction: state.interactionType
   }
 }
 

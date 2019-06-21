@@ -8,6 +8,7 @@ import { setKey,
          selectCell,
          deselectCell,
          resetAllLetters } from '../redux/actions/puzzleInteraction'
+import { toggleInteractionType } from '../redux/actions/createPuzzle.js'
 import { solvingPuzzle,
          changeGameStatus,
          handleTimer } from '../redux/actions/solvePuzzle'
@@ -28,6 +29,7 @@ class SolvePage extends Component {
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress)
     this.props.changeGameStatus("in progress")
+    this.props.toggleInteractionType("letter")
     this.props.getFavorites("puzzle", this.props.puzzle.id)
     timer.start()
     timer.addEventListener('secondsUpdated', this.incrementTimer)
@@ -260,4 +262,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites })(SolvePage)
+export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleInteractionType })(SolvePage)
