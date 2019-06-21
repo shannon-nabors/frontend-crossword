@@ -53,9 +53,9 @@ function updatingPuzzle(str) {
     .then(res => res.json())
     .then(puzzle => {
       dispatch(updatedPuzzle(puzzle))
-      if (str === "enter") {
-        dispatch(clearNewPuzzle())
-      }
+      // if (str === "enter") {
+      //   dispatch(clearNewPuzzle())
+      // }
     })
   }
 }
