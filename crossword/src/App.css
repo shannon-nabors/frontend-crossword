@@ -158,6 +158,10 @@ body {
   width: 50vh;
 }
 
+#selected-clue {
+  border: 3px solid #FFC368;
+}
+
 h4 {
   font-family: 'Nunito', sans-serif;
 }

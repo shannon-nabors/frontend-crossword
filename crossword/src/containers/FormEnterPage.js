@@ -16,7 +16,9 @@ import { updatingPuzzle,
 import { selectCell,
          deselectCell,
          setKey,
-         resetAllLetters } from '../redux/actions/puzzleInteraction.js'
+         resetAllLetters,
+         selectClue,
+         toggleDirection } from '../redux/actions/puzzleInteraction.js'
 import Puzzle from './Puzzle'
 
 class EnterPage extends Component {
@@ -42,60 +44,19 @@ class EnterPage extends Component {
     return word.sort((a, b) => a.id - b.id)
   }
 
-  // shiftSelectedCellForward() {
-  //   let sel = this.props.selectedCell
-  //   let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id)
-  //   let next = this.findWord(sel).find(c => c.id > sel.id)
-  //   return next ? next : sel
-  //   // return this.findWord().find(c => c.id > this.props.selectedCell.id) ? this.findWord().find(c => c.id > this.props.selectedCell.id) : this.props.selectedCell
-  // }
+  findNewDirectionWord(ce, dir) {
+    let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (ce.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down")).id))
 
-  // shiftSelectedCellBackward() {
-  //   let sel = this.props.selectedCell
-  //   let previousLetters = this.findWord(sel).filter(c => c.id < this.props.selectedCell.id)
-  //   return this.findWord(sel).find(c => c.id < this.props.selectedCell.id) ? previousLetters[previousLetters.length - 1]: this.props.selectedCell
-  // }
+    return word.sort((a, b) => a.id - b.id)
+  }
 
-  // handleKeyPress = (event) => {
-  //   let sel = this.props.selectedCell
-  //   if (this.props.selectedCell && document.activeElement.type !== "text") {
-  //     if (event.key === "Backspace") {
-  //       this.props.setKey(this.props.selectedCell.id, null)
-  //       this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord(sel))
-  //     } else if (event.key === "Tab"){
-  //       this.props.selectCell(this.findNextWordStart(), this.findWord(this.findNextWordStart()))
-  //     } else if (event.key.length === 1) {
-  //       this.props.setKey(this.props.selectedCell.id, event.key.toUpperCase())
-  //       this.props.selectCell(this.shiftSelectedCellForward(), this.findWord(sel))
-  //     }
-  //   }
-  // }
-
-  // findNextWordStart() {
-  //   let dir = this.props.direction
-  //   let sel = this.props.selectedCell
-  //   let puz = this.props.puzzle
-  //   let cells = puz.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
-  //
-  //   let clue = (sel.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down").id)
-  //   let nextClue = (dir === "across" ? puz.across_clues.find(c => c.id > clue) : puz.down_clues.find(c => c.id > clue))
-  //
-  //   if (!nextClue) {
-  //     return sel
-  //   }
-  //   let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
-  //   let nextID = next.id
-  //
-  //   if (this.props.enteredLetters[nextID]) {
-  //     // next = cells.find(cell => cell.id === nextID + 1)
-  //     next = this.findWord(next).find(cell => !this.props.enteredLetters[cell.id])
-  //     if (!next) {
-  //       return sel
-  //     }
-  //   }
-  //
-  //   return next
-  // }
+  handleClueClick = (clue) => {
+    console.log("clicked")
+    let sel = this.props.puzzle.cells.find(cell => cell.number === clue.number)
+    this.props.selectClue(clue)
+    // below is a temp. workaround for delay w/toggling dir.
+    this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
+  }
 
   checkForCompletion() {
     let letterCells = this.props.puzzle.cells.filter(c => c.shaded === false)
@@ -202,6 +163,8 @@ class EnterPage extends Component {
                       label={c.number}
                       name={c.id}
                       onChange={this.handleAcrossChange}
+                      id={this.props.clue && this.props.clue.id === c.id && "selected-clue"}
+                      onClick={() => this.handleClueClick(c)}
                     >
                     </Form.Input>
                   ))}
@@ -217,6 +180,8 @@ class EnterPage extends Component {
                       label={c.number}
                       name={c.id}
                       onChange={this.handleDownChange}
+                      id={this.props.clue && this.props.clue.id === c.id && "selected-clue"}
+                      onClick={() => this.handleClueClick(c)}
                     >
                     </Form.Input>
                   ))}
@@ -241,8 +206,9 @@ const mapStateToProps = (state) => {
     selectedCell: state.selectedCell,
     direction: state.direction,
     loading: state.loading,
-    enteredLetters: state.enteredLetters
+    enteredLetters: state.enteredLetters,
+    clue: state.selectedClue
   }
 }
 
-export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updateTitle, updatingPuzzle, setFormStage, setKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle })(EnterPage)
+export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updateTitle, updatingPuzzle, setFormStage, setKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle, toggleDirection, selectClue })(EnterPage)
