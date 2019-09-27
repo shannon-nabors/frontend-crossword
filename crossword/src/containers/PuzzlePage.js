@@ -88,7 +88,7 @@ class PuzzlePage extends Component {
           </Grid.Column>
 
           <Grid.Column width={8}>
-            <Menu attached='top' tabular>
+            <Menu id="tab-menu" attached='top' tabular>
               <Menu.Item
                 name='Clues'
                 active={this.state.menu === "Clues"}

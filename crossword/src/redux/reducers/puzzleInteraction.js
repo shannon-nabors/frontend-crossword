@@ -9,10 +9,27 @@ const selectCellReducer = (state = null, action) => {
   }
 }
 
+const selectClueReducer = (state = null, action) => {
+  switch (action.type) {
+    case "SELECT_CLUE":
+      return action.clue
+    case "SELECT_CELL":
+      return action.cell.clues.find(clue => clue.direction === action.direction)
+    case "TOGGLE_DIRECTION":
+      return action.selectedCell.clues.find(clue => clue.direction !== action.direction)
+    case "DESELECT_CLUE":
+      return null
+    default:
+      return state
+  }
+}
+
 const directionReducer = (state = "across", action) => {
   switch (action.type) {
     case "TOGGLE_DIRECTION":
       return state === "across" ? "down" : "across"
+    case "SELECT_CLUE":
+      return action.direction
     default:
       return state
   }
@@ -51,6 +68,7 @@ const keyReducer = (state = {}, action) => {
 }
 
 export { selectCellReducer,
+         selectClueReducer,
          directionReducer,
          highlightCellReducer,
          keyReducer }

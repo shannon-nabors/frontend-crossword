@@ -6,6 +6,7 @@ import { loadingReducer,
 import { formStageReducer,
          newPuzzleReducer } from './createPuzzle'
 import { selectCellReducer,
+         selectClueReducer,
          directionReducer,
          highlightCellReducer,
          keyReducer } from './puzzleInteraction'
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   unsolvedPuzzles: unsolvedPuzzlesReducer,
   userPuzzles: userPuzzlesReducer,
   selectedCell: selectCellReducer,
+  selectedClue: selectClueReducer,
   direction: directionReducer,
   highlightedCells: highlightCellReducer,
   enteredLetters: keyReducer,
