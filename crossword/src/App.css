@@ -2,8 +2,11 @@ body {
   /* background-color: #00B273; */
   /* background-color: #f8aa9e; */
   /* background-color: #C2CBEB; */
-  background-color: #8B99A4;
-  font-family: 'Nunito', sans-serif;
+  /* background-color: #8B99A4; */
+  background-color: white;
+  /* font-family: 'Nunito', sans-serif; */
+  /* font-family: 'Playfair Display', serif; */
+  font-family: 'Crimson Text', serif;
 }
 
 #pages {
@@ -18,7 +21,10 @@ body {
 }
 
 #menu-item {
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  /* font-family: 'Playfair Display', serif; */
+  font-family: 'Crimson Text', serif;
+  font-weight: bold;
 }
 
 #navbar-logo {
@@ -42,11 +48,13 @@ body {
 }
 
 #form-area .header {
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
 }
 
 #form-area .button {
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
 }
 
 /* Home page */
@@ -72,14 +80,16 @@ body {
 }
 
 .home-card h2 {
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
   font-weight: lighter;
   margin-bottom: 15px;
   color: #1b1c1d;
 }
 
 .home-card h1 {
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
   font-weight: lighter;
   margin-bottom: 40px;
   color: #1b1c1d;
@@ -95,11 +105,13 @@ body {
   box-shadow: none;
   font-weight: bold;
   background-color: #E6E4E3;
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
 }
 
 #puz-card-title {
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
 }
 
 #extra-card-content {
@@ -117,7 +129,8 @@ body {
 }
 
 #grid-sizer-form .header {
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
 }
 
 #size-dropdown {
@@ -129,7 +142,8 @@ body {
 }
 
 #shade-sizer .header {
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
 }
 
 #shade-sizer div {
@@ -137,7 +151,8 @@ body {
 }
 
 #enter-header {
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
 }
 
 #enter-form {
@@ -148,8 +163,9 @@ body {
   width: 50vh;
 }
 
-h4 {
-  font-family: 'Nunito', sans-serif;
+h4, h5 {
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
 }
 
 /* Puzzle pages */
@@ -163,13 +179,15 @@ h4 {
 
 #puz-title {
   margin-bottom: 0px;
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Playfair Display', serif;
 }
 
 #puz-author {
   margin-top: 5px;
   margin-bottom: 10px;
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
 }
 
 .puz-header {
@@ -191,13 +209,16 @@ h4 {
 #fav-bar {
   padding: 7px 10px 6px 10px;
   margin-left: 10px;
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
   font-weight: lighter;
+  font-family: 'Crimson Text', serif;
+  background-color: black;
 }
 
 #fav-bar-solve {
   padding: 11px 10px 11px 10px;
   margin-left: 10px;
+  font-family: 'Crimson Text', serif;
 }
 
 .clue-number {
@@ -212,6 +233,7 @@ h4 {
 
 #timer-button {
   margin-bottom: 5px;
+  font-family: 'Crimson Text', serif;
 }
 
 #clue-box {
@@ -219,6 +241,7 @@ h4 {
   max-height: 78vh;
   margin-bottom: 15px;
   /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
 }
 
 #results-modal {
@@ -245,11 +268,13 @@ h4 {
 
 #resume-button {
   margin-top: 20px;
+  font-family: 'Crimson Text', serif;
 }
 
 #delete-button {
   margin-top: 5px;
   margin-bottom: 10px;
+  font-family: 'Crimson Text', serif;
 }
 
 #results-tag {
@@ -273,5 +298,9 @@ h4 {
 
 #no-puzzles {
   padding-top: 20vh;
-  font-family: 'Nunito', sans-serif;
+  /* font-family: 'Nunito', sans-serif; */
+  font-family: 'Crimson Text', serif;
+}
+#tab-menu {
+  font-family: 'Crimson Text', serif;
 }
