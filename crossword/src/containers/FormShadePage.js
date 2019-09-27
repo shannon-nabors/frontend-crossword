@@ -85,17 +85,28 @@ class ShadePage extends Component {
   }
 
   findNextWordStart() {
+    //Set variables
     let dir = this.props.direction
     let sel = this.props.selectedCell
     let puz = this.props.puzzle
+    //Get all cells, in order, only unshaded
     let cells = puz.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
 
+    //Set the clue (if current direction is across, it's the selected cell's across clue, and vice versa)
     let clue = (sel.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down").id)
+    //Using the puzzle's "across clues" and "down clues" arrays,
+    //Find the clue with the next greatest id from this one
     let nextClue = (dir === "across" ? puz.across_clues.find(c => c.id > clue) : puz.down_clues.find(c => c.id > clue))
-
+    // debugger
+    //If there's no next clue (if we're at the bottom of the puzzle)
+    //Just stay on the same cell
     if (!nextClue) {
       return sel
     }
+
+    // debugger
+    //If there is a next clue,
+    //Find the first cell that has it as one of its clues
     let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
     let nextID = next.id
 
@@ -163,6 +174,7 @@ const mapStateToProps = (state) => {
     direction: state.direction,
     selectedCell: state.selectedCell,
     interaction: state.interactionType,
+    enteredLetters: state.enteredLetters,
     loading: state.loading
   }
 }
