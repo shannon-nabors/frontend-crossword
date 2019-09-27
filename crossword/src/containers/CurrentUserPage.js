@@ -16,7 +16,7 @@ class CurrentUserPage extends Component {
   render() {
     return(
       <Container>
-        <Menu attached='top' tabular>
+        <Menu id="tab-menu" attached='top' tabular>
 
           <Menu.Item
             name='Published'
