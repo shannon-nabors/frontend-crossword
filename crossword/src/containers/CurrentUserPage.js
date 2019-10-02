@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Menu, Segment, Container } from 'semantic-ui-react'
+import { Grid, Menu, Segment, Container, Image } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import PuzzleContainer from './PuzzleContainer'
 import TimeChart from '../components/TimeCompareChart'
@@ -16,6 +16,21 @@ class CurrentUserPage extends Component {
   render() {
     return(
       <Container>
+        <Grid columns={2}>
+          <Grid.Row>
+          <Grid.Column width={3}>
+            <Image src={this.props.user.image} circular size="small"></Image>
+          </Grid.Column>
+          <Grid.Column width={13}>
+            <h4>About {this.props.user.first_name}</h4>
+            <p>{this.props.user.bio}</p>
+          </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <br></br>
+        <Container>
+          <h4>{this.props.user.first_name}'s Puzzles</h4>
+        </Container>
         <Menu id="tab-menu" attached='top' tabular>
 
           <Menu.Item
