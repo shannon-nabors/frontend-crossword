@@ -21,21 +21,24 @@ class ShadePage extends Component {
 
   componentDidMount() {
     document.addEventListener("keydown", this.handleKeyPress)
+    // Interaction type is automatically set to "shade" in state
     this.props.toggleInteractionType("shade")
   }
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyPress)
+    // 
     this.props.resetAllLetters()
+    // Reset selected cell in state
     this.props.deselectCell()
-    // this.props.setFormStage("size")
   }
 
-  handleInteractionChange(interactionType) {
-    this.props.toggleInteractionType(interactionType)
-    if (interactionType === "letter" && this.props.interaction !== "letter") {
+  handleInteractionChange(buttonType) {
+    // Set interaction type in state, depending on which button was clicked
+    this.props.toggleInteractionType(buttonType)
+    if (buttonType === "letter" && this.props.interaction !== "letter") {
       this.props.updatingPuzzle("setup")
-    } else if (interactionType === "shade" && this.props.interaction !== "shade") {
+    } else if (buttonType === "shade" && this.props.interaction !== "shade") {
       this.props.deselectCell()
       this.props.updatingPuzzle("enter")
     }
@@ -89,24 +92,26 @@ class ShadePage extends Component {
     let dir = this.props.direction
     let sel = this.props.selectedCell
     let puz = this.props.puzzle
-    //Get all cells, in order, only unshaded
+
+    //Get all cells, in order, only the unshaded ones
     let cells = puz.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
 
-    //Set the clue (if current direction is across, it's the selected cell's across clue, and vice versa)
+    // Set the clue (if current direction is across,
+    // it's the selected cell's across clue, and vice versa)
     let clue = (sel.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down").id)
-    //Using the puzzle's "across clues" and "down clues" arrays,
-    //Find the clue with the next greatest id from this one
+    
+    // Using the puzzle's "across clues" and "down clues" arrays,
+    // Find the clue with the next greatest id from this one
     let nextClue = (dir === "across" ? puz.across_clues.find(c => c.id > clue) : puz.down_clues.find(c => c.id > clue))
-    // debugger
-    //If there's no next clue (if we're at the bottom of the puzzle)
-    //Just stay on the same cell
+
+    // If there's no next clue (if we're at the bottom of the puzzle)
+    // Just stay on the same cell
     if (!nextClue) {
       return sel
     }
 
-    // debugger
-    //If there is a next clue,
-    //Find the first cell that has it as one of its clues
+    // If there is a next clue,
+    // Find the first cell that has it as one of its clues
     let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
     let nextID = next.id
 

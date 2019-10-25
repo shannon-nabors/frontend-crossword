@@ -1,5 +1,5 @@
 
-                         // EDIT/TYPE IN PUZZLE //
+/////////////////////////////// EDIT/TYPE IN PUZZLE ///////////////////////////////
 
 // select and deselect active cell
 function selectCell(cell, fellows) {
