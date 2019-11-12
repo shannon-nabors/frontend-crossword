@@ -136,13 +136,15 @@ class SolvePage extends Component {
     // Out of all the cells in the selected cell's current word
     let word = this.findWord(sel)
     // Find the one that has the next highest id from the selected cell's id
+    // As well as no associated entered letter -- i.e., the next blank cell
     let next = word.find(c => c.id > sel.id && !this.props.enteredLetters[c.id])
-    // Then return that next cell, if it exists
+    // If there are no more blank cells AFTER the selected cell in the current word
+    // Find the first blank cell in the word
+    if (!next) {
+      next = word.find(c => !this.props.enteredLetters[c.id])
+    }
+    // Then return the cell, or if neither exist, the current selected cell
     return next ? next : sel
-
-    // Return the next cell if it's blank
-    // Return the selected cell if there are no more blank cells in the word
-    // Return the next blank cell if neither of above are true
   }
 
   shiftSelectedCellBackward() {
