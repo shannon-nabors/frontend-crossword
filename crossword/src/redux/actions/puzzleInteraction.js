@@ -20,12 +20,10 @@ function deselectCell() {
 
 // select and deselect active clue
 function selectClue(clue) {
-  return (dispatch) => {
-    dispatch({
-      type: "SELECT_CLUE",
-      direction: clue.direction,
-      clue: clue
-    })
+  return {
+    type: "SELECT_CLUE",
+    direction: clue.direction,
+    clue: clue
   }
 }
 
