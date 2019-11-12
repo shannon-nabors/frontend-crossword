@@ -147,6 +147,7 @@ class SolvePage extends Component {
                  this.findWord( sel ))
 
     } else if (event.key === "Tab") {
+      event.preventDefault()
       selectCell(this.findNextWordStart(),
                  this.findWord( this.findNextWordStart() ))
 
