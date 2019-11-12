@@ -16,18 +16,7 @@ class CurrentUserPage extends Component {
   render() {
     return(
       <Container>
-        <Grid columns={2}>
-          <Grid.Row>
-          <Grid.Column width={3}>
-            <Image src={this.props.user.image} circular size="small"></Image>
-          </Grid.Column>
-          <Grid.Column width={13}>
-            <h4>About {this.props.user.first_name}</h4>
-            <p>{this.props.user.bio}</p>
-          </Grid.Column>
-          </Grid.Row>
-        </Grid>
-        <br></br>
+
         <Container>
           <h4>{this.props.user.first_name}'s Puzzles</h4>
         </Container>

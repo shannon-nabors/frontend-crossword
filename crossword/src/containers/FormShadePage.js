@@ -28,7 +28,7 @@ class ShadePage extends Component {
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyPress)
     // 
-    this.props.resetAllLetters()
+    // this.props.resetAllLetters()
     // Reset selected cell in state
     this.props.deselectCell()
   }
@@ -37,9 +37,11 @@ class ShadePage extends Component {
     // Set interaction type in state, depending on which button was clicked
     this.props.toggleInteractionType(buttonType)
     if (buttonType === "letter" && this.props.interaction !== "letter") {
+      // Setup is what re-shades and numbers the puzzle
       this.props.updatingPuzzle("setup")
     } else if (buttonType === "shade" && this.props.interaction !== "shade") {
       this.props.deselectCell()
+      // Enter is 
       this.props.updatingPuzzle("enter")
     }
   }

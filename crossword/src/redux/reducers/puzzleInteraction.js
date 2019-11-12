@@ -61,6 +61,7 @@ const keyReducer = (state = {}, action) => {
     case "SET_KEY":
       return {...state, [action.cellID]: action.pressedKey}
     case "RESET_ALL_LETTERS":
+      console.log('h')
       return {}
     default:
       return state

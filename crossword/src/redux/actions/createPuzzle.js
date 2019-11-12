@@ -67,7 +67,7 @@ function toggleShade(cellID) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
     let cell = newPuzzle.cells.find(c => c.id === cellID)
-    let toggledCell = {...cell, shaded: !cell.shaded}
+    let toggledCell = {...cell, shaded: !cell.shaded, number: null}
     let newCells = newPuzzle.cells.map(c => {
       return c.id === cellID ? toggledCell : c
     })

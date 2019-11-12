@@ -51,7 +51,6 @@ class EnterPage extends Component {
   }
 
   handleClueClick = (clue) => {
-    console.log("clicked")
     let sel = this.props.puzzle.cells.find(cell => cell.number === clue.number)
     this.props.selectClue(clue)
     // below is a temp. workaround for delay w/toggling dir.
@@ -163,7 +162,7 @@ class EnterPage extends Component {
                       label={c.number}
                       name={c.id}
                       onChange={this.handleAcrossChange}
-                      id={this.props.clue && this.props.clue.id === c.id && "selected-clue"}
+                      id={this.props.clue && this.props.clue.id === c.id ? "selected-clue" : null}
                       onClick={() => this.handleClueClick(c)}
                     >
                     </Form.Input>
@@ -180,7 +179,7 @@ class EnterPage extends Component {
                       label={c.number}
                       name={c.id}
                       onChange={this.handleDownChange}
-                      id={this.props.clue && this.props.clue.id === c.id && "selected-clue"}
+                      id={this.props.clue && this.props.clue.id === c.id ? "selected-clue" : null}
                       onClick={() => this.handleClueClick(c)}
                     >
                     </Form.Input>
