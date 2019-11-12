@@ -140,10 +140,10 @@ class SolvePage extends Component {
     let next = word.find(c => c.id > sel.id && !this.props.enteredLetters[c.id])
     // If there are no more blank cells AFTER the selected cell in the current word
     // Find the first blank cell in the word
-    if (!next) {
-      next = word.find(c => !this.props.enteredLetters[c.id])
-    }
-    // Then return the cell, or if neither exist, the current selected cell
+    if (!next) { next = word.find(c => !this.props.enteredLetters[c.id]) }
+    // If all the cells in the word are filled, the next cell in the word should be selected
+    if (!next) { next = word.find(c => c.id > sel.id) }
+    // If the selected cell is the last cell in the word, it should remain selected
     return next ? next : sel
   }
 
@@ -160,28 +160,43 @@ class SolvePage extends Component {
     let { setKey, selectCell, solvingPuzzle,
           puzzle, user, changeGameStatus } = this.props
 
+    // CASE: Backspace
     if (event.key === "Backspace") {
+      // If there's a letter in the current cell,
       if (entered[sel.id]){
+        // hitting backspace should just delete that letter.
         setKey(sel.id, null)
       } else {
+        // Otherwise, find the cell before this one,
         let back = this.shiftSelectedCellBackward()
+        // move back to that cell,
         selectCell(back, this.findWord( sel ))
+        // and delete that cell's entered letter
         setKey(back.id, null)
       }
+    // CASE: Tab
     } else if (event.key === "Tab") {
+      // Prevent tabbing from cycling focus throughout page (i.e. selecting address bar)
       event.preventDefault()
-      selectCell(this.findNextWordStart(),
-                 this.findWord( this.findNextWordStart() ))
-
+      // Find the cell that starts the next word
+      let nextWord = this.findNextWordStart()
+      // and select that cell
+      selectCell(nextWord, this.findWord( nextWord ))
+    // CASE: Letters
     } else if (event.key.length === 1) {
+      // Add the pressed letter to "enteredLetters" in state,
+      // with a key of the selected cell's id
       setKey(sel.id, event.key.toUpperCase())
-      selectCell(this.shiftSelectedCellForward(),
-                 this.findWord( sel ))
+      // Move forward to the next cell
+      selectCell(this.shiftSelectedCellForward(), this.findWord( sel ))
     }
 
+    // If the entered letter completes the puzzle
     if (isEqual(this.props.enteredLetters, puzzle.correct_letters)) {
       changeGameStatus("won")
+      // save their time
       solvingPuzzle(user.id, puzzle.id, timer.getTotalTimeValues().seconds)
+      // stop listening for keypresses
       document.removeEventListener("keydown", this.handleKeyPress)
 
     } else if (size(this.props.enteredLetters) === size(puzzle.correct_letters) && !values(this.props.enteredLetters).includes(null)) {

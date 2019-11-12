@@ -27,8 +27,7 @@ class ShadePage extends Component {
 
   componentWillUnmount() {
     document.removeEventListener("keydown", this.handleKeyPress)
-    // 
-    // this.props.resetAllLetters()
+    
     // Reset selected cell in state
     this.props.deselectCell()
   }
