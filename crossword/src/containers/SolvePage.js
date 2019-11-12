@@ -49,6 +49,13 @@ class SolvePage extends Component {
     this.props.deselectCell()
   }
 
+  componentDidUpdate(prevProps) {
+    if(prevProps.clue !== this.props.clue) {
+      let c = document.getElementById(`clue-${this.props.clue.id}`)
+      c.scrollIntoView(true)
+    }
+  }
+
   // Handle timer
   incrementTimer(e) {
     document.querySelector('#puz-timer').innerText = (timer.getTimeValues().toString())
@@ -163,6 +170,8 @@ class SolvePage extends Component {
   handleClueClick = (clue) => {
     let sel = this.props.puzzle.cells.find(cell => cell.number === clue.number)
     this.props.selectClue(clue)
+    let c = document.getElementById(`clue-${clue.id}`)
+    c.scrollIntoView(true)
     // below is a temp. workaround for delay w/toggling dir.
     this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
   }
