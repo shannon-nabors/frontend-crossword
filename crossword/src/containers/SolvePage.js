@@ -80,9 +80,17 @@ class SolvePage extends Component {
     return this.handleTimerClick
   }
 
-  // Navigate within across or down word
-  findWord(ce) {
-    let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (ce.clues.find(c => this.props.direction === "across" ? c.direction === "across" : c.direction === "down")).id))
+  // Find all cells in the same word as the specified cell
+  findWord(specifiedCell) {
+    // find all cells that share
+    let word = this.props.puzzle.cells.filter(cell => {
+      return cell.clues.find(clue => {
+        // the across or down clue associated with the specified cell
+        return clue.id === (specifiedCell.clues.find(c => {
+          return this.props.direction === "across" ? c.direction === "across" : c.direction === "down"
+        })).id
+      })
+    })
 
     return word.sort((a, b) => a.id - b.id)
   }
@@ -120,12 +128,21 @@ class SolvePage extends Component {
     return next
   }
 
+  // Returns the next cell after the current selected cell
   shiftSelectedCellForward() {
     let sel = this.props.selectedCell
-    let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id)
-    let next = this.findWord(sel).find(c => c.id > sel.id)
-
+    // Sort cells in order of id
+    this.props.puzzle.cells.sort((a, b) => a.id - b.id)
+    // Out of all the cells in the selected cell's current word
+    let word = this.findWord(sel)
+    // Find the one that has the next highest id from the selected cell's id
+    let next = word.find(c => c.id > sel.id && !this.props.enteredLetters[c.id])
+    // Then return that next cell, if it exists
     return next ? next : sel
+
+    // Return the next cell if it's blank
+    // Return the selected cell if there are no more blank cells in the word
+    // Return the next blank cell if neither of above are true
   }
 
   shiftSelectedCellBackward() {
