@@ -161,10 +161,13 @@ class SolvePage extends Component {
           puzzle, user, changeGameStatus } = this.props
 
     if (event.key === "Backspace") {
-      setKey(sel.id, null)
-      selectCell(this.shiftSelectedCellBackward(),
-                 this.findWord( sel ))
-
+      if (entered[sel.id]){
+        setKey(sel.id, null)
+      } else {
+        let back = this.shiftSelectedCellBackward()
+        selectCell(back, this.findWord( sel ))
+        setKey(back.id, null)
+      }
     } else if (event.key === "Tab") {
       event.preventDefault()
       selectCell(this.findNextWordStart(),
