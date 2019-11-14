@@ -52,15 +52,18 @@ class SolvePage extends Component {
   componentDidUpdate(prevProps) {
     if(prevProps.clue !== this.props.clue) {
       let c = document.getElementById(`clue-${this.props.clue.id}`)
-      c.scrollIntoView(true)
+      c.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 
-  // Handle timer
+  /////////////////////////////   HANDLE TIMER    ////////////////////////////
+
+  // Count up by seconds 
   incrementTimer(e) {
     document.querySelector('#puz-timer').innerText = (timer.getTimeValues().toString())
   }
 
+  // Pause and restart timer
   handleTimerClick = () => {
     this.props.handleTimer()
     if (this.props.paused) {
@@ -70,15 +73,19 @@ class SolvePage extends Component {
     }
   }
 
+  // Stop timer on win and return the time used
   handleTimerWin() {
     timer.pause()
     return document.querySelector('#puz-timer').innerText
   }
 
+  // Pause timer on incorrect solve, to be restarted when clicking out of modal
   handleTimerIncorrect() {
     timer.pause()
     return this.handleTimerClick
   }
+
+  /////////////////////////////   NAVIGATE PUZZLE    ////////////////////////////
 
   // Find all cells in the same word as the specified cell
   findWord(specifiedCell) {
@@ -91,7 +98,7 @@ class SolvePage extends Component {
         })).id
       })
     })
-
+    // return them in order of id
     return word.sort((a, b) => a.id - b.id)
   }
 
@@ -107,14 +114,24 @@ class SolvePage extends Component {
     let dir = this.props.direction
     let sel = this.props.selectedCell
     let puz = this.props.puzzle
+    // Sort unshaded cells by id
     let cells = puz.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
 
-    let clue = (sel.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down").id)
-    let nextClue = (dir === "across" ? puz.across_clues.find(c => c.id > clue) : puz.down_clues.find(c => c.id > clue))
+    // Find the selected cell's clue that matches current direction
+    let clue = (sel.clues.find(c => {
+      return dir === "across" ? c.direction === "across" : c.direction === "down"
+    }).id)
+    // The next clue should be the next across or down clue, sequentially by id
+    let nextClue
+    if (dir === "across") { nextClue = puz.across_clues.find(c => c.id > clue) }
+    if (dir === "down") { nextClue = puz.down_clues.find(c => c.id > clue) }
 
+    // If there is no next clue (i.e. it's the last clue) just stay on selected cell
     if (!nextClue) {
       return sel
     }
+
+    // 
     let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
     let nextID = next.id
 
@@ -208,8 +225,8 @@ class SolvePage extends Component {
   handleClueClick = (clue) => {
     let sel = this.props.puzzle.cells.find(cell => cell.number === clue.number)
     this.props.selectClue(clue)
-    let c = document.getElementById(`clue-${clue.id}`)
-    c.scrollIntoView(true)
+    // let c = document.getElementById(`clue-${clue.id}`)
+    // c.scrollIntoView(true)
     // below is a temp. workaround for delay w/toggling dir.
     this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
   }
