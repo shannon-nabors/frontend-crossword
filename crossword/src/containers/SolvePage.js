@@ -112,11 +112,18 @@ class SolvePage extends Component {
   }
 
   findNextClue(clueId) {
-    let { direction, puzzle } = this.props
     // Set clue array based on current direction
-    let clues = ( direction === "across" ? puzzle.across_clues : puzzle.down_clues )
     // The next clue should be the clue with the next highest id from the given clue
-    return clues.find(clue => clue.id > clueId)
+    return this.clues(this.props.direction).find(clue => clue.id > clueId)
+  }
+
+  firstClue() {
+    return this.clues(this.props.direction)[0]
+  }
+
+  clues(direction) {
+    let { puzzle } = this.props
+    return (direction === "across" ? puzzle.across_clues : puzzle.down_clues)
   }
 
   findNextCellWithClue(cells, clueId) {
@@ -132,8 +139,11 @@ class SolvePage extends Component {
     // Find the next across or down clue
     let nextClue = this.findNextClue(clueId)
     // If there is no next clue (i.e. it's the last clue) just stay on selected cell
+    // Change to: switch directions and go to first opp. dir. clue
     if (!nextClue) {
-      return sel
+      this.props.toggleDirection(this.findWord(sel))
+      return this.findNextWordStart(this.firstClue().id-1)
+      // return sel
     }
     // The next cell should be the next cell (by id) that has nextClue as a clue
     // let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
