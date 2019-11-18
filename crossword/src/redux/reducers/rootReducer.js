@@ -2,7 +2,8 @@ import { combineReducers } from 'redux'
 import { loadingReducer,
          solvedPuzzlesReducer,
          unsolvedPuzzlesReducer,
-         userPuzzlesReducer } from './changePuzzles'
+         userPuzzlesReducer, 
+         savedPuzzlesReducer} from './changePuzzles'
 import { formStageReducer,
          newPuzzleReducer,
          interactionTypeReducer } from './createPuzzle'
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   solvedPuzzles: solvedPuzzlesReducer,
   unsolvedPuzzles: unsolvedPuzzlesReducer,
   userPuzzles: userPuzzlesReducer,
+  savedPuzzles: savedPuzzlesReducer,
   selectedCell: selectCellReducer,
   selectedClue: selectClueReducer,
   direction: directionReducer,

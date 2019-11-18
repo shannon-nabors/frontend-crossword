@@ -9,6 +9,7 @@ import HomePage from './HomePage'
 import SolveMenu from './SolveMenu'
 import PuzzlePage from './PuzzlePage'
 import SolvePage from './SolvePage'
+import SavedPage from './SavedPage'
 import Leaderboard from './Leaderboard'
 import CurrentUserPage from './CurrentUserPage'
 import Form from './PuzzleForm'
@@ -29,6 +30,10 @@ class App extends Component {
           <Route
             path="/solve/:puzzleID"
             component={SolvePage}
+          />
+          <Route
+            path="/saved/:puzzleID"
+            component={SavedPage}
           />
           <Route
             path="/solve"

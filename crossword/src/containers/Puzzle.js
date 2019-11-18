@@ -24,6 +24,7 @@ class Puzzle extends Component {
   render() {
 
     let cells = this.props.puzzle && this.props.puzzle.cells
+    console.log(this.props.puzzle)
     let dim = cells ? Math.sqrt(cells.length) : 0
 
     return (

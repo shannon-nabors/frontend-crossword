@@ -138,12 +138,12 @@ class SolvePage extends Component {
     let cells = puz.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
     // Find the next across or down clue
     let nextClue = this.findNextClue(clueId)
-    // If there is no next clue (i.e. it's the last clue) just stay on selected cell
-    // Change to: switch directions and go to first opp. dir. clue
+    // If there is no next clue (i.e. it's the last clue)
     if (!nextClue) {
+      // Switch directions and go to first clue in that direction
       this.props.toggleDirection(this.findWord(sel))
+      // first clue id - 1 is to prevent it from skipping first clue (since it's returning the next)
       return this.findNextWordStart(this.firstClue().id-1)
-      // return sel
     }
     // The next cell should be the next cell (by id) that has nextClue as a clue
     // let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
@@ -155,8 +155,6 @@ class SolvePage extends Component {
       next = this.findWord(next).find(cell => !this.props.enteredLetters[cell.id])
       // If they're all filled
       if (!next) {
-        // return sel
-
         // Move on to the next clue after that
         return this.findNextWordStart(nextClue.id)
       }

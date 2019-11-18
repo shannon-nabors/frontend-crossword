@@ -58,7 +58,23 @@ const userPuzzlesReducer = (state = [], action) => {
   }
 }
 
+const savedPuzzlesReducer = (state = [], action) => {
+  switch (action.type) {
+    case "FETCHED_PUZZLES":
+      return action.puzzles.saved_puzzles
+    case "DELETED_PUZZLE":
+      return action.newPuzzles
+    case "CREATED_PUZZLE":
+      return action.newPuzzles
+    case "LOG_OUT_USER":
+      return []
+    default:
+      return state
+  }
+}
+
 export { loadingReducer,
          solvedPuzzlesReducer,
          unsolvedPuzzlesReducer,
+         savedPuzzlesReducer,
          userPuzzlesReducer }

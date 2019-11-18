@@ -13,6 +13,12 @@ class CurrentUserPage extends Component {
     this.setState({ menu: name })
   }
 
+  setPuzzles = () => {
+    if (this.state.menu === "Published") { return this.props.userPuzzles }
+    if (this.state.menu === "Saved") { return this.props.savedPuzzles }
+    if (this.state.menu === "Solved") { return this.props.solvedPuzzles }
+  }
+
   render() {
     return(
       <Container>
@@ -25,6 +31,11 @@ class CurrentUserPage extends Component {
           <Menu.Item
             name='Published'
             active={this.state.menu === "Published"}
+            onClick={this.handleMenuClick}
+          />
+          <Menu.Item
+            name='Saved'
+            active={this.state.menu === "Saved"}
             onClick={this.handleMenuClick}
           />
           <Menu.Item
@@ -49,7 +60,7 @@ class CurrentUserPage extends Component {
             </Fragment>
           ) : (
             <PuzzleContainer
-              puzzles={ this.state.menu === "Published" ? this.props.userPuzzles : this.props.solvedPuzzles }
+              puzzles={ this.setPuzzles() }
             />
           )}
         </Segment>
@@ -62,6 +73,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     userPuzzles: state.userPuzzles,
     solvedPuzzles: state.solvedPuzzles,
+    savedPuzzles: state.savedPuzzles,
     user: state.currentUser
   }
 }

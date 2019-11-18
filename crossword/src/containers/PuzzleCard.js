@@ -6,11 +6,23 @@ import { formatTime } from '../redux/constants'
 import Puzzle from './Puzzle'
 
 class PuzzleCard extends Component {
+
+  generateRoute = () => {
+    let { puzzle, userPuzzles, solvedPuzzles, savedPuzzles } = this.props
+    if (userPuzzles.includes(puzzle) || solvedPuzzles.includes(puzzle)) { 
+      return `/puzzles/${puzzle.id}`
+    } else if (savedPuzzles.includes(puzzle)) {
+      return `/saved/${puzzle.id}`
+    } else {
+      return `/solve/${puzzle.id}`
+    }
+  }
+
   render() {
-    let { puzzle, userPuzzles, solvedPuzzles } = this.props
+    let { puzzle } = this.props
 
     return(
-      <NavLink to={ userPuzzles.includes(puzzle) || solvedPuzzles.includes(puzzle) ? `/puzzles/${puzzle.id}` : `/solve/${puzzle.id}`} className="ui card" id="puz-card">
+      <NavLink to={this.generateRoute()} className="ui card" id="puz-card">
         <div className="image">
           <Puzzle
             puzzle={puzzle}
@@ -32,7 +44,8 @@ class PuzzleCard extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     userPuzzles: state.userPuzzles,
-    solvedPuzzles: state.solvedPuzzles
+    solvedPuzzles: state.solvedPuzzles,
+    savedPuzzles: state.savedPuzzles
   }
 }
 
