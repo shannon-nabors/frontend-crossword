@@ -35,6 +35,9 @@ class SolvePage extends Component {
     this.props.getFavorites("puzzle", this.props.puzzle.id)
     timer.start()
     timer.addEventListener('secondsUpdated', this.incrementTimer)
+
+    let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
+    this.props.selectCell(cells[0], this.findWord(cells[0]))
   }
 
   componentWillUnmount() {
@@ -108,40 +111,46 @@ class SolvePage extends Component {
     return word.sort((a, b) => a.id - b.id)
   }
 
+  findNextClue(clueId) {
+    let { direction, puzzle } = this.props
+    // Set clue array based on current direction
+    let clues = ( direction === "across" ? puzzle.across_clues : puzzle.down_clues )
+    // The next clue should be the clue with the next highest id from the given clue
+    return clues.find(clue => clue.id > clueId)
+  }
 
+  findNextCellWithClue(cells, clueId) {
+    return cells.find(cell => cell.clues.find(clue => clue.id === clueId))
+  }
 
-  findNextWordStart() {
+  findNextWordStart(clueId) {
     let dir = this.props.direction
     let sel = this.props.selectedCell
     let puz = this.props.puzzle
     // Sort unshaded cells by id
     let cells = puz.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
-
-    // Find the selected cell's clue that matches current direction
-    let clue = (sel.clues.find(c => {
-      return dir === "across" ? c.direction === "across" : c.direction === "down"
-    }).id)
-    // The next clue should be the next across or down clue, sequentially by id
-    let nextClue
-    if (dir === "across") { nextClue = puz.across_clues.find(c => c.id > clue) }
-    if (dir === "down") { nextClue = puz.down_clues.find(c => c.id > clue) }
-
+    // Find the next across or down clue
+    let nextClue = this.findNextClue(clueId)
     // If there is no next clue (i.e. it's the last clue) just stay on selected cell
     if (!nextClue) {
       return sel
     }
-
-    // 
-    let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
+    // The next cell should be the next cell (by id) that has nextClue as a clue
+    // let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
+    let next = this.findNextCellWithClue(cells, nextClue.id)
     let nextID = next.id
-
+    // If that cell is filled
     if (this.props.enteredLetters[nextID]) {
+      // the next cell should be the next cell in that word that isn't filled
       next = this.findWord(next).find(cell => !this.props.enteredLetters[cell.id])
+      // If they're all filled
       if (!next) {
-        return sel
+        // return sel
+
+        // Move on to the next clue after that
+        return this.findNextWordStart(nextClue.id)
       }
     }
-
     return next
   }
 
@@ -173,9 +182,10 @@ class SolvePage extends Component {
   // Enter letters into puzzle
   handleKeyPress = (event) => {
     let sel = this.props.selectedCell
+    if (!sel) { return }
     let entered = this.props.enteredLetters
     let { setKey, selectCell, solvingPuzzle,
-          puzzle, user, changeGameStatus } = this.props
+          puzzle, user, changeGameStatus, direction } = this.props
 
     // CASE: Backspace
     if (event.key === "Backspace") {
@@ -196,7 +206,10 @@ class SolvePage extends Component {
       // Prevent tabbing from cycling focus throughout page (i.e. selecting address bar)
       event.preventDefault()
       // Find the cell that starts the next word
-      let nextWord = this.findNextWordStart()
+      let currentClueId = (sel.clues.find(c => {
+        return direction === "across" ? c.direction === "across" : c.direction === "down"
+      }).id)
+      let nextWord = this.findNextWordStart(currentClueId)
       // and select that cell
       selectCell(nextWord, this.findWord( nextWord ))
     // CASE: Letters
