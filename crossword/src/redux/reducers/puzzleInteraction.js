@@ -60,6 +60,10 @@ const keyReducer = (state = {}, action) => {
   switch (action.type) {
     case "SET_KEY":
       return {...state, [action.cellID]: action.pressedKey}
+    case "TOGGLE_SHADE":
+      return {...state, [action.cellID]: undefined }
+    case "SET_ENTERED_LETTERS":
+      return action.payload
     case "RESET_ALL_LETTERS":
       return {}
     default:

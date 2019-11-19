@@ -67,13 +67,14 @@ function toggleShade(cellID) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
     let cell = newPuzzle.cells.find(c => c.id === cellID)
-    let toggledCell = {...cell, shaded: !cell.shaded, number: null}
+    let toggledCell = {...cell, shaded: !cell.shaded, number: null, letter: null}
     let newCells = newPuzzle.cells.map(c => {
       return c.id === cellID ? toggledCell : c
     })
     dispatch({
       type: "TOGGLE_SHADE",
-      cells: newCells
+      cells: newCells,
+      cellID: cellID
     })
   }
 }
@@ -129,6 +130,10 @@ function clearNewPuzzle() {
   return { type: "CLEAR_PUZZLE" }
 }
 
+function setEnteredLetters(letters) {
+  return { type: "SET_ENTERED_LETTERS", payload: letters}
+}
+
 export { setFormStage,
          setNewPuzzleSize,
          updatedPuzzle,
@@ -140,4 +145,5 @@ export { setFormStage,
          updateAcrossClue,
          updateDownClue,
          updateTitle,
+         setEnteredLetters,
          clearNewPuzzle }

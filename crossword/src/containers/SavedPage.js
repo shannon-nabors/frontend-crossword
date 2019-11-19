@@ -3,7 +3,8 @@ import SizePage from './FormSizePage'
 import ShadePage from './FormShadePage'
 import EnterPage from './FormEnterPage'
 import { connect } from 'react-redux'
-import { setFormStage, updatedPuzzle } from '../redux/actions/createPuzzle'
+import { setFormStage, updatedPuzzle, setEnteredLetters } from '../redux/actions/createPuzzle'
+import { resetAllLetters } from '../redux/actions/puzzleInteraction'
 
 class SavedPage extends Component {
 
@@ -11,7 +12,21 @@ class SavedPage extends Component {
     this.props.setFormStage("shade")
     if(this.props.puzzle) {
         this.props.updatedPuzzle(this.props.puzzle)
+        let letters = this.generateEnteredLetters(this.props.puzzle)
+        this.props.setEnteredLetters(letters)
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetAllLetters()
+  }
+
+  generateEnteredLetters(puzzle) {
+    let letters = {}
+    puzzle.cells.forEach(cell => {
+        if (!cell.shaded) { letters[cell.id] = cell.letter }
+    })
+    return letters
   }
 
   render() {
@@ -38,4 +53,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { setFormStage, updatedPuzzle })(SavedPage)
+export default connect(mapStateToProps, { setFormStage, updatedPuzzle, setEnteredLetters, resetAllLetters })(SavedPage)

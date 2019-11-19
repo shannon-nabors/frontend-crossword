@@ -64,10 +64,6 @@ class EnterPage extends Component {
     } else if (values(this.props.enteredLetters).includes(null)) {
       return false
     } else if (size(this.props.enteredLetters) !== letterCells.length) {
-      console.log("entered: ", this.props.enteredLetters)
-      console.log("size", size(this.props.enteredLetters))
-      console.log("total: ", letterCells)
-      console.log("size: ", letterCells.length)
       return false
     } else if (this.props.puzzle.across_clues.find(cl => cl.content === null)) {
       return false
