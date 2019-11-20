@@ -41,7 +41,7 @@ class ShadePage extends Component {
     } else if (buttonType === "shade" && this.props.interaction !== "shade") {
       this.props.deselectCell()
       // Enter is 
-      this.props.updatingPuzzle("enter")
+      this.props.updatingPuzzle("letter")
     }
   }
 
