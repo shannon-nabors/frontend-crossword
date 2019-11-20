@@ -29,7 +29,7 @@ class PuzzleCard extends Component {
           />
         </div>
         <div className="content">
-          <p className="header" id="puz-card-title">{puzzle.title}</p>
+          <p className="header" id="puz-card-title">{puzzle.title ? puzzle.title : "Untitled" }</p>
           <p className="meta">by {`${puzzle.constructor.first_name} ${puzzle.constructor.last_name}`}</p>
         </div>
         <div className="extra content" id="extra-card-content">
