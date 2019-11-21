@@ -48,13 +48,7 @@ function deletedPuzzle(puzzle) {
 }
 
 function createdPuzzle(puzzle) {
-  return (dispatch, getState) => {
-    const { userPuzzles, newPuzzle } = getState()
-
-    let newPuzzles = [...userPuzzles, newPuzzle]
-
-    dispatch({ type: "CREATED_PUZZLE", newPuzzles })
-  }
+  return { type: "CREATED_PUZZLE", puzzle }
 }
 
 export { loading,

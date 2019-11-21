@@ -50,7 +50,7 @@ const userPuzzlesReducer = (state = [], action) => {
     case "DELETED_PUZZLE":
       return action.newPuzzles
     case "CREATED_PUZZLE":
-      return action.newPuzzles
+      return [...state, action.puzzle]
     case "LOG_OUT_USER":
       return []
     default:
@@ -62,10 +62,10 @@ const savedPuzzlesReducer = (state = [], action) => {
   switch (action.type) {
     case "FETCHED_PUZZLES":
       return action.puzzles.saved_puzzles
-    case "DELETED_PUZZLE":
-      return action.newPuzzles
+    // case "DELETED_PUZZLE":
+    //   return action.newPuzzles
     case "CREATED_PUZZLE":
-      return action.newPuzzles
+      return state.filter(p => p.id !== action.puzzle.id)
     case "LOG_OUT_USER":
       return []
     default:

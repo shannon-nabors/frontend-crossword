@@ -23,12 +23,10 @@ class NextButton extends Component {
         }
         break
       case "shade":
-        let letterCells = this.props.cells.filter(c => c.shaded === false)
+        let puzzleLetterSpaces = this.props.cells.filter(cell => cell.shaded === false)
         if (values(this.props.enteredLetters).includes(null)) {
-          let x = this.props.enteredLetters
-          debugger
           this.setState({failed: true})
-        } else if (size(this.props.enteredLetters) < letterCells.length) {
+        } else if (size(this.props.enteredLetters) < puzzleLetterSpaces.length) {
           this.setState({failed: true})
         } else {
           this.props.setLetters()

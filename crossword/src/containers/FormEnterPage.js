@@ -58,13 +58,13 @@ class EnterPage extends Component {
   }
 
   checkForCompletion() {
-    let letterCells = this.props.puzzle.cells.filter(c => c.shaded === false)
+    // let letterCells = this.props.puzzle.cells.filter(c => c.shaded === false)
     if (!this.props.puzzle.title) {
       return false
-    } else if (values(this.props.enteredLetters).includes(null)) {
-      return false
-    } else if (size(this.props.enteredLetters) !== letterCells.length) {
-      return false
+    // } else if (values(this.props.enteredLetters).includes(null)) {
+    //   return false
+    // } else if (size(this.props.enteredLetters) !== letterCells.length) {
+    //   return false
     } else if (this.props.puzzle.across_clues.find(cl => cl.content === null)) {
       return false
     } else if (this.props.puzzle.down_clues.find(cl => cl.content === null)) {
@@ -78,7 +78,7 @@ class EnterPage extends Component {
     if (this.checkForCompletion()) {
       this.props.setLetters()
       this.props.updatingPuzzle("enter")
-      this.props.createdPuzzle()
+      this.props.createdPuzzle(this.props.puzzle)
       this.setState({ redirect: true })
     } else {
       this.setState({failed: true})
