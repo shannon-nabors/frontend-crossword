@@ -92,7 +92,8 @@ function setLetters() {
       let updated = cells.find(cell => cell.id === c.id)
       return updated ? updated : c
     })
-    dispatch ({ type: "SET_LETTERS", newCells })
+    let updatedPuzzle = { ...newPuzzle, cells: newCells }
+    dispatch ({ type: "SET_LETTERS", updatedPuzzle })
   }
 }
 

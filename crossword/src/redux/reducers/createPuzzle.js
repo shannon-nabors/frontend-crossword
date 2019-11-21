@@ -31,7 +31,8 @@ const newPuzzleReducer = (state = {}, action) => {
     case "UPDATE_TITLE":
       return { ...state, title: action.content}
     case "SET_LETTERS":
-      return { ...state, cells: action.newCells }
+      // return { ...state, cells: action.newCells }
+      return action.updatedPuzzle
     case "CLEAR_PUZZLE":
       return {}
     default:

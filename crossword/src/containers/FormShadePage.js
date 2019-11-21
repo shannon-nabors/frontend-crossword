@@ -24,6 +24,7 @@ class ShadePage extends Component {
     document.addEventListener("keydown", this.handleKeyPress)
     // Interaction type is automatically set to "shade" in state
     this.props.toggleInteractionType("shade")
+    this.props.deselectCell()
   }
 
   componentWillUnmount() {
@@ -48,7 +49,7 @@ class ShadePage extends Component {
   handleSave = () => {
     this.props.setLetters()
     this.props.updatingPuzzle("letter")
-    this.props.savedPuzzle(this.props.puzzle)
+    // this.props.savedPuzzle(this.props.puzzle)
   }
 
   isEditable() {

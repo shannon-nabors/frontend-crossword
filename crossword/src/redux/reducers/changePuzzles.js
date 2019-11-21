@@ -64,8 +64,10 @@ const savedPuzzlesReducer = (state = [], action) => {
       return action.puzzles.saved_puzzles
     // case "DELETED_PUZZLE":
     //   return action.newPuzzles
-    case "SAVED_PUZZLE":
-      return action.newPuzzles
+    // case "SAVED_PUZZLE":
+    //   return action.newPuzzles
+    case "SET_LETTERS":
+      return (state.find(puz => puz.id === action.updatedPuzzle.id) ? [...state.filter(puz => puz.id !== action.updatedPuzzle.id), action.updatedPuzzle] : [...state, action.updatedPuzzle])
     case "CREATED_PUZZLE":
       return state.filter(p => p.id !== action.puzzle.id)
     case "LOG_OUT_USER":
