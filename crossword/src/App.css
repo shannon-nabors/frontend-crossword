@@ -147,7 +147,7 @@ body {
 }
 
 #shade-sizer {
-  width: 55vh;
+  width: 50vh;
 }
 
 #shade-sizer .header {
@@ -161,11 +161,17 @@ body {
 
 #save-button {
   margin-left: 25px;
+  height: 36px;
+  width: 38.52px;
 }
 
 #enter-header {
   /* font-family: 'Nunito', sans-serif; */
   font-family: 'Crimson Text', serif;
+}
+
+#form-heading {
+  padding-bottom: 4px;
 }
 
 #enter-form {

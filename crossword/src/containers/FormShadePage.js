@@ -139,12 +139,19 @@ class ShadePage extends Component {
     return(
       <Fragment>
         <Container id="shade-header">
-          <Header
-            as="h2"
-            id="enter-header"
-            attached="top">
-            Step 2: Shade squares and enter letters
-          </Header>
+          <Segment clearing id="form-heading" attached="top">
+            <Header as="h2" id="enter-header" floated="left">
+              Step 2: Shade squares and enter letters
+            </Header>
+            <Header floated="right">
+              <Button 
+                id="save-button" 
+                icon color="black"
+                onClick={ this.handleSave }>
+                <Icon name="save"></Icon>
+              </Button>
+            </Header>
+          </Segment>
           <Segment attached>
             When shading, click any square to toggle the color.  When entering letters, type and backspace as you would normally.  You can tab to the next clue, and click the active square to toggle the direction you're typing.
           </Segment>
@@ -160,12 +167,6 @@ class ShadePage extends Component {
               onClick={ () => this.handleInteractionChange("letter")}
             >Letter</Button>
           </Button.Group>
-          <Button 
-            id="save-button" 
-            icon color="black"
-            onClick={ this.handleSave }>
-            <Icon name="save"></Icon>
-          </Button>
         </Container>
         <Container id="shade-sizer">
           <div>

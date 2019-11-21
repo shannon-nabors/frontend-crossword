@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Grid, Container, Header,
          Form, Segment, Message,
-         Button, Dimmer, Loader } from 'semantic-ui-react'
+         Button, Dimmer, Loader, Icon } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { size, values } from 'lodash'
@@ -74,6 +74,10 @@ class EnterPage extends Component {
     }
   }
 
+  handleSave = () => {
+    this.props.updatingPuzzle("clue")
+  }
+
   handleSubmit = () => {
     if (this.checkForCompletion()) {
       this.props.setLetters()
@@ -81,6 +85,7 @@ class EnterPage extends Component {
       this.props.createdPuzzle(this.props.puzzle)
       this.setState({ redirect: true })
     } else {
+      debugger
       this.setState({failed: true})
     }
   }
@@ -114,12 +119,19 @@ class EnterPage extends Component {
     return (
       <Fragment>
         <Container>
-          <Header
-            as="h2"
-            id="enter-header"
-            attached="top">
-            Step 3: Clue
-          </Header>
+          <Segment clearing id="form-heading" attached="top">
+            <Header as="h2" id="enter-header" floated="left">
+                Step 3: Clue
+            </Header>
+            <Header floated="right">
+              <Button 
+                id="save-button" 
+                icon color="black"
+                onClick={ this.handleSave }>
+                <Icon name="save"></Icon>
+              </Button>
+            </Header>
+          </Segment>
           <Segment attached>Enter clues and give your puzzle a title!</Segment>
           <Form
             error={this.state.failed}
