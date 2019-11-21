@@ -49,6 +49,7 @@ class ShadePage extends Component {
   handleSave = () => {
     this.props.setLetters()
     this.props.updatingPuzzle("letter")
+    this.props.deselectCell()
     // this.props.savedPuzzle(this.props.puzzle)
   }
 
