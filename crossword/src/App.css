@@ -159,6 +159,10 @@ body {
   margin-bottom: 1em;
 }
 
+#save-button {
+  margin-left: 25px;
+}
+
 #enter-header {
   /* font-family: 'Nunito', sans-serif; */
   font-family: 'Crimson Text', serif;

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Container, Dimmer, Loader,
-         Header, Segment, Button } from 'semantic-ui-react'
+         Header, Segment, Button, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { updatingPuzzle,
          setLetters,
@@ -14,6 +14,7 @@ import { selectCell,
          deselectCell,
          setKey,
          resetAllLetters } from '../redux/actions/puzzleInteraction.js'
+import { savedPuzzle } from '../redux/actions/changePuzzles.js'
 import Next from '../components/FormNextButton'
 import Puzzle from './Puzzle'
 
@@ -39,9 +40,15 @@ class ShadePage extends Component {
       this.props.updatingPuzzle("setup")
     } else if (buttonType === "shade" && this.props.interaction !== "shade") {
       this.props.deselectCell()
-      // Enter is 
+      this.props.setLetters()
       this.props.updatingPuzzle("letter")
     }
+  }
+
+  handleSave = () => {
+    this.props.setLetters()
+    this.props.updatingPuzzle("letter")
+    this.props.savedPuzzle(this.props.puzzle)
   }
 
   isEditable() {
@@ -151,6 +158,12 @@ class ShadePage extends Component {
               onClick={ () => this.handleInteractionChange("letter")}
             >Letter</Button>
           </Button.Group>
+          <Button 
+            id="save-button" 
+            icon color="black"
+            onClick={ this.handleSave }>
+            <Icon name="save"></Icon>
+          </Button>
         </Container>
         <Container id="shade-sizer">
           <div>
@@ -184,4 +197,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updateTitle, updatingPuzzle, setFormStage, setKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, toggleInteractionType })(ShadePage)
+export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updateTitle, updatingPuzzle, setFormStage, setKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, toggleInteractionType, savedPuzzle })(ShadePage)

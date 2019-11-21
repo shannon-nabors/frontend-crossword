@@ -51,9 +51,25 @@ function createdPuzzle(puzzle) {
   return { type: "CREATED_PUZZLE", puzzle }
 }
 
+function savedPuzzle(puzzle) {
+  return (dispatch, getState) => {
+    const { savedPuzzles } = getState()
+    let newPuzzles
+    let alreadySaved = savedPuzzles.find(puz => puz.id === puzzle.id)
+    if (alreadySaved) {
+      newPuzzles = [...savedPuzzles.filter(p => p.id !== puzzle.id), puzzle]
+    } else {
+      newPuzzles = [...savedPuzzles, puzzle]
+    }
+
+    dispatch({ type: "SAVED_PUZZLE", newPuzzles })
+  }
+}
+
 export { loading,
          fetchedPuzzles,
          fetchingPuzzles,
          fetchingGuestPuzzles,
          deletedPuzzle,
-         createdPuzzle }
+         createdPuzzle,
+         savedPuzzle }
