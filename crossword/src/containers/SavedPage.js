@@ -9,25 +9,40 @@ import { resetAllLetters } from '../redux/actions/puzzleInteraction'
 class SavedPage extends Component {
 
   componentDidMount() {
-    this.props.setFormStage("shade")
-    if(this.props.puzzle) {
-        // Set newPuzzle in state as this saved puzzle
-        this.props.updatedPuzzle(this.props.puzzle)
-        // Set enteredLetters according to this puzzle's letters
-        let letters = this.generateEnteredLetters(this.props.puzzle)
-        this.props.setEnteredLetters(letters)
-        debugger
-    }
+
+    let puz = this.props.puzzle
+
+    // Set newPuzzle in state as this saved puzzle
+    this.props.updatedPuzzle(puz)
+
+    // Set enteredLetters according to this puzzle's letters
+    let letters = this.generateEnteredLetters(puz)
+    this.props.setEnteredLetters(letters)
+
+    // Set stage based on whether puzzle is filled in
+    let stage = this.allCellsFilled(puz) ? "enter" : "shade"
+    this.props.setFormStage(stage)
+
   }
 
   componentWillUnmount() {
     this.props.resetAllLetters()
   }
 
+  unshadedCells(puzzle) {
+    return puzzle.cells.filter( cell => !cell.shaded )
+  }
+
+  allCellsFilled(puzzle) {
+    return !this.unshadedCells(puzzle).find(cell => {
+      return !cell.letter
+    })
+  }
+
   generateEnteredLetters(puzzle) {
     let letters = {}
-    puzzle.cells.forEach(cell => {
-        if (!cell.shaded) { letters[cell.id] = cell.letter }
+    this.unshadedCells(puzzle).forEach(cell => {
+        letters[cell.id] = cell.letter
     })
     return letters
   }
@@ -56,4 +71,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { setFormStage, updatedPuzzle, setEnteredLetters, resetAllLetters })(SavedPage)
+export default connect(mapStateToProps, { setFormStage,
+                                          updatedPuzzle,
+                                          setEnteredLetters,
+                                          resetAllLetters })(SavedPage)
