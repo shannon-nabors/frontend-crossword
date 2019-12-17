@@ -17,6 +17,9 @@ import { solvingPuzzle,
 import { addFavorite,
          deleteFavorite,
          getFavorites } from '../redux/actions/stats'
+import { shiftBackward,
+         currentCellHasLetter,
+         deleteLetter } from '../helpers/typingHelpers'
 
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
@@ -181,10 +184,21 @@ class SolvePage extends Component {
     return next ? next : sel
   }
 
-  shiftSelectedCellBackward() {
-    let sel = this.props.selectedCell
-    let prev = this.findWord(sel).filter(c => c.id < sel.id)
-    return this.findWord(sel).find(c => c.id < sel.id) ? prev[prev.length - 1]: sel
+  deleteLetter(cell) {
+    this.props.setKey(cell.id, null)
+  }
+
+  handleBackspace(selectedCell, enteredLetters) {
+    if (currentCellHasLetter(selectedCell, enteredLetters)) {
+      this.deleteLetter(selectedCell)
+      
+    } else {
+      let word = this.findWord(selectedCell)
+      let previousCell = shiftBackward(selectedCell, word)
+
+      this.props.selectCell(previousCell, word)
+      this.deleteLetter(previousCell)
+    }
   }
 
   // Enter letters into puzzle
@@ -197,18 +211,8 @@ class SolvePage extends Component {
 
     // CASE: Backspace
     if (event.key === "Backspace") {
-      // If there's a letter in the current cell,
-      if (entered[sel.id]){
-        // hitting backspace should just delete that letter.
-        setKey(sel.id, null)
-      } else {
-        // Otherwise, find the cell before this one,
-        let back = this.shiftSelectedCellBackward()
-        // move back to that cell,
-        selectCell(back, this.findWord( sel ))
-        // and delete that cell's entered letter
-        setKey(back.id, null)
-      }
+      this.handleBackspace(sel, entered)
+
     // CASE: Tab
     } else if (event.key === "Tab") {
       // Prevent tabbing from cycling focus throughout page (i.e. selecting address bar)
