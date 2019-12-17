@@ -86,8 +86,8 @@ function addFavorite(puzzleID) {
 function deletedFavorite(puzzleID) {
   return (dispatch, getState) => {
     const { currentUser, userFavorites, puzzleFavorites } = getState()
-    let newUserFavs = userFavorites.filter(f => f.puzzle_id != puzzleID)
-    let newPuzzleFavs = puzzleFavorites.filter(f => f.user_id != currentUser.id)
+    let newUserFavs = userFavorites.filter(f => f.puzzle_id !== puzzleID)
+    let newPuzzleFavs = puzzleFavorites.filter(f => f.user_id !== currentUser.id)
     dispatch({ type: "DELETED_FAVORITE", newUserFavs: newUserFavs, newPuzzleFavs: newPuzzleFavs })
     dispatch(editPuzzleFavNumber(puzzleID, (-1)))
   }

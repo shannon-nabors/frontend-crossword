@@ -131,7 +131,7 @@ class SolvePage extends Component {
   }
 
   findNextWordStart(clueId) {
-    let dir = this.props.direction
+    // let dir = this.props.direction
     let sel = this.props.selectedCell
     let puz = this.props.puzzle
     // Sort unshaded cells by id

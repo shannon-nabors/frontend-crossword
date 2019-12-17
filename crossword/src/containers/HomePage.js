@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Container, Grid, Icon, Item } from 'semantic-ui-react'
+import { Container, Grid } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { fetchingGuestPuzzles } from '../redux/actions/changePuzzles'

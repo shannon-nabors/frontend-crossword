@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Grid, Menu, Segment, Container, Image } from 'semantic-ui-react'
+import { Menu, Segment, Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import PuzzleContainer from './PuzzleContainer'
 import TimeChart from '../components/TimeCompareChart'

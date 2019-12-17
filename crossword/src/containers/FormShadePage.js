@@ -69,7 +69,7 @@ class ShadePage extends Component {
 
   shiftSelectedCellForward() {
     let sel = this.props.selectedCell
-    let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id)
+    // let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id)
     let next = this.findWord(sel).find(c => c.id > sel.id)
     return next ? next : sel
     // return this.findWord().find(c => c.id > this.props.selectedCell.id) ? this.findWord().find(c => c.id > this.props.selectedCell.id) : this.props.selectedCell

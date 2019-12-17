@@ -1,19 +1,22 @@
 import React, { Component, Fragment } from 'react'
-import SizePage from './FormSizePage'
 import ShadePage from './FormShadePage'
 import EnterPage from './FormEnterPage'
 import { connect } from 'react-redux'
 import { setFormStage, updatedPuzzle, setEnteredLetters } from '../redux/actions/createPuzzle'
 import { resetAllLetters } from '../redux/actions/puzzleInteraction'
 
+// Form to resume a saved puzzle
 class SavedPage extends Component {
 
   componentDidMount() {
     this.props.setFormStage("shade")
     if(this.props.puzzle) {
+        // Set newPuzzle in state as this saved puzzle
         this.props.updatedPuzzle(this.props.puzzle)
+        // Set enteredLetters according to this puzzle's letters
         let letters = this.generateEnteredLetters(this.props.puzzle)
         this.props.setEnteredLetters(letters)
+        debugger
     }
   }
 

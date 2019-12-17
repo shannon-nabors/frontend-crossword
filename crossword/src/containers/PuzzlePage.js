@@ -50,7 +50,7 @@ class PuzzlePage extends Component {
   }
 
   render() {
-    let { puzzle, user } = this.props
+    let { puzzle } = this.props
 
     return (
       <Container>
