@@ -41,7 +41,7 @@ class SolvePage extends Component {
     timer.addEventListener('secondsUpdated', this.incrementTimer)
 
     let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
-    this.props.selectCell(cells[0], this.findWord(cells[0]))
+    this.props.selectCell(cells[0], findWord(cells[0], cells, "across"))
   }
 
   componentWillUnmount() {
@@ -94,21 +94,6 @@ class SolvePage extends Component {
 
   /////////////////////////////   NAVIGATE PUZZLE    ////////////////////////////
 
-  // Find all cells in the same word as the specified cell
-  findWord(specifiedCell) {
-    // find all cells that share
-    let word = this.props.puzzle.cells.filter(cell => {
-      return cell.clues.find(clue => {
-        // the across or down clue associated with the specified cell
-        return clue.id === (specifiedCell.clues.find(c => {
-          return this.props.direction === "across" ? c.direction === "across" : c.direction === "down"
-        })).id
-      })
-    })
-    // return them in order of id
-    return word.sort((a, b) => a.id - b.id)
-  }
-
   findNewDirectionWord(ce, dir) {
     let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (ce.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down")).id))
 
@@ -135,7 +120,7 @@ class SolvePage extends Component {
   }
 
   findNextWordStart(clueId) {
-    // let dir = this.props.direction
+    let dir = this.props.direction
     let sel = this.props.selectedCell
     let puz = this.props.puzzle
     // Sort unshaded cells by id
@@ -145,7 +130,7 @@ class SolvePage extends Component {
     // If there is no next clue (i.e. it's the last clue)
     if (!nextClue) {
       // Switch directions and go to first clue in that direction
-      this.props.toggleDirection(this.findWord(sel))
+      this.props.toggleDirection(findWord(sel, cells, dir))
       // first clue id - 1 is to prevent it from skipping first clue (since it's returning the next)
       return this.findNextWordStart(this.firstClue().id-1)
     }
@@ -156,7 +141,7 @@ class SolvePage extends Component {
     // If that cell is filled
     if (this.props.enteredLetters[nextID]) {
       // the next cell should be the next cell in that word that isn't filled
-      next = this.findWord(next).find(cell => !this.props.enteredLetters[cell.id])
+      next = findWord(next, cells, dir).find(cell => !this.props.enteredLetters[cell.id])
       // If they're all filled
       if (!next) {
         // Move on to the next clue after that
@@ -166,35 +151,18 @@ class SolvePage extends Component {
     return next
   }
 
-  // Returns the next cell after the current selected cell
-  shiftSelectedCellForward() {
-    let sel = this.props.selectedCell
-    // Sort cells in order of id
-    this.props.puzzle.cells.sort((a, b) => a.id - b.id)
-    // Out of all the cells in the selected cell's current word
-    let word = this.findWord(sel)
-    // Find the one that has the next highest id from the selected cell's id
-    // As well as no associated entered letter -- i.e., the next blank cell
-    let next = word.find(c => c.id > sel.id && !this.props.enteredLetters[c.id])
-    // If there are no more blank cells AFTER the selected cell in the current word
-    // Find the first blank cell in the word
-    if (!next) { next = word.find(c => !this.props.enteredLetters[c.id]) }
-    // If all the cells in the word are filled, the next cell in the word should be selected
-    if (!next) { next = word.find(c => c.id > sel.id) }
-    // If the selected cell is the last cell in the word, it should remain selected
-    return next ? next : sel
-  }
-
   deleteLetter(cell) {
     this.props.setKey(cell.id, null)
   }
 
   handleBackspace(selectedCell, enteredLetters) {
+    let { puzzle, direction } = this.props
+
     if (currentCellHasLetter(selectedCell, enteredLetters)) {
       this.deleteLetter(selectedCell)
 
     } else {
-      let word = this.findWord(selectedCell)
+      let word = findWord(selectedCell, puzzle.cells, direction)
       let previousCell = shiftBackward(selectedCell, word)
 
       this.props.selectCell(previousCell, word)
@@ -224,7 +192,7 @@ class SolvePage extends Component {
       }).id)
       let nextWord = this.findNextWordStart(currentClueId)
       // and select that cell
-      selectCell(nextWord, this.findWord( nextWord ))
+      selectCell(nextWord, findWord(nextWord, puzzle.cells, direction))
     // CASE: Letters
     } else if (event.key.length === 1) {
       // Add the pressed letter to "enteredLetters" in state,
