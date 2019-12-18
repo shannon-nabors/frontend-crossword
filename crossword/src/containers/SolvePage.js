@@ -19,7 +19,8 @@ import { addFavorite,
          getFavorites } from '../redux/actions/stats'
 import { shiftBackward,
          currentCellHasLetter,
-         deleteLetter } from '../helpers/typingHelpers'
+         shiftForward,
+         findWord } from '../helpers/typingHelpers'
 
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
@@ -191,7 +192,7 @@ class SolvePage extends Component {
   handleBackspace(selectedCell, enteredLetters) {
     if (currentCellHasLetter(selectedCell, enteredLetters)) {
       this.deleteLetter(selectedCell)
-      
+
     } else {
       let word = this.findWord(selectedCell)
       let previousCell = shiftBackward(selectedCell, word)
@@ -230,7 +231,9 @@ class SolvePage extends Component {
       // with a key of the selected cell's id
       setKey(sel.id, event.key.toUpperCase())
       // Move forward to the next cell
-      selectCell(this.shiftSelectedCellForward(), this.findWord( sel ))
+      let nextCell = shiftForward(sel, puzzle.cells, entered, direction)
+      let word = findWord(sel, puzzle.cells, direction)
+      selectCell(nextCell, word)
     }
 
     // If the entered letter completes the puzzle
