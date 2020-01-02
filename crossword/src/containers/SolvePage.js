@@ -42,35 +42,50 @@ const timer = new Timer()
 
 class SolvePage extends Component {
 
-  // Add/remove event listeners; reset state when leaving page
   componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyPress)
+    // set state
     this.props.changeGameStatus("in progress")
     this.props.toggleInteractionType("letter")
     this.props.getFavorites("puzzle", this.props.puzzle.id)
+    
+    // timer
     timer.start()
-    timer.addEventListener('secondsUpdated', this.incrementTimer)
 
+    // event listeners
+    timer.addEventListener('secondsUpdated', this.incrementTimer)
+    document.addEventListener("keydown", this.handleKeyPress)
+
+    // select first cell
     let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
     this.props.selectCell(cells[0], findWord(cells[0], cells, "across"))
   }
 
+
   componentWillUnmount() {
+    // timer
     timer.stop()
-    document.removeEventListener('secondsUpdated', this.incrementTimer)
-    document.removeEventListener("keydown", this.handleKeyPress)
+    
+    // set state
     this.props.changeGameStatus("in progress")
+    this.props.resetAllLetters()
+    this.props.deselectCell()
+
+    // unpause in state if needed
     if (this.props.paused) {
       this.props.handleTimer()
     }
-    this.props.resetAllLetters()
-    this.props.deselectCell()
+
+    // remove event listeners
+    document.removeEventListener('secondsUpdated', this.incrementTimer)
+    document.removeEventListener("keydown", this.handleKeyPress)
   }
 
+
   componentDidUpdate(prevProps) {
+    // scroll to clue if active clue changed in state
     if(prevProps.clue !== this.props.clue) {
-      let c = document.getElementById(`clue-${this.props.clue.id}`)
-      c.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      let clueElement = document.getElementById(`clue-${this.props.clue.id}`)
+      clueElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
   }
 
@@ -182,10 +197,19 @@ class SolvePage extends Component {
     selectCell(nextWordStart, nextWord)
   }
 
+  handleLetterPress(event) {
+    let { enterLetter, selectCell, selectedCell,
+          puzzle, direction, enteredLetters } = this.props
+    enterLetter(selectedCell.id, event.key.toUpperCase())
+
+    let nextCell = shiftForward(selectedCell, puzzle.cells, enteredLetters, direction)
+    let word = findWord(selectedCell, puzzle.cells, direction)
+    selectCell(nextCell, word)
+  }
+
   // Enter letters into puzzle
   handleKeyPress = (event) => {
-    let { enterLetter, selectCell, selectedCell, solvingPuzzle,
-          puzzle, user, changeGameStatus, direction, enteredLetters } = this.props
+    let { selectedCell, solvingPuzzle, puzzle, user, changeGameStatus } = this.props
 
     if (!selectedCell) { return }
 
@@ -197,13 +221,7 @@ class SolvePage extends Component {
       this.handleTabbing()
 
     } else if (event.key.length === 1) {
-      // Add the pressed letter to "enteredLetters" in state,
-      // with a key of the selected cell's id
-      enterLetter(selectedCell.id, event.key.toUpperCase())
-      // Move forward to the next cell
-      let nextCell = shiftForward(selectedCell, puzzle.cells, enteredLetters, direction)
-      let word = findWord(selectedCell, puzzle.cells, direction)
-      selectCell(nextCell, word)
+      this.handleLetterPress(event)
     }
 
     // If the entered letter completes the puzzle
