@@ -20,7 +20,14 @@ import { addFavorite,
 import { shiftBackward,
          currentCellHasLetter,
          shiftForward,
+         firstClue,
+         findNextClue,
+         cellIsFilled,
+         opposite,
+         findNextBlankCell,
          findWord } from '../helpers/typingHelpers'
+import { unshadedCells,
+         orderedById } from '../helpers/puzzleHelpers'
 
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
@@ -119,36 +126,76 @@ class SolvePage extends Component {
     return cells.find(cell => cell.clues.find(clue => clue.id === clueId))
   }
 
+  // findNextWordStart(clueId) {
+  //   let dir = this.props.direction
+  //   let sel = this.props.selectedCell
+  //   let puz = this.props.puzzle
+  //   // Sort unshaded cells by id
+  //   let cells = puz.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
+  //   // Find the next across or down clue
+  //   let nextClue = this.findNextClue(clueId)
+  //   // If there is no next clue (i.e. it's the last clue)
+  //   if (!nextClue) {
+  //     // Switch directions and go to first clue in that direction
+  //     let word = findWord(sel, cells, dir)
+  //     console.log(word)
+  //     this.props.toggleDirection(word)
+  //     // first clue id - 1 is to prevent it from skipping first clue (since it's returning the next)
+  //     return this.findNextWordStart(this.firstClue().id-1)
+  //   }
+  //   // The next cell should be the next cell (by id) that has nextClue as a clue
+  //   // let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
+  //   let next = this.findNextCellWithClue(cells, nextClue.id)
+  //   let nextID = next.id
+  //   // If that cell is filled
+  //   if (this.props.enteredLetters[nextID]) {
+  //     // the next cell should be the next cell in that word that isn't filled
+  //     next = findWord(next, cells, dir).find(cell => !this.props.enteredLetters[cell.id])
+  //     // If they're all filled
+  //     if (!next) {
+  //       // Move on to the next clue after that
+  //       return this.findNextWordStart(nextClue.id)
+  //     }
+  //   }
+  //   return next
+  // }
+
   findNextWordStart(clueId) {
-    let dir = this.props.direction
-    let sel = this.props.selectedCell
-    let puz = this.props.puzzle
-    // Sort unshaded cells by id
-    let cells = puz.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
-    // Find the next across or down clue
-    let nextClue = this.findNextClue(clueId)
-    // If there is no next clue (i.e. it's the last clue)
-    if (!nextClue) {
-      // Switch directions and go to first clue in that direction
-      this.props.toggleDirection(findWord(sel, cells, dir))
-      // first clue id - 1 is to prevent it from skipping first clue (since it's returning the next)
-      return this.findNextWordStart(this.firstClue().id-1)
+    let { direction, puzzle, enteredLetters } = this.props
+    let cells = orderedById(unshadedCells(puzzle))
+    let nextClue = findNextClue(clueId, puzzle, direction)
+ 
+    if (!nextClue) { return this.startOverOppositeDirection() }
+    let nextCellCandidate = this.findNextCellWithClue(cells, nextClue.id)
+    if (cellIsFilled(nextCellCandidate, enteredLetters)) {
+      let nextWord = findWord(nextCellCandidate, cells, direction)
+      nextCellCandidate = findNextBlankCell(nextWord, nextCellCandidate, enteredLetters)
+      if (!nextCellCandidate) { return this.findNextWordStart(nextClue.id) }
     }
-    // The next cell should be the next cell (by id) that has nextClue as a clue
-    // let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
-    let next = this.findNextCellWithClue(cells, nextClue.id)
-    let nextID = next.id
-    // If that cell is filled
-    if (this.props.enteredLetters[nextID]) {
-      // the next cell should be the next cell in that word that isn't filled
-      next = findWord(next, cells, dir).find(cell => !this.props.enteredLetters[cell.id])
-      // If they're all filled
-      if (!next) {
-        // Move on to the next clue after that
-        return this.findNextWordStart(nextClue.id)
-      }
+    return nextCellCandidate
+  }
+
+  startOverOppositeDirection() {
+    let { selectedCell, puzzle, direction } = this.props
+    let newDirection = opposite(direction)
+    let word = findWord(selectedCell, puzzle.cells, opposite(direction))
+    this.props.toggleDirection(word)
+    return this.findFirstWordStart(newDirection)
+  }
+
+  findFirstWordStart(direction) {
+    let { puzzle, enteredLetters } = this.props
+    let cells = orderedById(unshadedCells(puzzle))
+    let clue = firstClue(direction, puzzle)
+
+    let nextCellCandidate = this.findNextCellWithClue(cells, clue.id)
+
+    if (cellIsFilled(nextCellCandidate, enteredLetters)) {
+      let nextWord = findWord(nextCellCandidate, cells, direction)
+      nextCellCandidate = findNextBlankCell(nextWord, nextCellCandidate, enteredLetters)
+      if (!nextCellCandidate) { return this.findNextWordStart(clue.id) }
     }
-    return next
+    return nextCellCandidate
   }
 
   deleteLetter(cell) {
@@ -190,9 +237,10 @@ class SolvePage extends Component {
       let currentClueId = (sel.clues.find(c => {
         return direction === "across" ? c.direction === "across" : c.direction === "down"
       }).id)
-      let nextWord = this.findNextWordStart(currentClueId)
+      let nextWordStart = this.findNextWordStart(currentClueId)
       // and select that cell
-      selectCell(nextWord, findWord(nextWord, puzzle.cells, direction))
+      selectCell(nextWordStart, findWord(nextWordStart, puzzle.cells, this.props.direction))
+      
     // CASE: Letters
     } else if (event.key.length === 1) {
       // Add the pressed letter to "enteredLetters" in state,

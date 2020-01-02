@@ -8,7 +8,7 @@ function shiftBackward(cell, word) {
 function shiftForward(cell, allCells, enteredLetters, direction) {
     let word = findWord(cell, allCells, direction)
     let next = findNextBlankCell(word, cell, enteredLetters)
-    if (!next) { next = findFirstBlankCell(word, enteredLetters) }
+    if (!next) { next = firstBlankCell(word, enteredLetters) }
     if (!next) { next = findNextCell(word, cell) }
     return next ? next : cell
 }
@@ -19,13 +19,25 @@ function findWord(thisCell, allCells, direction) {
     return orderedById(word)
 }
 
+function findNextClue(clueId, puzzle, direction) {
+    return clues(direction, puzzle).find(clue => clue.id > clueId)
+}
+
+function firstClue(direction, puzzle) {
+    return clues(direction, puzzle)[0]
+}
+
+function clues(direction, puzzle) {
+    return (direction === "across" ? puzzle.across_clues : puzzle.down_clues)
+}
+
 function findNextBlankCell(cells, currentCell, letters) {
     return orderedById(cells).find(cell => {
         return cell.id > currentCell.id && cellIsBlank(cell, letters)
     })
 }
 
-function findFirstBlankCell(cells, letters) {
+function firstBlankCell(cells, letters) {
     return orderedById(cells).find(cell => {
         return cellIsBlank(cell, letters)
     })
@@ -53,6 +65,10 @@ function cellIsBlank(cell, letters) {
     return !letters[cell.id]
 }
 
+function cellIsFilled(cell, letters) {
+    return !!letters[cell.id]
+}
+
 function cellsHavingClue(clue, cells) {
     return cells.filter(cell => {
         return cellHasClue(clue, cell)
@@ -63,7 +79,17 @@ function currentCellHasLetter(cell, enteredLetters) {
     return enteredLetters[cell.id]
 }
 
+function opposite(direction) {
+    return (direction === "across" ? "down" : "across")
+}
+
 export { shiftBackward,
          currentCellHasLetter,
          shiftForward,
+         findNextClue,
+         firstClue,
+         firstBlankCell,
+         findNextBlankCell,
+         cellIsFilled,
+         opposite,
          findWord }
