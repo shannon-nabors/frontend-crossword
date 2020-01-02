@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { isEqual, size, values } from 'lodash'
 import { Timer } from 'easytimer.js'
 
-import { setKey,
+import { enterLetter,
          selectCell,
          deselectCell,
          selectClue,
@@ -22,18 +22,22 @@ import { shiftBackward,
          shiftForward,
          firstClue,
          findNextClue,
+         findNextCellWithClue,
+         cellClueForCurrentDirection,
          cellIsFilled,
          opposite,
+         clues,
          findNextBlankCell,
          findWord } from '../helpers/typingHelpers'
-import { unshadedCells,
-         orderedById } from '../helpers/puzzleHelpers'
 
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
 import PauseModal from '../components/PauseModal'
 
-////////
+
+
+/////////////////////////////   SETUP    ////////////////////////////
+
 const timer = new Timer()
 
 class SolvePage extends Component {
@@ -70,6 +74,8 @@ class SolvePage extends Component {
     }
   }
 
+
+
   /////////////////////////////   HANDLE TIMER    ////////////////////////////
 
   // Count up by seconds 
@@ -99,82 +105,34 @@ class SolvePage extends Component {
     return this.handleTimerClick
   }
 
+
+
   /////////////////////////////   NAVIGATE PUZZLE    ////////////////////////////
 
-  findNewDirectionWord(ce, dir) {
-    let word = this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (ce.clues.find(c => dir === "across" ? c.direction === "across" : c.direction === "down")).id))
-
-    return word.sort((a, b) => a.id - b.id)
-  }
-
   findNextClue(clueId) {
-    // Set clue array based on current direction
-    // The next clue should be the clue with the next highest id from the given clue
-    return this.clues(this.props.direction).find(clue => clue.id > clueId)
+    return clues(this.props.direction, this.props.puzzle).find(clue => clue.id > clueId)
   }
 
   firstClue() {
-    return this.clues(this.props.direction)[0]
+    return clues(this.props.direction, this.props.puzzle)[0]
   }
-
-  clues(direction) {
-    let { puzzle } = this.props
-    return (direction === "across" ? puzzle.across_clues : puzzle.down_clues)
-  }
-
-  findNextCellWithClue(cells, clueId) {
-    return cells.find(cell => cell.clues.find(clue => clue.id === clueId))
-  }
-
-  // findNextWordStart(clueId) {
-  //   let dir = this.props.direction
-  //   let sel = this.props.selectedCell
-  //   let puz = this.props.puzzle
-  //   // Sort unshaded cells by id
-  //   let cells = puz.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
-  //   // Find the next across or down clue
-  //   let nextClue = this.findNextClue(clueId)
-  //   // If there is no next clue (i.e. it's the last clue)
-  //   if (!nextClue) {
-  //     // Switch directions and go to first clue in that direction
-  //     let word = findWord(sel, cells, dir)
-  //     console.log(word)
-  //     this.props.toggleDirection(word)
-  //     // first clue id - 1 is to prevent it from skipping first clue (since it's returning the next)
-  //     return this.findNextWordStart(this.firstClue().id-1)
-  //   }
-  //   // The next cell should be the next cell (by id) that has nextClue as a clue
-  //   // let next = cells.find(cell => cell.clues.find(c => c.id === nextClue.id))
-  //   let next = this.findNextCellWithClue(cells, nextClue.id)
-  //   let nextID = next.id
-  //   // If that cell is filled
-  //   if (this.props.enteredLetters[nextID]) {
-  //     // the next cell should be the next cell in that word that isn't filled
-  //     next = findWord(next, cells, dir).find(cell => !this.props.enteredLetters[cell.id])
-  //     // If they're all filled
-  //     if (!next) {
-  //       // Move on to the next clue after that
-  //       return this.findNextWordStart(nextClue.id)
-  //     }
-  //   }
-  //   return next
-  // }
 
   findNextWordStart(clueId) {
-    let { direction, puzzle, enteredLetters } = this.props
-    let cells = orderedById(unshadedCells(puzzle))
+    let { direction, puzzle } = this.props
     let nextClue = findNextClue(clueId, puzzle, direction)
  
-    if (!nextClue) { return this.startOverOppositeDirection() }
-    let nextCellCandidate = this.findNextCellWithClue(cells, nextClue.id)
-    if (cellIsFilled(nextCellCandidate, enteredLetters)) {
-      let nextWord = findWord(nextCellCandidate, cells, direction)
-      nextCellCandidate = findNextBlankCell(nextWord, nextCellCandidate, enteredLetters)
-      if (!nextCellCandidate) { return this.findNextWordStart(nextClue.id) }
+    if (!nextClue) {
+      return this.startOverOppositeDirection()
+    } else {
+      return this.nextBlankCellByDirection(nextClue.id)
     }
-    return nextCellCandidate
   }
 
+  findFirstWordStart(direction) {
+    let clue = firstClue(direction, this.props.puzzle)
+    return this.findNextWordStart(clue.id)
+  }
+  
   startOverOppositeDirection() {
     let { selectedCell, puzzle, direction } = this.props
     let newDirection = opposite(direction)
@@ -183,27 +141,25 @@ class SolvePage extends Component {
     return this.findFirstWordStart(newDirection)
   }
 
-  findFirstWordStart(direction) {
-    let { puzzle, enteredLetters } = this.props
-    let cells = orderedById(unshadedCells(puzzle))
-    let clue = firstClue(direction, puzzle)
-
-    let nextCellCandidate = this.findNextCellWithClue(cells, clue.id)
+  nextBlankCellByDirection(clueId) {
+    let { puzzle, enteredLetters, direction } = this.props
+    let nextCellCandidate = findNextCellWithClue(puzzle.cells, clueId)
 
     if (cellIsFilled(nextCellCandidate, enteredLetters)) {
-      let nextWord = findWord(nextCellCandidate, cells, direction)
+      let nextWord = findWord(nextCellCandidate, puzzle.cells, direction)
       nextCellCandidate = findNextBlankCell(nextWord, nextCellCandidate, enteredLetters)
-      if (!nextCellCandidate) { return this.findNextWordStart(clue.id) }
+      if (!nextCellCandidate) { return this.findNextWordStart(clueId) }
     }
+
     return nextCellCandidate
   }
 
   deleteLetter(cell) {
-    this.props.setKey(cell.id, null)
+    this.props.enterLetter(cell.id, null)
   }
 
-  handleBackspace(selectedCell, enteredLetters) {
-    let { puzzle, direction } = this.props
+  handleBackspace() {
+    let { puzzle, direction, selectedCell, enteredLetters } = this.props
 
     if (currentCellHasLetter(selectedCell, enteredLetters)) {
       this.deleteLetter(selectedCell)
@@ -217,38 +173,36 @@ class SolvePage extends Component {
     }
   }
 
+  handleTabbing() {
+    let { selectedCell, puzzle, selectCell } = this.props
+    let currentClueId = cellClueForCurrentDirection(selectedCell, this.props.direction).id
+    let nextWordStart = this.findNextWordStart(currentClueId)
+    let nextWord = findWord(nextWordStart, puzzle.cells, this.props.direction)
+
+    selectCell(nextWordStart, nextWord)
+  }
+
   // Enter letters into puzzle
   handleKeyPress = (event) => {
-    let sel = this.props.selectedCell
-    if (!sel) { return }
-    let entered = this.props.enteredLetters
-    let { setKey, selectCell, solvingPuzzle,
-          puzzle, user, changeGameStatus, direction } = this.props
+    let { enterLetter, selectCell, selectedCell, solvingPuzzle,
+          puzzle, user, changeGameStatus, direction, enteredLetters } = this.props
 
-    // CASE: Backspace
+    if (!selectedCell) { return }
+
     if (event.key === "Backspace") {
-      this.handleBackspace(sel, entered)
+      this.handleBackspace()
 
-    // CASE: Tab
     } else if (event.key === "Tab") {
-      // Prevent tabbing from cycling focus throughout page (i.e. selecting address bar)
       event.preventDefault()
-      // Find the cell that starts the next word
-      let currentClueId = (sel.clues.find(c => {
-        return direction === "across" ? c.direction === "across" : c.direction === "down"
-      }).id)
-      let nextWordStart = this.findNextWordStart(currentClueId)
-      // and select that cell
-      selectCell(nextWordStart, findWord(nextWordStart, puzzle.cells, this.props.direction))
-      
-    // CASE: Letters
+      this.handleTabbing()
+
     } else if (event.key.length === 1) {
       // Add the pressed letter to "enteredLetters" in state,
       // with a key of the selected cell's id
-      setKey(sel.id, event.key.toUpperCase())
+      enterLetter(selectedCell.id, event.key.toUpperCase())
       // Move forward to the next cell
-      let nextCell = shiftForward(sel, puzzle.cells, entered, direction)
-      let word = findWord(sel, puzzle.cells, direction)
+      let nextCell = shiftForward(selectedCell, puzzle.cells, enteredLetters, direction)
+      let word = findWord(selectedCell, puzzle.cells, direction)
       selectCell(nextCell, word)
     }
 
@@ -267,13 +221,14 @@ class SolvePage extends Component {
 
   // Select word from clue click
   handleClueClick = (clue) => {
-    let sel = this.props.puzzle.cells.find(cell => cell.number === clue.number)
+    let cluesFirstCell = this.props.puzzle.cells.find(cell => cell.number === clue.number)
     this.props.selectClue(clue)
-    // let c = document.getElementById(`clue-${clue.id}`)
-    // c.scrollIntoView(true)
-    // below is a temp. workaround for delay w/toggling dir.
-    this.props.selectCell(sel, this.findNewDirectionWord(sel, clue.direction))
+    this.props.selectCell(cluesFirstCell, findWord(cluesFirstCell, this.props.puzzle.cells, clue.direction))
   }
+
+
+
+  /////////////////////////////   FAVORITING    ////////////////////////////
 
   favorited() {
     let { puzzle, userFavorites } = this.props
@@ -288,7 +243,9 @@ class SolvePage extends Component {
     }
   }
 
-  ///////
+
+
+  /////////////////////////////   RENDER    ////////////////////////////
 
   render() {
     let { puzzle } = this.props
@@ -385,4 +342,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { setKey, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleInteractionType, toggleDirection, selectClue })(SolvePage)
+export default connect(mapStateToProps, { enterLetter, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleInteractionType, toggleDirection, selectClue })(SolvePage)

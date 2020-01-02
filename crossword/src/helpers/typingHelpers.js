@@ -83,13 +83,20 @@ function opposite(direction) {
     return (direction === "across" ? "down" : "across")
 }
 
+function findNextCellWithClue(cells, clueId) {
+    return cells.find(cell => cell.clues.find(clue => clue.id === clueId))
+}
+
 export { shiftBackward,
          currentCellHasLetter,
          shiftForward,
          findNextClue,
          firstClue,
          firstBlankCell,
+         clues,
          findNextBlankCell,
+         findNextCellWithClue,
+         cellClueForCurrentDirection,
          cellIsFilled,
          opposite,
          findWord }
