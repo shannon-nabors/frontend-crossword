@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { selectCell,
-         toggleDirection,
-         setKey } from '../redux/actions/puzzleInteraction'
+         toggleDirection } from '../redux/actions/puzzleInteraction'
 import { toggleShade } from '../redux/actions/createPuzzle'
 
 class Cell extends Component {
@@ -89,4 +88,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { selectCell, setKey, toggleDirection, toggleShade })(Cell)
+export default connect(mapStateToProps, { selectCell, toggleDirection, toggleShade })(Cell)

@@ -14,7 +14,6 @@ import { updatingPuzzle,
          clearNewPuzzle } from '../redux/actions/createPuzzle.js'
 import { selectCell,
          deselectCell,
-         setKey,
          resetAllLetters,
          selectClue,
          toggleDirection } from '../redux/actions/puzzleInteraction.js'
@@ -217,4 +216,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updateTitle, updatingPuzzle, setFormStage, setKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle, toggleDirection, selectClue })(EnterPage)
+export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updateTitle, updatingPuzzle, setFormStage, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, createdPuzzle, toggleDirection, selectClue })(EnterPage)

@@ -12,7 +12,7 @@ import { updatingPuzzle,
          clearNewPuzzle } from '../redux/actions/createPuzzle.js'
 import { selectCell,
          deselectCell,
-         setKey,
+         enterLetter,
          resetAllLetters } from '../redux/actions/puzzleInteraction.js'
 import { savedPuzzle } from '../redux/actions/changePuzzles.js'
 import Next from '../components/FormNextButton'
@@ -85,12 +85,12 @@ class ShadePage extends Component {
     let sel = this.props.selectedCell
     if (this.props.selectedCell && document.activeElement.type !== "text") {
       if (event.key === "Backspace") {
-        this.props.setKey(this.props.selectedCell.id, null)
+        this.props.enterLetter(this.props.selectedCell.id, null)
         this.props.selectCell(this.shiftSelectedCellBackward(), this.findWord(sel))
       } else if (event.key === "Tab"){
         this.props.selectCell(this.findNextWordStart(), this.findWord(this.findNextWordStart()))
       } else if (event.key.length === 1) {
-        this.props.setKey(this.props.selectedCell.id, event.key.toUpperCase())
+        this.props.enterLetter(this.props.selectedCell.id, event.key.toUpperCase())
         this.props.selectCell(this.shiftSelectedCellForward(), this.findWord(sel))
       }
     }
@@ -200,4 +200,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updateTitle, updatingPuzzle, setFormStage, setKey, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, toggleInteractionType, savedPuzzle })(ShadePage)
+export default connect(mapStateToProps, { updateAcrossClue, updateDownClue, updateTitle, updatingPuzzle, setFormStage, enterLetter, selectCell, deselectCell, resetAllLetters, clearNewPuzzle, setLetters, toggleInteractionType, savedPuzzle })(ShadePage)

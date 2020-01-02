@@ -45,8 +45,8 @@ function toggleDirection(fellows) {
 }
 
 // set pressed key
-function setKey(cellID, pressedKey) {
-  return { type: "SET_KEY", cellID, pressedKey}
+function enterLetter(cellID, pressedKey) {
+  return { type: "ENTER_LETTER", cellID, pressedKey}
 }
 
 
@@ -58,7 +58,7 @@ function resetAllLetters() {
 export { selectCell,
          deselectCell,
          toggleDirection,
-         setKey,
+         enterLetter,
          resetAllLetters,
          selectClue,
          deselectClue
