@@ -93,12 +93,10 @@ class SolvePage extends Component {
 
   /////////////////////////////   HANDLE TIMER    ////////////////////////////
 
-  // Count up by seconds 
   incrementTimer(e) {
     document.querySelector('#puz-timer').innerText = (timer.getTimeValues().toString())
   }
 
-  // Pause and restart timer
   handleTimerClick = () => {
     this.props.handleTimer()
     if (this.props.paused) {
@@ -108,13 +106,11 @@ class SolvePage extends Component {
     }
   }
 
-  // Stop timer on win and return the time used
   handleTimerWin() {
     timer.pause()
     return document.querySelector('#puz-timer').innerText
   }
 
-  // Pause timer on incorrect solve, to be restarted when clicking out of modal
   handleTimerIncorrect() {
     timer.pause()
     return this.handleTimerClick
@@ -122,7 +118,60 @@ class SolvePage extends Component {
 
 
 
-  /////////////////////////////   NAVIGATE PUZZLE    ////////////////////////////
+  /////////////////////////////   KEY PRESSING    ////////////////////////////
+
+  handleKeyPress = (event) => {
+    if (!this.props.selectedCell) { return }
+
+    if (event.key === "Backspace") {
+      this.handleBackspace()
+    } else if (event.key === "Tab") {
+      event.preventDefault()
+      this.handleTabbing()
+    } else if (event.key.length === 1) {
+      this.handleLetterPress(event)
+    }
+
+    this.checkForWin()
+  }
+
+  handleBackspace() {
+    let { puzzle, direction, selectedCell, enteredLetters } = this.props
+
+    if (currentCellHasLetter(selectedCell, enteredLetters)) {
+      this.deleteLetter(selectedCell)
+
+    } else {
+      let word = findWord(selectedCell, puzzle.cells, direction)
+      let previousCell = shiftBackward(selectedCell, word)
+
+      this.props.selectCell(previousCell, word)
+      this.deleteLetter(previousCell)
+    }
+  }
+
+  handleTabbing() {
+    let { selectedCell, puzzle, selectCell } = this.props
+    let currentClueId = cellClueForCurrentDirection(selectedCell, this.props.direction).id
+    let nextWordStart = this.findNextWordStart(currentClueId)
+    let nextWord = findWord(nextWordStart, puzzle.cells, this.props.direction)
+
+    selectCell(nextWordStart, nextWord)
+  }
+
+  handleLetterPress(event) {
+    let { enterLetter, selectCell, selectedCell,
+          puzzle, direction, enteredLetters } = this.props
+    enterLetter(selectedCell.id, event.key.toUpperCase())
+
+    let nextCell = shiftForward(selectedCell, puzzle.cells, enteredLetters, direction)
+    let word = findWord(selectedCell, puzzle.cells, direction)
+    selectCell(nextCell, word)
+  }
+
+
+
+  /////////////////////////////   KEY/NAV HELPERS    ////////////////////////////
 
   findNextClue(clueId) {
     return clues(this.props.direction, this.props.puzzle).find(clue => clue.id > clueId)
@@ -173,39 +222,9 @@ class SolvePage extends Component {
     this.props.enterLetter(cell.id, null)
   }
 
-  handleBackspace() {
-    let { puzzle, direction, selectedCell, enteredLetters } = this.props
 
-    if (currentCellHasLetter(selectedCell, enteredLetters)) {
-      this.deleteLetter(selectedCell)
 
-    } else {
-      let word = findWord(selectedCell, puzzle.cells, direction)
-      let previousCell = shiftBackward(selectedCell, word)
-
-      this.props.selectCell(previousCell, word)
-      this.deleteLetter(previousCell)
-    }
-  }
-
-  handleTabbing() {
-    let { selectedCell, puzzle, selectCell } = this.props
-    let currentClueId = cellClueForCurrentDirection(selectedCell, this.props.direction).id
-    let nextWordStart = this.findNextWordStart(currentClueId)
-    let nextWord = findWord(nextWordStart, puzzle.cells, this.props.direction)
-
-    selectCell(nextWordStart, nextWord)
-  }
-
-  handleLetterPress(event) {
-    let { enterLetter, selectCell, selectedCell,
-          puzzle, direction, enteredLetters } = this.props
-    enterLetter(selectedCell.id, event.key.toUpperCase())
-
-    let nextCell = shiftForward(selectedCell, puzzle.cells, enteredLetters, direction)
-    let word = findWord(selectedCell, puzzle.cells, direction)
-    selectCell(nextCell, word)
-  }
+  /////////////////////////////   WINNING    ////////////////////////////
 
   gameIsWon() {
     return isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)
@@ -229,22 +248,10 @@ class SolvePage extends Component {
 
   }
 
-  handleKeyPress = (event) => {
-    if (!this.props.selectedCell) { return }
 
-    if (event.key === "Backspace") {
-      this.handleBackspace()
-    } else if (event.key === "Tab") {
-      event.preventDefault()
-      this.handleTabbing()
-    } else if (event.key.length === 1) {
-      this.handleLetterPress(event)
-    }
 
-    this.checkForWin()
-  }
+  /////////////////////////////   CLUE CLICKING    ////////////////////////////
 
-  // Select word from clue click
   handleClueClick = (clue) => {
     let cluesFirstCell = this.props.puzzle.cells.find(cell => cell.number === clue.number)
     this.props.selectClue(clue)
