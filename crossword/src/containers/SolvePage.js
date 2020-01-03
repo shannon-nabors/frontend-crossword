@@ -207,34 +207,41 @@ class SolvePage extends Component {
     selectCell(nextCell, word)
   }
 
-  // Enter letters into puzzle
-  handleKeyPress = (event) => {
-    let { selectedCell, solvingPuzzle, puzzle, user, changeGameStatus } = this.props
+  gameIsWon() {
+    return isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)
+  }
 
-    if (!selectedCell) { return }
+  puzzleIsFilled() {
+    let { enteredLetters, puzzle } = this.props
+    return size(enteredLetters) === size(puzzle.correct_letters) && !values(enteredLetters).includes(null)
+  }
+
+  checkForWin() {
+    let { changeGameStatus, solvingPuzzle, user, puzzle } = this.props
+
+    if (this.gameIsWon()) {
+      changeGameStatus("won")
+      solvingPuzzle(user.id, puzzle.id, timer.getTotalTimeValues().seconds)
+      document.removeEventListener("keydown", this.handleKeyPress)
+    } else if (this.puzzleIsFilled()) {
+      changeGameStatus("completed incorrectly")
+    }
+
+  }
+
+  handleKeyPress = (event) => {
+    if (!this.props.selectedCell) { return }
 
     if (event.key === "Backspace") {
       this.handleBackspace()
-
     } else if (event.key === "Tab") {
       event.preventDefault()
       this.handleTabbing()
-
     } else if (event.key.length === 1) {
       this.handleLetterPress(event)
     }
 
-    // If the entered letter completes the puzzle
-    if (isEqual(this.props.enteredLetters, puzzle.correct_letters)) {
-      changeGameStatus("won")
-      // save their time
-      solvingPuzzle(user.id, puzzle.id, timer.getTotalTimeValues().seconds)
-      // stop listening for keypresses
-      document.removeEventListener("keydown", this.handleKeyPress)
-
-    } else if (size(this.props.enteredLetters) === size(puzzle.correct_letters) && !values(this.props.enteredLetters).includes(null)) {
-      changeGameStatus("completed incorrectly")
-    }
+    this.checkForWin()
   }
 
   // Select word from clue click
