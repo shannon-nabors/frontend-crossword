@@ -16,6 +16,7 @@ import { selectCell,
          resetAllLetters } from '../redux/actions/puzzleInteraction.js'
 import { savedPuzzle } from '../redux/actions/changePuzzles.js'
 import Next from '../components/FormNextButton'
+import DeleteButton from '../components/DeletePuzzleButton'
 import Puzzle from './Puzzle'
 
 class ShadePage extends Component {
@@ -144,6 +145,7 @@ class ShadePage extends Component {
               Step 2: Shade squares and enter letters
             </Header>
             <Header floated="right">
+              <DeleteButton puzzle={this.props.puzzle}></DeleteButton>
               <Button 
                 id="save-button" 
                 icon color="black"
