@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { isEqual, size, values } from 'lodash'
-// import { Timer } from 'easytimer.js'
 import { enterLetter,
     selectCell,
     deselectCell,
@@ -28,74 +26,37 @@ import { shiftBackward,
     findNextBlankCell,
     findWord } from '../helpers/typingHelpers'
 
-// const timer = new Timer()
 
 class TypingFunctions extends Component {
 
     componentDidMount() {
-        // if (this.props.timerOn) {
-            // set state
-            this.props.changeGameStatus("in progress")
-            this.props.toggleInteractionType("letter")
-            
-            // timer
-            // timer.start()
-        
-            // event listeners
-            // timer.addEventListener('secondsUpdated', this.incrementTimer)
-            document.addEventListener("keydown", this.handleKeyPress)
-        
-            // select first cell
+        // set state
+        this.props.changeGameStatus("in progress")
+        this.props.toggleInteractionType("letter")
+
+        // event listeners
+        document.addEventListener("keydown", this.handleKeyPress)
+    
+        // select first cell
+        if (this.props.puzzle.cells) {
             let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
             if (cells[0].clues.length > 0) {
                 this.props.selectCell(cells[0], findWord(cells[0], cells, "across"))
             }
-        // }
+        }
     }
 
     componentWillUnmount() {
-        // if (this.props.timerOn) {
-            // timer
-            // timer.stop()
-            
-            // set state
-            this.props.changeGameStatus("in progress")
-            this.props.resetAllLetters()
-            this.props.deselectCell()
-        
-            // unpause in state if needed
-            // if (this.props.paused) {
-            // this.props.handleTimer()
-            // }
-        
-            // remove event listeners
-            // document.removeEventListener('secondsUpdated', this.incrementTimer)
-            document.removeEventListener("keydown", this.handleKeyPress)
-        // }
+        // set state
+        this.props.changeGameStatus("in progress")
+        this.props.resetAllLetters()
+        this.props.deselectCell()
+
+        // remove event listeners
+        document.removeEventListener("keydown", this.handleKeyPress)
     }
 
-    // incrementTimer(e) {
-    //     document.querySelector('#puz-timer').innerText = (timer.getTimeValues().toString())
-    // }
-    
-    // handleTimerClick = () => {
-    //     this.props.handleTimer()
-    //     if (this.props.paused) {
-    //         timer.start()
-    //     } else {
-    //         timer.pause()
-    //     }
-    // }
-    
-    // handleTimerWin() {
-    //     timer.pause()
-    //     return document.querySelector('#puz-timer').innerText
-    // }
-    
-    // handleTimerIncorrect() {
-    //     timer.pause()
-    //     return this.handleTimerClick
-    // }
+
 
     handleKeyPress = (event) => {
         if (!this.props.selectedCell) { return }
@@ -194,28 +155,6 @@ class TypingFunctions extends Component {
     deleteLetter(cell) {
         this.props.enterLetter(cell.id, null)
     }
-
-    // gameIsWon() {
-    //     return isEqual(this.props.enteredLetters, this.props.puzzle.correct_letters)
-    // }
-    
-    // puzzleIsFilled() {
-    //     let { enteredLetters, puzzle } = this.props
-    //     return size(enteredLetters) === size(puzzle.correct_letters) && !values(enteredLetters).includes(null)
-    // }
-    
-    // checkForWin() {
-    //     let { changeGameStatus, solvingPuzzle, user, puzzle } = this.props
-    
-    //     if (this.gameIsWon()) {
-    //         changeGameStatus("won")
-    //         solvingPuzzle(user.id, puzzle.id, timer.getTotalTimeValues().seconds)
-    //         document.removeEventListener("keydown", this.handleKeyPress)
-    //     } else if (this.puzzleIsFilled()) {
-    //         changeGameStatus("completed incorrectly")
-    //     }
-    
-    // }
 
     render() {
         return (<></>)

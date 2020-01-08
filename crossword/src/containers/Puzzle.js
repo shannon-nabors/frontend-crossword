@@ -28,18 +28,17 @@ class Puzzle extends Component {
     let dimension = cells ? Math.sqrt(cells.length) : 0
 
     return (<>
-      <pre>editable: {this.props.editable}</pre>
       <svg
       viewBox={`0 0 ${23 * dimension + 6} ${23 * dimension +6}`}
       preserveAspectRatio="xMidYMin meet"
       xmlns="http://www.w3.org/2000/svg"
       id="puz"
       >
-      <TypingFunctions
+      {this.props.editable ? <TypingFunctions
         puzzle={this.props.puzzle}
         solvable={this.props.solvable}
         checkForWin={this.props.checkForWin}
-      />
+      /> : null}
         <g>
           {cells && cells.map(c =>
             <Cell

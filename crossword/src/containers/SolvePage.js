@@ -17,18 +17,7 @@ import { solvingPuzzle,
 import { addFavorite,
          deleteFavorite,
          getFavorites } from '../redux/actions/stats'
-import { shiftBackward,
-         currentCellHasLetter,
-         shiftForward,
-         firstClue,
-         findNextClue,
-         findNextCellWithClue,
-         cellClueForCurrentDirection,
-         cellIsFilled,
-         opposite,
-         clues,
-         findNextBlankCell,
-         findWord } from '../helpers/typingHelpers'
+import { findWord } from '../helpers/typingHelpers'
 
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
@@ -44,8 +33,6 @@ class SolvePage extends Component {
 
   componentDidMount() {
     // set state
-    // this.props.changeGameStatus("in progress")
-    // this.props.toggleInteractionType("letter")
     this.props.getFavorites("puzzle", this.props.puzzle.id)
     
     // timer
@@ -53,22 +40,12 @@ class SolvePage extends Component {
 
     // event listeners
     timer.addEventListener('secondsUpdated', this.incrementTimer)
-    // document.addEventListener("keydown", this.handleKeyPress)
-
-    // select first cell
-    // let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
-    // this.props.selectCell(cells[0], findWord(cells[0], cells, "across"))
   }
 
 
   componentWillUnmount() {
     // timer
     timer.stop()
-    
-    // set state
-    // this.props.changeGameStatus("in progress")
-    // this.props.resetAllLetters()
-    // this.props.deselectCell()
 
     // unpause in state if needed
     if (this.props.paused) {
@@ -77,7 +54,6 @@ class SolvePage extends Component {
 
     // remove event listeners
     document.removeEventListener('secondsUpdated', this.incrementTimer)
-    // document.removeEventListener("keydown", this.handleKeyPress)
   }
 
 
@@ -116,113 +92,7 @@ class SolvePage extends Component {
     return this.handleTimerClick
   }
 
-
-
-  /////////////////////////////   KEY PRESSING    ////////////////////////////
-
-  // handleKeyPress = (event) => {
-  //   if (!this.props.selectedCell) { return }
-
-  //   if (event.key === "Backspace") {
-  //     this.handleBackspace()
-  //   } else if (event.key === "Tab") {
-  //     event.preventDefault()
-  //     this.handleTabbing()
-  //   } else if (event.key.length === 1) {
-  //     this.handleLetterPress(event)
-  //   }
-
-  //   this.checkForWin()
-  // }
-
-  // handleBackspace() {
-  //   let { puzzle, direction, selectedCell, enteredLetters } = this.props
-
-  //   if (currentCellHasLetter(selectedCell, enteredLetters)) {
-  //     this.deleteLetter(selectedCell)
-
-  //   } else {
-  //     let word = findWord(selectedCell, puzzle.cells, direction)
-  //     let previousCell = shiftBackward(selectedCell, word)
-
-  //     this.props.selectCell(previousCell, word)
-  //     this.deleteLetter(previousCell)
-  //   }
-  // }
-
-  // handleTabbing() {
-  //   let { selectedCell, puzzle, selectCell } = this.props
-  //   let currentClueId = cellClueForCurrentDirection(selectedCell, this.props.direction).id
-  //   let nextWordStart = this.findNextWordStart(currentClueId)
-  //   let nextWord = findWord(nextWordStart, puzzle.cells, this.props.direction)
-
-  //   selectCell(nextWordStart, nextWord)
-  // }
-
-  // handleLetterPress(event) {
-  //   let { enterLetter, selectCell, selectedCell,
-  //         puzzle, direction, enteredLetters } = this.props
-  //   enterLetter(selectedCell.id, event.key.toUpperCase())
-
-  //   let nextCell = shiftForward(selectedCell, puzzle.cells, enteredLetters, direction)
-  //   let word = findWord(selectedCell, puzzle.cells, direction)
-  //   selectCell(nextCell, word)
-  // }
-
-
-
-  /////////////////////////////   KEY/NAV HELPERS    ////////////////////////////
-
-  // findNextClue(clueId) {
-  //   return clues(this.props.direction, this.props.puzzle).find(clue => clue.id > clueId)
-  // }
-
-  // firstClue() {
-  //   return clues(this.props.direction, this.props.puzzle)[0]
-  // }
-
-  // findNextWordStart(clueId) {
-  //   let { direction, puzzle } = this.props
-  //   let nextClue = findNextClue(clueId, puzzle, direction)
- 
-  //   if (!nextClue) {
-  //     return this.startOverOppositeDirection()
-  //   } else {
-  //     return this.nextBlankCellByDirection(nextClue.id)
-  //   }
-  // }
-
-  // findFirstWordStart(direction) {
-  //   let clue = firstClue(direction, this.props.puzzle)
-  //   return this.findNextWordStart(clue.id)
-  // }
   
-  // startOverOppositeDirection() {
-  //   let { selectedCell, puzzle, direction } = this.props
-  //   let newDirection = opposite(direction)
-  //   let word = findWord(selectedCell, puzzle.cells, opposite(direction))
-  //   this.props.toggleDirection(word)
-  //   return this.findFirstWordStart(newDirection)
-  // }
-
-  // nextBlankCellByDirection(clueId) {
-  //   let { puzzle, enteredLetters, direction } = this.props
-  //   let nextCellCandidate = findNextCellWithClue(puzzle.cells, clueId)
-
-  //   if (cellIsFilled(nextCellCandidate, enteredLetters)) {
-  //     let nextWord = findWord(nextCellCandidate, puzzle.cells, direction)
-  //     nextCellCandidate = findNextBlankCell(nextWord, nextCellCandidate, enteredLetters)
-  //     if (!nextCellCandidate) { return this.findNextWordStart(clueId) }
-  //   }
-
-  //   return nextCellCandidate
-  // }
-
-  // deleteLetter(cell) {
-  //   this.props.enterLetter(cell.id, null)
-  // }
-
-
 
   /////////////////////////////   WINNING    ////////////////////////////
 
