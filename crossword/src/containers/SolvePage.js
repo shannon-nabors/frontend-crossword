@@ -110,9 +110,7 @@ class SolvePage extends Component {
     return size(enteredLetters) === size(puzzle.correct_letters) && !values(enteredLetters).includes(null)
   }
 
-  checkForWin() {
-    let p = this.props
-    debugger
+  checkForWin = () => {
     let { changeGameStatus, solvingPuzzle, user, puzzle } = this.props
 
     if (this.gameIsWon()) {
