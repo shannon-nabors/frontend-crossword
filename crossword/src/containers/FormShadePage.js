@@ -24,19 +24,19 @@ class ShadePage extends Component {
   /////////////////////////////   SETUP    ////////////////////////////
 
   componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyPress)
+    // document.addEventListener("keydown", this.handleKeyPress)
     this.props.toggleInteractionType("shade")
     this.props.deselectCell()
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyPress)
+    // document.removeEventListener("keydown", this.handleKeyPress)
     this.props.deselectCell()
     this.props.resetAllLetters()
   }
 
   componentDidUpdate(prevProps) {
-    if(this.props.interaction === "letter" && prevProps.loading === true) {
+    if(this.isEditable() && prevProps.loading === true) {
       let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
       if (cells[0].clues.length > 0) {
         this.props.selectCell(cells[0], findWord(cells[0], cells, "across"))
@@ -47,9 +47,9 @@ class ShadePage extends Component {
   handleInteractionChange(buttonType) {
     // Set interaction type in state, depending on which button was clicked
     this.props.toggleInteractionType(buttonType)
-    if (buttonType === "letter" && this.props.interaction !== "letter") {
+    if (buttonType === "letter" && !this.isEditable()) {
       this.props.updatingPuzzle("setup")
-    } else if (buttonType === "shade" && this.props.interaction !== "shade") {
+    } else if (buttonType === "shade" && !this.isShadeable()) {
       this.props.deselectCell()
       this.props.setLetters()
       this.props.updatingPuzzle("letter")

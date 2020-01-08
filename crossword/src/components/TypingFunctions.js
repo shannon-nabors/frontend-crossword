@@ -36,7 +36,6 @@ class TypingFunctions extends Component {
 
         // event listeners
         document.addEventListener("keydown", this.handleKeyPress)
-    
         // select first cell
         if (this.props.puzzle.cells) {
             let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
@@ -48,8 +47,6 @@ class TypingFunctions extends Component {
 
     componentWillUnmount() {
         // set state
-        this.props.changeGameStatus("in progress")
-        this.props.resetAllLetters()
         this.props.deselectCell()
 
         // remove event listeners

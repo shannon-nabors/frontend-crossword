@@ -34,6 +34,7 @@ class SolvePage extends Component {
   componentDidMount() {
     // set state
     this.props.getFavorites("puzzle", this.props.puzzle.id)
+    this.props.changeGameStatus("in progress")
     
     // timer
     timer.start()
@@ -46,6 +47,10 @@ class SolvePage extends Component {
   componentWillUnmount() {
     // timer
     timer.stop()
+
+    // set state
+    this.props.changeGameStatus("in progress")
+    this.props.resetAllLetters()
 
     // unpause in state if needed
     if (this.props.paused) {
@@ -92,7 +97,7 @@ class SolvePage extends Component {
     return this.handleTimerClick
   }
 
-  
+
 
   /////////////////////////////   WINNING    ////////////////////////////
 
