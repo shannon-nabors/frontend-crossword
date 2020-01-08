@@ -44,8 +44,8 @@ class SolvePage extends Component {
 
   componentDidMount() {
     // set state
-    this.props.changeGameStatus("in progress")
-    this.props.toggleInteractionType("letter")
+    // this.props.changeGameStatus("in progress")
+    // this.props.toggleInteractionType("letter")
     this.props.getFavorites("puzzle", this.props.puzzle.id)
     
     // timer
@@ -53,11 +53,11 @@ class SolvePage extends Component {
 
     // event listeners
     timer.addEventListener('secondsUpdated', this.incrementTimer)
-    document.addEventListener("keydown", this.handleKeyPress)
+    // document.addEventListener("keydown", this.handleKeyPress)
 
     // select first cell
-    let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
-    this.props.selectCell(cells[0], findWord(cells[0], cells, "across"))
+    // let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
+    // this.props.selectCell(cells[0], findWord(cells[0], cells, "across"))
   }
 
 
@@ -66,9 +66,9 @@ class SolvePage extends Component {
     timer.stop()
     
     // set state
-    this.props.changeGameStatus("in progress")
-    this.props.resetAllLetters()
-    this.props.deselectCell()
+    // this.props.changeGameStatus("in progress")
+    // this.props.resetAllLetters()
+    // this.props.deselectCell()
 
     // unpause in state if needed
     if (this.props.paused) {
@@ -77,7 +77,7 @@ class SolvePage extends Component {
 
     // remove event listeners
     document.removeEventListener('secondsUpdated', this.incrementTimer)
-    document.removeEventListener("keydown", this.handleKeyPress)
+    // document.removeEventListener("keydown", this.handleKeyPress)
   }
 
 
@@ -120,107 +120,107 @@ class SolvePage extends Component {
 
   /////////////////////////////   KEY PRESSING    ////////////////////////////
 
-  handleKeyPress = (event) => {
-    if (!this.props.selectedCell) { return }
+  // handleKeyPress = (event) => {
+  //   if (!this.props.selectedCell) { return }
 
-    if (event.key === "Backspace") {
-      this.handleBackspace()
-    } else if (event.key === "Tab") {
-      event.preventDefault()
-      this.handleTabbing()
-    } else if (event.key.length === 1) {
-      this.handleLetterPress(event)
-    }
+  //   if (event.key === "Backspace") {
+  //     this.handleBackspace()
+  //   } else if (event.key === "Tab") {
+  //     event.preventDefault()
+  //     this.handleTabbing()
+  //   } else if (event.key.length === 1) {
+  //     this.handleLetterPress(event)
+  //   }
 
-    this.checkForWin()
-  }
+  //   this.checkForWin()
+  // }
 
-  handleBackspace() {
-    let { puzzle, direction, selectedCell, enteredLetters } = this.props
+  // handleBackspace() {
+  //   let { puzzle, direction, selectedCell, enteredLetters } = this.props
 
-    if (currentCellHasLetter(selectedCell, enteredLetters)) {
-      this.deleteLetter(selectedCell)
+  //   if (currentCellHasLetter(selectedCell, enteredLetters)) {
+  //     this.deleteLetter(selectedCell)
 
-    } else {
-      let word = findWord(selectedCell, puzzle.cells, direction)
-      let previousCell = shiftBackward(selectedCell, word)
+  //   } else {
+  //     let word = findWord(selectedCell, puzzle.cells, direction)
+  //     let previousCell = shiftBackward(selectedCell, word)
 
-      this.props.selectCell(previousCell, word)
-      this.deleteLetter(previousCell)
-    }
-  }
+  //     this.props.selectCell(previousCell, word)
+  //     this.deleteLetter(previousCell)
+  //   }
+  // }
 
-  handleTabbing() {
-    let { selectedCell, puzzle, selectCell } = this.props
-    let currentClueId = cellClueForCurrentDirection(selectedCell, this.props.direction).id
-    let nextWordStart = this.findNextWordStart(currentClueId)
-    let nextWord = findWord(nextWordStart, puzzle.cells, this.props.direction)
+  // handleTabbing() {
+  //   let { selectedCell, puzzle, selectCell } = this.props
+  //   let currentClueId = cellClueForCurrentDirection(selectedCell, this.props.direction).id
+  //   let nextWordStart = this.findNextWordStart(currentClueId)
+  //   let nextWord = findWord(nextWordStart, puzzle.cells, this.props.direction)
 
-    selectCell(nextWordStart, nextWord)
-  }
+  //   selectCell(nextWordStart, nextWord)
+  // }
 
-  handleLetterPress(event) {
-    let { enterLetter, selectCell, selectedCell,
-          puzzle, direction, enteredLetters } = this.props
-    enterLetter(selectedCell.id, event.key.toUpperCase())
+  // handleLetterPress(event) {
+  //   let { enterLetter, selectCell, selectedCell,
+  //         puzzle, direction, enteredLetters } = this.props
+  //   enterLetter(selectedCell.id, event.key.toUpperCase())
 
-    let nextCell = shiftForward(selectedCell, puzzle.cells, enteredLetters, direction)
-    let word = findWord(selectedCell, puzzle.cells, direction)
-    selectCell(nextCell, word)
-  }
+  //   let nextCell = shiftForward(selectedCell, puzzle.cells, enteredLetters, direction)
+  //   let word = findWord(selectedCell, puzzle.cells, direction)
+  //   selectCell(nextCell, word)
+  // }
 
 
 
   /////////////////////////////   KEY/NAV HELPERS    ////////////////////////////
 
-  findNextClue(clueId) {
-    return clues(this.props.direction, this.props.puzzle).find(clue => clue.id > clueId)
-  }
+  // findNextClue(clueId) {
+  //   return clues(this.props.direction, this.props.puzzle).find(clue => clue.id > clueId)
+  // }
 
-  firstClue() {
-    return clues(this.props.direction, this.props.puzzle)[0]
-  }
+  // firstClue() {
+  //   return clues(this.props.direction, this.props.puzzle)[0]
+  // }
 
-  findNextWordStart(clueId) {
-    let { direction, puzzle } = this.props
-    let nextClue = findNextClue(clueId, puzzle, direction)
+  // findNextWordStart(clueId) {
+  //   let { direction, puzzle } = this.props
+  //   let nextClue = findNextClue(clueId, puzzle, direction)
  
-    if (!nextClue) {
-      return this.startOverOppositeDirection()
-    } else {
-      return this.nextBlankCellByDirection(nextClue.id)
-    }
-  }
+  //   if (!nextClue) {
+  //     return this.startOverOppositeDirection()
+  //   } else {
+  //     return this.nextBlankCellByDirection(nextClue.id)
+  //   }
+  // }
 
-  findFirstWordStart(direction) {
-    let clue = firstClue(direction, this.props.puzzle)
-    return this.findNextWordStart(clue.id)
-  }
+  // findFirstWordStart(direction) {
+  //   let clue = firstClue(direction, this.props.puzzle)
+  //   return this.findNextWordStart(clue.id)
+  // }
   
-  startOverOppositeDirection() {
-    let { selectedCell, puzzle, direction } = this.props
-    let newDirection = opposite(direction)
-    let word = findWord(selectedCell, puzzle.cells, opposite(direction))
-    this.props.toggleDirection(word)
-    return this.findFirstWordStart(newDirection)
-  }
+  // startOverOppositeDirection() {
+  //   let { selectedCell, puzzle, direction } = this.props
+  //   let newDirection = opposite(direction)
+  //   let word = findWord(selectedCell, puzzle.cells, opposite(direction))
+  //   this.props.toggleDirection(word)
+  //   return this.findFirstWordStart(newDirection)
+  // }
 
-  nextBlankCellByDirection(clueId) {
-    let { puzzle, enteredLetters, direction } = this.props
-    let nextCellCandidate = findNextCellWithClue(puzzle.cells, clueId)
+  // nextBlankCellByDirection(clueId) {
+  //   let { puzzle, enteredLetters, direction } = this.props
+  //   let nextCellCandidate = findNextCellWithClue(puzzle.cells, clueId)
 
-    if (cellIsFilled(nextCellCandidate, enteredLetters)) {
-      let nextWord = findWord(nextCellCandidate, puzzle.cells, direction)
-      nextCellCandidate = findNextBlankCell(nextWord, nextCellCandidate, enteredLetters)
-      if (!nextCellCandidate) { return this.findNextWordStart(clueId) }
-    }
+  //   if (cellIsFilled(nextCellCandidate, enteredLetters)) {
+  //     let nextWord = findWord(nextCellCandidate, puzzle.cells, direction)
+  //     nextCellCandidate = findNextBlankCell(nextWord, nextCellCandidate, enteredLetters)
+  //     if (!nextCellCandidate) { return this.findNextWordStart(clueId) }
+  //   }
 
-    return nextCellCandidate
-  }
+  //   return nextCellCandidate
+  // }
 
-  deleteLetter(cell) {
-    this.props.enterLetter(cell.id, null)
-  }
+  // deleteLetter(cell) {
+  //   this.props.enterLetter(cell.id, null)
+  // }
 
 
 
@@ -236,6 +236,8 @@ class SolvePage extends Component {
   }
 
   checkForWin() {
+    let p = this.props
+    debugger
     let { changeGameStatus, solvingPuzzle, user, puzzle } = this.props
 
     if (this.gameIsWon()) {
@@ -311,6 +313,8 @@ class SolvePage extends Component {
                 puzzle={puzzle}
                 editable={this.props.gameStatus === "in progress" ? "true" : null}
                 answers={this.props.gameStatus === "review" ? "true" : null}
+                solvable={true}
+                checkForWin={this.checkForWin}
               />
             </Container>
 

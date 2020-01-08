@@ -3,6 +3,7 @@
 
 // select and deselect active cell
 function selectCell(cell, fellows) {
+  console.log(cell.row, cell.column)
   return (dispatch, getState) => {
     const { direction } = getState()
     dispatch({
