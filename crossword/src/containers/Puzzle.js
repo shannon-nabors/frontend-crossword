@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Cell from '../components/Cell'
+import TypingFunctions from '../components/TypingFunctions'
 import { connect } from 'react-redux'
 import { isEqual } from 'lodash'
 
@@ -24,15 +25,20 @@ class Puzzle extends Component {
   render() {
 
     let cells = this.props.puzzle && this.props.puzzle.cells
-    let dim = cells ? Math.sqrt(cells.length) : 0
+    let dimension = cells ? Math.sqrt(cells.length) : 0
 
-    return (
+    return (<>
       <svg
-        viewBox={`0 0 ${23*dim+6} ${23*dim+6}`}
-        preserveAspectRatio="xMidYMin meet"
-        xmlns="http://www.w3.org/2000/svg"
-        id="puz"
-        >
+      viewBox={`0 0 ${23 * dimension + 6} ${23 * dimension +6}`}
+      preserveAspectRatio="xMidYMin meet"
+      xmlns="http://www.w3.org/2000/svg"
+      id="puz"
+      >
+      {this.props.editable ? <TypingFunctions
+        puzzle={this.props.puzzle}
+        solvable={this.props.solvable}
+        checkForWin={this.props.checkForWin}
+      /> : null}
         <g>
           {cells && cells.map(c =>
             <Cell
@@ -47,25 +53,25 @@ class Puzzle extends Component {
         </g>
         <g>
           <path
-            d={this.makePathData(dim)}
+            d={this.makePathData(dimension)}
             stroke="dimgray">
           </path>
           <rect
             x="1.50"
             y="1.50"
-            width={ (23 * dim + 3).toString() }
-            height={ (23 * dim + 3).toString() }
+            width={ (23 * dimension + 3).toString() }
+            height={ (23 * dimension + 3).toString() }
             stroke="#1b1c1d"
             strokeWidth="3.00"
             fill="none">
           </rect>
         </g>
       </svg>
-    )
+    </>)
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     enteredLetters: state.enteredLetters,
     stage: state.formStage

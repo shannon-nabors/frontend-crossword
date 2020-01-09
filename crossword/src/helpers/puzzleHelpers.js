@@ -9,6 +9,10 @@ function allCellsFilled(puzzle) {
     })
 }
 
+function orderedById(cells) {
+    return cells.sort((a, b) => a.id - b.id)
+}
+
 function generateEnteredLetters(puzzle) {
     let letters = {}
     unshadedCells(puzzle).forEach(cell => {
@@ -18,5 +22,6 @@ function generateEnteredLetters(puzzle) {
 }
 
 export { unshadedCells,
-        allCellsFilled,
-        generateEnteredLetters }
+         allCellsFilled,
+         generateEnteredLetters,
+         orderedById }

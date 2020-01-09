@@ -18,7 +18,6 @@ const solvedPuzzlesReducer = (state = [], action) => {
     case "SOLVED_PUZZLE":
       return action.solved
     case "EDIT_SOLVED_FAVS":
-      debugger
       return action.puzzles
     case "LOG_OUT_USER":
       return []
