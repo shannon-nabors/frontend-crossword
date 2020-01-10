@@ -31,10 +31,11 @@ class DeleteButton extends Component {
         as={ Link }
         to="/profile"
         color="black"
-        labelPosition='right'
-        id="delete-button"
-        onClick={this.handleClick}>
-        Delete this puzzle
+        // labelPosition='right'
+        // className="delete-button"
+        id={this.props.buttonType}
+        onClick={this.handleClick}
+      >
         <Icon name='trash' />
       </Button>
     )

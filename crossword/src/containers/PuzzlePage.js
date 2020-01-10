@@ -62,7 +62,7 @@ class PuzzlePage extends Component {
               {this.belongsToCurrentUser() ? (
                 <Fragment>
                   <div id="puz-author"><Icon color="red" name="heart"/>{this.props.favorites.length} favorites</div>
-                  <DeleteButton puzzle={puzzle}/>
+                  <DeleteButton buttonType="delete-completed-puzzle" puzzle={puzzle}/>
                 </Fragment>
               ) : (
                 <div className="puz-header">

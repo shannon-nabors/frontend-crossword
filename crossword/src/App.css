@@ -160,7 +160,7 @@ body {
 }
 
 #save-button {
-  margin-left: 25px;
+  /* margin-left: 25px; */
   height: 36px;
   width: 38.52px;
 }
@@ -294,9 +294,14 @@ h4, h5 {
   font-family: 'Crimson Text', serif;
 }
 
-#delete-button {
+#delete-completed-puzzle {
   margin-top: 5px;
   margin-bottom: 10px;
+  font-family: 'Crimson Text', serif;
+}
+
+#delete-saved-puzzle {
+  /* height: 20px; */
   font-family: 'Crimson Text', serif;
 }
 

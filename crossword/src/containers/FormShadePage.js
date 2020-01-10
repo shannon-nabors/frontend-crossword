@@ -80,15 +80,20 @@ class ShadePage extends Component {
             <Header as="h2" id="enter-header" floated="left">
               Step 2: Shade squares and enter letters
             </Header>
-            <Header floated="right">
-              <DeleteButton puzzle={this.props.puzzle}></DeleteButton>
+
+            <Button.Group floated="right">
+              <DeleteButton
+                puzzle={this.props.puzzle}
+              >
+              </DeleteButton>
               <Button 
                 id="save-button" 
                 icon color="black"
                 onClick={ this.handleSave }>
                 <Icon name="save"></Icon>
               </Button>
-            </Header>
+            </Button.Group>
+
           </Segment>
           <Segment attached>
             When shading, click any square to toggle the color.  When entering letters, type and backspace as you would normally.  You can tab to the next clue, and click the active square to toggle the direction you're typing.

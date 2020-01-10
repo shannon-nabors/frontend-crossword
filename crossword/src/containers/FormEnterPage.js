@@ -18,6 +18,7 @@ import { selectCell,
          selectClue,
          toggleDirection } from '../redux/actions/puzzleInteraction.js'
 import Puzzle from './Puzzle'
+import DeleteButton from '../components/DeletePuzzleButton'
 
 class EnterPage extends Component {
   state = {
@@ -121,14 +122,18 @@ class EnterPage extends Component {
             <Header as="h2" id="enter-header" floated="left">
                 Step 3: Clue
             </Header>
-            <Header floated="right">
+            <Button.Group floated="right">
+              <DeleteButton
+                puzzle={this.props.puzzle}
+              >
+              </DeleteButton>
               <Button 
                 id="save-button" 
                 icon color="black"
                 onClick={ this.handleSave }>
                 <Icon name="save"></Icon>
               </Button>
-            </Header>
+            </Button.Group>
           </Segment>
           <Segment attached>Enter clues and give your puzzle a title!</Segment>
           <Form
