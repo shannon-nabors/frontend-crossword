@@ -84,8 +84,8 @@ class ShadePage extends Component {
             <Button.Group floated="right">
               <DeleteButton
                 puzzle={this.props.puzzle}
-              >
-              </DeleteButton>
+                saved="true"
+              />
               <Button 
                 id="save-button" 
                 icon color="black"

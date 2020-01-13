@@ -125,6 +125,7 @@ class EnterPage extends Component {
             <Button.Group floated="right">
               <DeleteButton
                 puzzle={this.props.puzzle}
+                saved="true"
               >
               </DeleteButton>
               <Button 

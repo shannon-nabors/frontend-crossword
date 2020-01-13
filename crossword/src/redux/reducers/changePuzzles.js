@@ -46,7 +46,7 @@ const userPuzzlesReducer = (state = [], action) => {
   switch (action.type) {
     case "FETCHED_PUZZLES":
       return action.puzzles.user_puzzles
-    case "DELETED_PUZZLE":
+    case "DELETED_USER_PUZZLE":
       return action.newPuzzles
     case "CREATED_PUZZLE":
       return [...state, action.puzzle]
@@ -58,11 +58,12 @@ const userPuzzlesReducer = (state = [], action) => {
 }
 
 const savedPuzzlesReducer = (state = [], action) => {
+  debugger
   switch (action.type) {
     case "FETCHED_PUZZLES":
       return action.puzzles.saved_puzzles
-    // case "DELETED_PUZZLE":
-    //   return action.newPuzzles
+    case "DELETED_SAVED_PUZZLE":
+      return action.newPuzzles
     // case "SAVED_PUZZLE":
     //   return action.newPuzzles
     case "SET_LETTERS":

@@ -37,13 +37,19 @@ function fetchingGuestPuzzles() {
 }
 
 // Alter "userPuzzles" state when a puzzle is created or deleted
-function deletedPuzzle(puzzle) {
+function deletedUserPuzzle(puzzle, saved) {
   return (dispatch, getState) => {
     const { userPuzzles } = getState()
-
     let newPuzzles = userPuzzles.filter(p => p.id !== puzzle.id)
+    dispatch({ type: "DELETED_USER_PUZZLE", newPuzzles })
+  }
+}
 
-    dispatch({ type: "DELETED_PUZZLE", newPuzzles })
+function deletedSavedPuzzle(puzzle, saved) {
+  return (dispatch, getState) => {
+    const { savedPuzzles } = getState()
+    let newPuzzles = savedPuzzles.filter(p => p.id !== puzzle.id)
+    dispatch({ type: "DELETED_SAVED_PUZZLE", newPuzzles })
   }
 }
 
@@ -70,6 +76,7 @@ export { loading,
          fetchedPuzzles,
          fetchingPuzzles,
          fetchingGuestPuzzles,
-         deletedPuzzle,
+         deletedUserPuzzle,
+         deletedSavedPuzzle,
          createdPuzzle,
          savedPuzzle }
