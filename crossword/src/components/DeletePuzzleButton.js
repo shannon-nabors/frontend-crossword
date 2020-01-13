@@ -31,6 +31,7 @@ class DeleteButton extends Component {
         as={ Link }
         to="/profile"
         color="black"
+        floated="right"
         // labelPosition='right'
         // className="delete-button"
         id={this.props.buttonType}

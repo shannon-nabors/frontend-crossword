@@ -295,9 +295,11 @@ h4, h5 {
 }
 
 #delete-completed-puzzle {
-  margin-top: 5px;
+  margin-top: 3px;
   margin-bottom: 10px;
   font-family: 'Crimson Text', serif;
+  font-size: 1em;
+  padding: 5px;
 }
 
 #delete-saved-puzzle {

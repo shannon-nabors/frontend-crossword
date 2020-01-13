@@ -57,12 +57,14 @@ class PuzzlePage extends Component {
         <Grid columns={4}>
           <Grid.Column width={8}>
             <Container id="puz-sizer">
-              <Header as="h2" id="puz-title">{puzzle && puzzle.title}</Header>
-
+                <Header as="h2" id="puz-title">{puzzle && puzzle.title}
+                  { this.belongsToCurrentUser() ?
+                    <DeleteButton buttonType="delete-completed-puzzle" puzzle={puzzle}/>
+                    : null }
+                </Header>
               {this.belongsToCurrentUser() ? (
                 <Fragment>
                   <div id="puz-author"><Icon color="red" name="heart"/>{this.props.favorites.length} favorites</div>
-                  <DeleteButton buttonType="delete-completed-puzzle" puzzle={puzzle}/>
                 </Fragment>
               ) : (
                 <div className="puz-header">
