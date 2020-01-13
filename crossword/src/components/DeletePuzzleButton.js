@@ -25,9 +25,9 @@ class DeleteButton extends Component {
 
   render() {
 
-    if (this.state.redirect) {
-      return <Redirect to="/profile"/>
-    }
+    // if (this.state.redirect) {
+    //   return <Redirect to="/profile"/>
+    // }
 
     return(
       <Button

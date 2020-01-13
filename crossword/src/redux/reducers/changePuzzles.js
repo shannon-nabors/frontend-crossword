@@ -58,7 +58,6 @@ const userPuzzlesReducer = (state = [], action) => {
 }
 
 const savedPuzzlesReducer = (state = [], action) => {
-  debugger
   switch (action.type) {
     case "FETCHED_PUZZLES":
       return action.puzzles.saved_puzzles

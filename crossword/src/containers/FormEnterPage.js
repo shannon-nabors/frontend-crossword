@@ -26,12 +26,7 @@ class EnterPage extends Component {
     failed: false
   }
 
-  componentDidMount() {
-    // document.addEventListener("keydown", this.handleKeyPress)
-  }
-
   componentWillUnmount() {
-    // document.removeEventListener("keydown", this.handleKeyPress)
     this.props.resetAllLetters()
     this.props.deselectCell()
     this.props.setFormStage("size")
