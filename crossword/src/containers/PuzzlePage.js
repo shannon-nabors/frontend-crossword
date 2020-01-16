@@ -23,8 +23,10 @@ class PuzzlePage extends Component {
   }
 
   componentDidMount() {
-    this.props.findSolveData("puzzle", this.props.puzzle.id)
-    this.props.getFavorites("puzzle", this.props.puzzle.id)
+    if (this.props.puzzle) {
+      this.props.findSolveData("puzzle", this.props.puzzle.id)
+      this.props.getFavorites("puzzle", this.props.puzzle.id)
+    }
   }
 
   componentWillUnmount() {

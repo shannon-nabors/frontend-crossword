@@ -26,6 +26,10 @@ class App extends Component {
           <Route
             path="/puzzles/:puzzleID"
             component={PuzzlePage}
+            // render = {() => {
+            //   debugger
+            //   return <PuzzlePage/>
+            // }}
           />
           <Route
             path="/solve/:puzzleID"

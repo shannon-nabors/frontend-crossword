@@ -6,7 +6,7 @@ import TimeChart from '../components/TimeCompareChart'
 
 class CurrentUserPage extends Component {
   state = {
-    menu: "Published"
+    menu: (this.props.location.state ? this.props.location.state.menu : "Published")
   }
 
   handleMenuClick = (e, { name }) => {

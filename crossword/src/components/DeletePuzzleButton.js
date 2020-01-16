@@ -6,16 +6,12 @@ import { URL } from '../redux/constants'
 import { deletedUserPuzzle, deletedSavedPuzzle } from '../redux/actions/changePuzzles'
 
 class DeleteButton extends Component {
-  state = {
-    redirect: false
-  }
 
   handleClick = () => {
     fetch(`${URL}/puzzles/${this.props.puzzle.id}`, {
       method: "DELETE",
       headers: {"Content-Type": "application/json"}
     })
-    // this.setState({ redirect: true })
     if (this.props.saved) {
       this.props.deletedSavedPuzzle(this.props.puzzle)
     } else {
@@ -25,19 +21,18 @@ class DeleteButton extends Component {
 
   render() {
 
-    // if (this.state.redirect) {
-    //   return <Redirect to="/profile"/>
-    // }
-
     return(
       <Button
         icon
         as={ Link }
-        to="/profile"
+        to={{
+          pathname: '/profile',
+          state: {
+            menu: (this.props.saved ? "Saved" : "Published")
+          }
+        }}
         color="black"
         floated="right"
-        // labelPosition='right'
-        // className="delete-button"
         id={this.props.buttonType}
         onClick={this.handleClick}
       >
