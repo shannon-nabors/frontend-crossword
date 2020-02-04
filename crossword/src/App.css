@@ -20,6 +20,11 @@ body {
   padding: .5em;
 }
 
+#nav-menu {
+  /* background-color: white;
+  border-radius: 5px!important; */
+}
+
 #menu-item {
   /* font-family: 'Nunito', sans-serif; */
   /* font-family: 'Playfair Display', serif; */

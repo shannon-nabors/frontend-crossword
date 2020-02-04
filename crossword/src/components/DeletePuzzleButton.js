@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'semantic-ui-react'
-import { Redirect, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { URL } from '../redux/constants'
 import { deletedUserPuzzle, deletedSavedPuzzle } from '../redux/actions/changePuzzles'

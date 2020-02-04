@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { PDFViewer } from '@react-pdf/renderer'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import '../App.css'
@@ -10,6 +11,7 @@ import SolveMenu from './SolveMenu'
 import PuzzlePage from './PuzzlePage'
 import SolvePage from './SolvePage'
 import SavedPage from './SavedPage'
+import PrintPage from './PrintPage'
 import Leaderboard from './Leaderboard'
 import CurrentUserPage from './CurrentUserPage'
 import Form from './PuzzleForm'
@@ -24,12 +26,12 @@ class App extends Component {
         <div id="pages">
         <Switch>
           <Route
+            path="/puzzles/:puzzleID/print/:svgString"
+            component={PrintPage}
+          />
+          <Route
             path="/puzzles/:puzzleID"
             component={PuzzlePage}
-            // render = {() => {
-            //   debugger
-            //   return <PuzzlePage/>
-            // }}
           />
           <Route
             path="/solve/:puzzleID"

@@ -16,7 +16,7 @@ class Navbar extends Component {
       <Header className="ui top fixed menu" id="header">
         {this.props.currentUser.username ? (
           <Container id="nav-menu-full">
-            <Menu widths={5} >
+            <Menu id="nav-menu" inverted widths={5} >
               <Menu.Item
                 fitted
                 as={ Link }
@@ -58,7 +58,7 @@ class Navbar extends Component {
           </Container>
         ) : (
           <Container id="nav-menu-half">
-            <Menu inverted widths={3}>
+            <Menu id="nav-menu" inverted widths={3}>
               <Menu.Item
                 fitted
                 as={ Link }

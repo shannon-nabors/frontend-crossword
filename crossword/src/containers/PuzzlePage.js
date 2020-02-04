@@ -3,6 +3,7 @@ import { Grid, Segment, Icon,
          Container, Header, Button,
          Menu } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { findSolveData,
          resetPuzzleSolves,
          addFavorite,
@@ -15,7 +16,8 @@ import DeleteButton from '../components/DeletePuzzleButton'
 class PuzzlePage extends Component {
 
   state = {
-    menu: "Clues"
+    menu: "Clues",
+    svgString: ""
   }
 
   handleMenuClick = (e, { name }) => {
@@ -32,6 +34,10 @@ class PuzzlePage extends Component {
   componentWillUnmount() {
     this.props.resetPuzzleSolves()
   }
+
+  // componentDidUpdate() {
+    
+  // }
 
   belongsToCurrentUser() {
     let { puzzle, user } = this.props
@@ -53,6 +59,8 @@ class PuzzlePage extends Component {
 
   render() {
     let { puzzle } = this.props
+    let svgElement = document.querySelector("#puz").outerHTML
+    // this.setState({ svgString: svgElement })
 
     return (
       <Container>
@@ -61,7 +69,18 @@ class PuzzlePage extends Component {
             <Container id="puz-sizer">
                 <Header as="h2" id="puz-title">{puzzle && puzzle.title}
                   { this.belongsToCurrentUser() ?
-                    <DeleteButton buttonType="delete-completed-puzzle" puzzle={puzzle}/>
+                    <Button.Group floated="right">
+                      <DeleteButton
+                        puzzle={this.props.puzzle}
+                      />
+                      <Button 
+                        icon color="black"
+                        as={ Link }
+                        to={`${this.props.puzzle.id}/print/${svgElement}`}
+                        >
+                        <Icon name="print"></Icon>
+                      </Button>
+                    </Button.Group>
                     : null }
                 </Header>
               {this.belongsToCurrentUser() ? (
