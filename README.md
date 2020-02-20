@@ -24,7 +24,7 @@ Not yet deployed; if you'd like to use the app, you can get instructions for ins
 ```sh
 git clone git@github.com:shannon-nabors/frontend-crossword.git
 ```
-In the directory:
+In the crossword directory:
 ```sh
 npm i
 npm start
