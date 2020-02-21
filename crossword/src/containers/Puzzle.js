@@ -26,13 +26,12 @@ class Puzzle extends Component {
 
     let cells = this.props.puzzle && this.props.puzzle.cells
     let dimension = cells ? Math.sqrt(cells.length) : 0
-
     return (<>
       <svg
       viewBox={`0 0 ${23 * dimension + 6} ${23 * dimension +6}`}
       preserveAspectRatio="xMidYMin meet"
       xmlns="http://www.w3.org/2000/svg"
-      id="puz"
+      display={this.props.invisible ? "none":"inline"}
       >
       {this.props.editable ? <TypingFunctions
         puzzle={this.props.puzzle}

@@ -72,6 +72,10 @@ function savedPuzzle(puzzle) {
   }
 }
 
+function setPrint(image) {
+  return { type: "SET_PRINT", image: image}
+}
+
 export { loading,
          fetchedPuzzles,
          fetchingPuzzles,
@@ -79,4 +83,5 @@ export { loading,
          deletedUserPuzzle,
          deletedSavedPuzzle,
          createdPuzzle,
+         setPrint,
          savedPuzzle }

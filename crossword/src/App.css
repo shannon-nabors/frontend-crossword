@@ -196,10 +196,11 @@ h4, h5 {
   font-family: 'Crimson Text', serif;
 }
 
-/* Puzzle pages */
-#puz {
-  /* font-family: 'Josefin Sans', sans-serif; */
+#puzzle-for-print {
+  display: none;
 }
+
+/* Puzzle pages */
 
 #puz-sizer {
   width: 70vh;

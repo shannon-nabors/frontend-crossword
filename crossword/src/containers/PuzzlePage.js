@@ -17,7 +17,7 @@ class PuzzlePage extends Component {
 
   state = {
     menu: "Clues",
-    svgString: ""
+    imageUrl: ""
   }
 
   handleMenuClick = (e, { name }) => {
@@ -35,9 +35,11 @@ class PuzzlePage extends Component {
     this.props.resetPuzzleSolves()
   }
 
-  // componentDidUpdate() {
-    
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.imageUrl !== prevState.imageUrl) {
+      console.log(this.state.imageUrl)
+    }
+  }
 
   belongsToCurrentUser() {
     let { puzzle, user } = this.props
@@ -59,8 +61,7 @@ class PuzzlePage extends Component {
 
   render() {
     let { puzzle } = this.props
-    let svgElement = document.querySelector("#puz").outerHTML
-    // this.setState({ svgString: svgElement })
+    let puzElement = document.querySelector("#puz")
 
     return (
       <Container>
@@ -76,7 +77,7 @@ class PuzzlePage extends Component {
                       <Button 
                         icon color="black"
                         as={ Link }
-                        to={`${this.props.puzzle.id}/print/${svgElement}`}
+                        to={`${this.props.puzzle.id}/printdata`}
                         >
                         <Icon name="print"></Icon>
                       </Button>

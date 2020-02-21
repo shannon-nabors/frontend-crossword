@@ -76,8 +76,19 @@ const savedPuzzlesReducer = (state = [], action) => {
   }
 }
 
+const printImageReducer = (state = null, action) => {
+  switch (action.type) {
+    case "SET_PRINT":
+      return action.image
+    default:
+      return state
+  }
+}
+
+
 export { loadingReducer,
          solvedPuzzlesReducer,
          unsolvedPuzzlesReducer,
          savedPuzzlesReducer,
+         printImageReducer,
          userPuzzlesReducer }

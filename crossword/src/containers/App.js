@@ -12,6 +12,7 @@ import PuzzlePage from './PuzzlePage'
 import SolvePage from './SolvePage'
 import SavedPage from './SavedPage'
 import PrintPage from './PrintPage'
+import PrintData from './PrintData'
 import Leaderboard from './Leaderboard'
 import CurrentUserPage from './CurrentUserPage'
 import Form from './PuzzleForm'
@@ -26,8 +27,12 @@ class App extends Component {
         <div id="pages">
         <Switch>
           <Route
-            path="/puzzles/:puzzleID/print/:svgString"
+            path="/puzzles/:puzzleID/print"
             component={PrintPage}
+          />
+          <Route
+            path="/puzzles/:puzzleID/printdata"
+            component={PrintData}
           />
           <Route
             path="/puzzles/:puzzleID"

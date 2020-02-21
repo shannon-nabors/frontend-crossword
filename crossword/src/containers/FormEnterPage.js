@@ -4,6 +4,7 @@ import { Grid, Container, Header,
          Button, Dimmer, Loader, Icon } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
+import * as html2canvas from 'html2canvas'
 import { createdPuzzle } from '../redux/actions/changePuzzles.js'
 import { updatingPuzzle,
          setLetters,
@@ -97,6 +98,7 @@ class EnterPage extends Component {
   }
 
   render() {
+    // console.log(document.querySelector('#puzzle-to-print'))
 
     if (this.state.redirect) {
       return <Redirect to="/home"/>
@@ -200,6 +202,8 @@ class EnterPage extends Component {
         <Dimmer active={this.props.loading ? true : false}>
           <Loader size='large'>Creating clues</Loader>
         </Dimmer>
+
+        <Puzzle puzzle={this.props.puzzle} invisible="true" id="puzzle-to-print"/>
 
       </Fragment>
     )

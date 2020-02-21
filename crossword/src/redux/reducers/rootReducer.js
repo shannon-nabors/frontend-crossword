@@ -3,6 +3,7 @@ import { loadingReducer,
          solvedPuzzlesReducer,
          unsolvedPuzzlesReducer,
          userPuzzlesReducer, 
+         printImageReducer,
          savedPuzzlesReducer} from './changePuzzles'
 import { formStageReducer,
          newPuzzleReducer,
@@ -44,7 +45,8 @@ const rootReducer = combineReducers({
   solves: solvesReducer,
   puzzleSolves: puzzleSolvesReducer,
   userFavorites: userFavoritesReducer,
-  puzzleFavorites: puzzleFavoritesReducer
+  puzzleFavorites: puzzleFavoritesReducer,
+  printImage: printImageReducer
 })
 
 
