@@ -9,6 +9,7 @@ import { findSolveData,
          addFavorite,
          deleteFavorite,
          getFavorites } from '../redux/actions/stats'
+import { deselectCell } from '../redux/actions/puzzleInteraction.js'
 import { formatTime } from '../redux/constants'
 import Puzzle from './Puzzle'
 import DeleteButton from '../components/DeletePuzzleButton'
@@ -25,6 +26,7 @@ class PuzzlePage extends Component {
   }
 
   componentDidMount() {
+    this.props.deselectCell()
     if (this.props.puzzle) {
       this.props.findSolveData("puzzle", this.props.puzzle.id)
       this.props.getFavorites("puzzle", this.props.puzzle.id)
@@ -179,4 +181,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { findSolveData, resetPuzzleSolves, addFavorite, deleteFavorite, getFavorites })(PuzzlePage)
+export default connect(mapStateToProps, { findSolveData, deselectCell, resetPuzzleSolves, addFavorite, deleteFavorite, getFavorites })(PuzzlePage)
