@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Page, Text, View, Image, Document, Font, StyleSheet, PDFViewer } from '@react-pdf/renderer'
 import { connect } from 'react-redux'
-import Puzzle from './Puzzle'
+import { URL } from '../redux/constants'
 
 
 Font.register({ family: 'Oswald', src: "https://fonts.gstatic.com/s/oswald/v30/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYySUhiCXAA.woff" });
@@ -17,22 +17,38 @@ const styles = StyleSheet.create({
 })
 
 class PrintPage extends Component {
+    constructor() {
+        super()
+        this.state = {puzzle: null}
+    }
 
-    render() { 
+    getPuzzle(id) {
+        fetch(`${URL}/puzzles/${id}`)
+        .then(res => res.json())
+        .then(puzzle => this.setState({puzzle: puzzle}))
+    }
+
+    componentDidMount() {
+        this.getPuzzle(this.props.puzzleId)
+    }
+
+    render() {
+        let {puzzle} = this.state
         return (
+            this.state.puzzle ?
             <PDFViewer style={styles.port}>
                 <Document>
                     <Page style={styles.section}>
                     <View style={styles.intro}>
-                        <Text style={styles.title}>{this.props.puzzle.title.toUpperCase()}</Text>
-                        <Text style={styles.author}>{`by ${this.props.puzzle.constructor.first_name} ${this.props.puzzle.constructor.last_name}`}</Text>
+                        <Text style={styles.title}>{puzzle.title.toUpperCase()}</Text>
+                        <Text style={styles.author}>{`by ${puzzle.constructor.first_name} ${puzzle.constructor.last_name}`}</Text>
                     </View>
                     <View style={styles.image}>
                         <Image src={this.props.imgSource} />
                     </View>
                     </Page>
                 </Document>
-            </PDFViewer>
+            </PDFViewer> : null
         )
     }
 
@@ -40,9 +56,10 @@ class PrintPage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-    puzzle: [...state.userPuzzles, ...state.unsolvedPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
-    user: state.currentUser,
-    imgSource: state.printImage
+    // puzzle: [...state.userPuzzles, ...state.unsolvedPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
+    // user: state.currentUser,
+        puzzleId: ownProps.match.params.puzzleID,
+        imgSource: state.printImage
     }
 }
 

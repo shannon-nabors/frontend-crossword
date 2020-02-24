@@ -24,6 +24,23 @@ function fetchingPuzzles(id) {
  }
 }
 
+// function fetchedPuzzle(puzzle) {
+//   return { type: "FETCHED_PUZZLES", puzzle}
+// }
+
+// function fetchingPuzzles(id) {
+//   return (dispatch) => {
+//     dispatch(loading())
+
+//     fetch(`${URL}/puzzles/${id}`)
+//     .then(res => res.json())
+
+//     .then(puzzle => {
+//     dispatch(fetchedPuzzle(puzzle))
+//   })
+//  }
+// }
+
 function fetchingGuestPuzzles() {
   return (dispatch) => {
     dispatch(loading())
