@@ -5,16 +5,20 @@ import { Redirect } from 'react-router-dom'
 import { URL } from '../redux/constants'
 
 
-Font.register({ family: 'Oswald', src: "https://fonts.gstatic.com/s/oswald/v30/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYySUhiCXAA.woff" });
-// Font.register({ family: 'Montserrat', src: "https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2" });
+Font.register({ family: 'Oswald', src: "https://fonts.gstatic.com/s/oswald/v30/TK3_WkUHHAIjg75cFRf3bXL8LICs1_FvsUZiYySUhiCXAA.woff" })
+Font.register({ family: 'Montserrat', src: "https://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459WlhyyTh89Y.woff2" })
+Font.register({ family: 'Raleway', src: "https://fonts.gstatic.com/s/raleway/v14/1Ptsg8zYS_SKggPNwE44TYFqL_KWxQ.woff2" })
+Font.register({ family: 'Muli-Regular', src: "https://fonts.gstatic.com/s/muli/v20/7Aulp_0qiz-aVz7u3PJLcUMYOFmQkEk30e6fwniDtzM.woff" })
+Font.register({ family: "Muli-Bold", src: "https://fonts.gstatic.com/s/muli/v20/7Aulp_0qiz-aVz7u3PJLcUMYOFkpl0k30e6fwniDtzM.woff"})
+Font.register({ family: 'Muli-Extra-Bold', src: "https://fonts.gstatic.com/s/muli/v20/7Aulp_0qiz-aVz7u3PJLcUMYOFlOl0k30e6fwniDtzM.woff"})
 
 const styles = StyleSheet.create({
     port: {width:"50%", height:"600px", marginLeft:"25%"},
-    section: { margin: 30, display: "flex"},
-    title: { fontFamily: 'Oswald', fontSize: 18},
-    author: { fontFamily: 'Oswald', fontSize: 12},
-    intro: {width: '50%'},
-    image: {width: '50%'}
+    section: { margin: 30},
+    row: {display: 'flex', flexDirection: 'row', width: "540px"},
+    column: {display: 'flex', flexDirection: 'column'},
+    title: { fontFamily: 'Oswald', fontSize: 20},
+    author: { fontFamily: 'Muli-Bold', fontSize: 10}
 })
 
 class PrintPage extends Component {
@@ -44,13 +48,17 @@ class PrintPage extends Component {
             <PDFViewer style={styles.port}>
                 <Document>
                     <Page style={styles.section}>
-                    <View style={styles.intro}>
-                        <Text style={styles.title}>{puzzle.title.toUpperCase()}</Text>
-                        <Text style={styles.author}>{`by ${puzzle.constructor.first_name} ${puzzle.constructor.last_name}`}</Text>
-                    </View>
-                    <View style={styles.image}>
-                        <Image src={this.props.imgSource} />
-                    </View>
+                        <View style={styles.row}>
+                            <View style={[styles.column, {width: "180px"}]}>
+                                <Text style={[styles.title, {paddingRight: "10px"}]}>{puzzle.title.toUpperCase()}</Text>
+                                <Text style={styles.author}>
+                                    {`BY ${puzzle.constructor.first_name.toUpperCase()} ${puzzle.constructor.last_name.toUpperCase()}`}
+                                </Text>
+                            </View>
+                            <View style={[styles.column, {width: "360px"}]}>
+                                <Image src={this.props.imgSource} />
+                            </View>
+                        </View>
                     </Page>
                 </Document>
             </PDFViewer> : null
