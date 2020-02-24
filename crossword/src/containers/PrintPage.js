@@ -18,7 +18,9 @@ const styles = StyleSheet.create({
     row: {display: 'flex', flexDirection: 'row', width: "540px"},
     column: {display: 'flex', flexDirection: 'column'},
     title: { fontFamily: 'Oswald', fontSize: 20},
-    author: { fontFamily: 'Muli-Bold', fontSize: 10}
+    author: { fontFamily: 'Muli-Bold', fontSize: 10},
+    clueText: {fontFamily: 'Muli-Regular', fontSize: 10},
+    clueNumber: {fontFamily: 'Muli-Bold'}
 })
 
 class PrintPage extends Component {
@@ -54,6 +56,14 @@ class PrintPage extends Component {
                                 <Text style={styles.author}>
                                     {`BY ${puzzle.constructor.first_name.toUpperCase()} ${puzzle.constructor.last_name.toUpperCase()}`}
                                 </Text>
+                                <Text style={styles.author}>DOWN</Text>
+                                {puzzle.across_clues.map(clue => {
+                                    return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
+                                })}
+                                <Text style={styles.author}>ACROSS</Text>
+                                {puzzle.down_clues.map(clue => {
+                                    return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
+                                })}
                             </View>
                             <View style={[styles.column, {width: "360px"}]}>
                                 <Image src={this.props.imgSource} />
