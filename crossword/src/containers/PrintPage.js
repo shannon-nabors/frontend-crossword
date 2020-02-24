@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { Page, Text, View, Image, Document, Font, StyleSheet, PDFViewer } from '@react-pdf/renderer'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { URL } from '../redux/constants'
 
 
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
 class PrintPage extends Component {
     constructor() {
         super()
-        this.state = {puzzle: null}
+        this.state = {redirect: false, puzzle: null}
     }
 
     getPuzzle(id) {
@@ -29,11 +30,15 @@ class PrintPage extends Component {
     }
 
     componentDidMount() {
+        if (!this.props.imgSource) {this.setState({redirect: true})}
         this.getPuzzle(this.props.puzzleId)
     }
 
     render() {
         let {puzzle} = this.state
+        if (this.state.redirect) {
+            return <Redirect to={`/puzzles/${this.props.puzzleId}/printdata`}/>
+        }
         return (
             this.state.puzzle ?
             <PDFViewer style={styles.port}>
