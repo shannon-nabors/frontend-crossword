@@ -11,6 +11,7 @@ Font.register({ family: 'Raleway', src: "https://fonts.gstatic.com/s/raleway/v14
 Font.register({ family: 'Muli-Regular', src: "https://fonts.gstatic.com/s/muli/v20/7Aulp_0qiz-aVz7u3PJLcUMYOFmQkEk30e6fwniDtzM.woff" })
 Font.register({ family: "Muli-Bold", src: "https://fonts.gstatic.com/s/muli/v20/7Aulp_0qiz-aVz7u3PJLcUMYOFkpl0k30e6fwniDtzM.woff"})
 Font.register({ family: 'Muli-Extra-Bold', src: "https://fonts.gstatic.com/s/muli/v20/7Aulp_0qiz-aVz7u3PJLcUMYOFlOl0k30e6fwniDtzM.woff"})
+Font.register({ family: "Crimson-Pro", src: "https://fonts.gstatic.com/s/crimsonpro/v12/q5uUsoa5M_tv7IihmnkabC5XiXCAlXGks1WZzm1MP5s4dtC4yJtE.woff"})
 
 const styles = StyleSheet.create({
     port: {width:"50%", height:"600px", marginLeft:"25%"},
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     column: {display: 'flex', flexDirection: 'column'},
     title: { fontFamily: 'Oswald', fontSize: 20},
     author: { fontFamily: 'Muli-Bold', fontSize: 10},
-    clueText: {fontFamily: 'Muli-Regular', fontSize: 10},
+    clueText: {fontFamily: 'Crimson-Pro', fontSize: 10},
     clueNumber: {fontFamily: 'Muli-Bold'}
 })
 
@@ -82,7 +83,7 @@ class PrintPage extends Component {
                         </View>
                         <View style={styles.row}>
                                 <View style={[styles.column, {width: "180px"}]}></View>
-                                <View style={[styles.column, {width: "180px"}]}>
+                                <View style={[styles.column, {width: "180px", paddingRight: "10px"}]}>
                                     <Text style={styles.author}>DOWN</Text>
                                     {this.firstHalfDownClues().map(clue => {
                                         return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
