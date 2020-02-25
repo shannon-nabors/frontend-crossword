@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import * as html2canvas from 'html2canvas'
 import { connect } from 'react-redux'
+import { Dimmer, Loader } from 'semantic-ui-react'
 import Puzzle from './Puzzle'
 import { Redirect } from 'react-router-dom'
 import { setPrint } from '../redux/actions/changePuzzles'
@@ -38,8 +39,12 @@ class PrintData extends Component {
             return <Redirect to={`/puzzles/${this.state.puzzle.id}/print`}/>
         }
         return (
-            <div>
-                <div style={{height: "800px"}}></div>
+            <div style={{marginBottom: "10px"}}>
+                <div style={{height: "800px"}}>
+                    <Dimmer active>
+                        <Loader size='large'>Loading</Loader>
+                    </Dimmer>
+                </div>
                 <Puzzle puzzle={this.state.puzzle}/>
             </div>
         )
