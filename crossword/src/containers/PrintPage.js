@@ -40,6 +40,17 @@ class PrintPage extends Component {
         this.getPuzzle(this.props.puzzleId)
     }
 
+    firstHalfDownClues() {
+        let halfway = Math.ceil(this.state.puzzle.down_clues.length / 2)
+        return this.state.puzzle.down_clues.slice(0, halfway)
+    }
+
+    secondHalfDownClues() {
+        let length = this.state.puzzle.down_clues.length
+        let halfway = Math.ceil(length / 2)
+        return this.state.puzzle.down_clues.slice(halfway, length)
+    }
+
     render() {
         let {puzzle} = this.state
         if (this.state.redirect) {
@@ -50,24 +61,38 @@ class PrintPage extends Component {
             <PDFViewer style={styles.port}>
                 <Document>
                     <Page style={styles.section}>
-                        <View style={styles.row}>
-                            <View style={[styles.column, {width: "180px"}]}>
+                        <View style={[styles.row, {height: "370px"}]}>
+                            <View style={[styles.column, {width: "180px", paddingRight: "10px"}]}>
                                 <Text style={[styles.title, {paddingRight: "10px"}]}>{puzzle.title.toUpperCase()}</Text>
                                 <Text style={styles.author}>
                                     {`BY ${puzzle.constructor.first_name.toUpperCase()} ${puzzle.constructor.last_name.toUpperCase()}`}
                                 </Text>
-                                <Text style={styles.author}>DOWN</Text>
+                                <Text>________________</Text>
+                                <Text>  </Text>
+                                <Text style={styles.author}>ACROSS</Text>
                                 {puzzle.across_clues.map(clue => {
                                     return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
                                 })}
-                                <Text style={styles.author}>ACROSS</Text>
-                                {puzzle.down_clues.map(clue => {
-                                    return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
-                                })}
+
+
                             </View>
                             <View style={[styles.column, {width: "360px"}]}>
                                 <Image src={this.props.imgSource} />
                             </View>
+                        </View>
+                        <View style={styles.row}>
+                                <View style={[styles.column, {width: "180px"}]}></View>
+                                <View style={[styles.column, {width: "180px"}]}>
+                                    <Text style={styles.author}>DOWN</Text>
+                                    {this.firstHalfDownClues().map(clue => {
+                                        return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
+                                    })}
+                                </View>
+                                <View style={[styles.column, {width: "180px"}]}>
+                                    {this.secondHalfDownClues().map(clue => {
+                                        return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
+                                    })}
+                                </View>
                         </View>
                     </Page>
                 </Document>
