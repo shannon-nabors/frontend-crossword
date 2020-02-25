@@ -7,12 +7,12 @@ Platform for constructing & solving crossword puzzles.  Frontend is React-Redux;
 - Access your created, saved and solved puzzles through your profile page.
 - Solve puzzles created by other users.
 - Key controls for both solving and creating puzzles are similar to other standard crossword apps (tabbing, backspacing, etc).
-
-## In progress:
 - Print out a formatted pdf version of a puzzle (using [react-pdf](https://github.com/diegomura/react-pdf))
 
-## Future:
+## In progress:
 - Add special features to squares (i.e. circled letters, shading and the like for themed puzzles)
+
+## Future:
 - Add a way to construct cryptics (current algorithm for numbering/cluing puzzle won't permit this)
 
 # Installation:
