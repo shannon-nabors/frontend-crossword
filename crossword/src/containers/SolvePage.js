@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { isEqual, size, values } from 'lodash'
 import { Link } from 'react-router-dom'
 import { Timer } from 'easytimer.js'
+import { URL } from '../redux/constants'
 
 import { enterLetter,
          selectCell,
@@ -31,10 +32,27 @@ import PauseModal from '../components/PauseModal'
 const timer = new Timer()
 
 class SolvePage extends Component {
+  constructor() {
+    super()
+    this.state = {puzzle: null}
+  }
+
+  getPuzzle(id) {
+    fetch(`${URL}/puzzles/${id}`)
+    .then(res => res.json())
+    .then(puzzle => {
+      this.setState({puzzle: puzzle})
+    })
+  }
 
   componentDidMount() {
     // set state
-    this.props.getFavorites("puzzle", this.props.puzzle.id)
+    if (this.props.puzzle) {
+      this.props.getFavorites("puzzle", this.props.puzzle.id)
+    } else {
+      this.getPuzzle(this.props.puzzleId)
+      this.props.getFavorites("puzzle", this.props.puzzleId)
+    }
     this.props.changeGameStatus("in progress")
     
     // timer
@@ -76,7 +94,10 @@ class SolvePage extends Component {
   /////////////////////////////   HANDLE TIMER    ////////////////////////////
 
   incrementTimer(e) {
-    document.querySelector('#puz-timer').innerText = (timer.getTimeValues().toString())
+    let timerElement = document.querySelector('#puz-timer')
+    if (timerElement) {
+      timerElement.innerText = (timer.getTimeValues().toString())
+    }
   }
 
   handleTimerClick = () => {
@@ -157,6 +178,8 @@ class SolvePage extends Component {
 
   render() {
     let { puzzle } = this.props
+    if (!puzzle) {puzzle = this.state.puzzle}
+    if (!puzzle) return null
     return (
       <Container>
         <Grid columns={4}>
@@ -175,7 +198,7 @@ class SolvePage extends Component {
                   labelPosition="right"
                 ><span id="puz-timer">00:00:00</span><Icon name="pause"/></Button>
 
-                {this.favorited() ? (
+                {this.props.user && this.favorited() ? (
                   <Button color="black" id="fav-bar-solve" onClick={this.handleFavClick}><Icon color="red" name="heart"/>{this.props.favorites.length} {this.props.favorites.length === 1 ? "favorite" : "favorites"}</Button>
                 ) : (
                   <Button color="black" id="fav-bar-solve" onClick={this.handleFavClick}><Icon color="red" name="heart outline"/>{this.props.favorites.length} {this.props.favorites.length === 1 ? "favorite" : "favorites"}</Button>
@@ -186,7 +209,7 @@ class SolvePage extends Component {
                 floated="right" 
                 icon color="black"
                 as={ Link }
-                to={`/puzzles/${this.props.puzzle.id}/printdata`}
+                to={`/puzzles/${puzzle.id}/printdata`}
                 >
                 <Icon name="print"></Icon>
               </Button>
@@ -246,6 +269,7 @@ class SolvePage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    puzzleId: parseInt(ownProps.match.params.puzzleID),
     puzzle: [...state.unsolvedPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
     selectedCell: state.selectedCell,
     highlightedCells: state.highlightedCells,
