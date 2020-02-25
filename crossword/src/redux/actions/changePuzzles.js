@@ -8,14 +8,16 @@ function loading() {
 
 // Fetch puzzles
 function fetchedPuzzles(puzzles) {
+  console.log(puzzles)
   return { type: "FETCHED_PUZZLES", puzzles}
 }
 
 function fetchingPuzzles(id) {
+  let targetUrl = (id ? `${URL}/puzzles/user/${id}` : `${URL}/puzzles`)
   return (dispatch) => {
     dispatch(loading())
 
-    fetch(`${URL}/puzzles/user/${id}`)
+    fetch(targetUrl)
     .then(res => res.json())
 
     .then(puzzles => {
