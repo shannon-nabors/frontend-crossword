@@ -62,14 +62,18 @@ class PrintPage extends Component {
             <PDFViewer style={styles.port}>
                 <Document>
                     <Page style={styles.section}>
+                        <Text style={styles.clueText}><Text style={styles.clueNumber}>CrossPost</Text> created by Shannon Nabors</Text>
+                        <View style={[styles.row, {paddingBottom: "10px"}]}>
+                            <Text style={styles.clueText}>__________________________________________________________________________________________________________________________________________________________</Text>
+                        </View>
                         <View style={[styles.row, {height: "370px"}]}>
                             <View style={[styles.column, {width: "180px", paddingRight: "10px"}]}>
                                 <Text style={[styles.title, {paddingRight: "10px"}]}>{puzzle.title.toUpperCase()}</Text>
                                 <Text style={styles.author}>
                                     {`BY ${puzzle.constructor.first_name.toUpperCase()} ${puzzle.constructor.last_name.toUpperCase()}`}
                                 </Text>
-                                <Text>________________</Text>
-                                <Text>  </Text>
+                                <Text style={styles.clueText}>____________________________________________</Text>
+                                <Text style={styles.clueText}>  </Text>
                                 <Text style={styles.author}>ACROSS</Text>
                                 {puzzle.across_clues.map(clue => {
                                     return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
