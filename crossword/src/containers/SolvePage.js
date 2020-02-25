@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Segment, Container, Header, Button, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { isEqual, size, values } from 'lodash'
+import { Link } from 'react-router-dom'
 import { Timer } from 'easytimer.js'
 
 import { enterLetter,
@@ -181,6 +182,14 @@ class SolvePage extends Component {
                 )}
 
               </span>
+              <Button
+                floated="right" 
+                icon color="black"
+                as={ Link }
+                to={`/puzzles/${this.props.puzzle.id}/printdata`}
+                >
+                <Icon name="print"></Icon>
+              </Button>
               <Puzzle
                 key={puzzle && puzzle.id}
                 puzzle={puzzle}

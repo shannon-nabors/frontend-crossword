@@ -35,12 +35,12 @@ class App extends Component {
             component={PrintData}
           />
           <Route
-            path="/puzzles/:puzzleID"
-            component={PuzzlePage}
+            path="/puzzles/:puzzleID/solve"
+            component={SolvePage}
           />
           <Route
-            path="/solve/:puzzleID"
-            component={SolvePage}
+            path="/puzzles/:puzzleID"
+            component={PuzzlePage}
           />
           <Route
             path="/saved/:puzzleID"

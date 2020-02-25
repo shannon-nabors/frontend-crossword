@@ -14,7 +14,7 @@ class PuzzleCard extends Component {
     } else if (savedPuzzles.includes(puzzle)) {
       return `/saved/${puzzle.id}`
     } else {
-      return `/solve/${puzzle.id}`
+      return `/puzzles/${puzzle.id}/solve`
     }
   }
 
