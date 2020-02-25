@@ -13,6 +13,7 @@ Platform for constructing & solving crossword puzzles.  Frontend is React-Redux;
 - Add special features to squares (i.e. circled letters, shading and the like for themed puzzles)
 
 ## Future:
+- Add ability to check cell/word/puzzle as you solve
 - Add a way to construct cryptics (current algorithm for numbering/cluing puzzle won't permit this)
 
 # Installation:
