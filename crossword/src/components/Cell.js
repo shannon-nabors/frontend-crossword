@@ -47,6 +47,32 @@ class Cell extends Component {
     return this.props.puzzle.cells.filter(cell => cell.clues.find(clue => clue.id === (this.props.cell.clues.find(c => c.direction === "down")).id) && cell !== this.props.cell)
   }
 
+  makeCircle(cell) {
+    if (cell.number) {
+      let val1 = (23 * cell.column - 19.5).toString()
+      let val2 = (23 * cell.row - 9.75).toString()
+      return (
+        <path
+          d={`M${val1} ${val2} a10.75 10.75 0 1 0 10.75 -10.75`}
+          stroke="dimgray"
+          fill="none"
+          vectorEffect="non-scaling-stroke"
+        ></path>
+      )
+    } else {
+      return (
+        <circle
+            cx={ (23 * cell.column - 9).toString() }
+            cy={ (23 * cell.row - 9).toString() }
+            r={"10.75"}
+            stroke="dimgray"
+            fill="none"
+            vectorEffect="non-scaling-stroke"
+          ></circle>
+      )
+    }
+  }
+
   render() {
     let cell = this.props.cell
 
@@ -61,16 +87,7 @@ class Cell extends Component {
           fill={ this.setFillColor() }>
         </rect>
 
-        {cell.circled ? 
-          <circle
-            cx={ (23 * cell.column - 9).toString() }
-            cy={ (23 * cell.row - 9).toString() }
-            r={"10.75"}
-            stroke="dimgray"
-            fill="none"
-            vectorEffect="non-scaling-stroke"
-          ></circle>
-         : null}
+        {cell.circled ? this.makeCircle(cell) : null}
 
         <text
           x={ (23 * cell.column) - 18 }
