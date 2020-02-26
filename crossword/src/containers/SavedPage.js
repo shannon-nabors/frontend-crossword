@@ -11,7 +11,6 @@ class SavedPage extends Component {
 
   componentDidMount() {
     let puz = this.props.puzzle
-
     // Set newPuzzle in state as this saved puzzle
     this.props.updatedPuzzle(puz)
 
@@ -20,8 +19,8 @@ class SavedPage extends Component {
     this.props.setEnteredLetters(letters)
 
     // Set stage based on whether puzzle is filled in
-    let stage = allCellsFilled(puz) ? "enter" : "shade"
-    this.props.setFormStage(stage)
+    // let stage = allCellsFilled(puz) ? "enter" : "shade"
+    this.props.setFormStage("shade")
   }
 
   componentWillUnmount() {
@@ -48,7 +47,7 @@ class SavedPage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     stage: state.formStage,
-    puzzle: state.savedPuzzles.find(p => p.id === parseInt(ownProps.match.params.puzzleID))
+    puzzle: ([...state.savedPuzzles, ...state.userPuzzles]).find(p => p.id === parseInt(ownProps.match.params.puzzleID))
   }
 }
 

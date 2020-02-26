@@ -3,7 +3,7 @@ import { Grid, Segment, Icon,
          Container, Header, Button,
          Menu } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { findSolveData,
          resetPuzzleSolves,
          addFavorite,
@@ -18,6 +18,7 @@ class PuzzlePage extends Component {
 
   state = {
     menu: "Clues",
+    redirect: false,
     imageUrl: ""
   }
 
@@ -61,11 +62,16 @@ class PuzzlePage extends Component {
     }
   }
 
+  handleEditClick = () => {
+    this.setState({redirect: true}) 
+  }
+
   render() {
     let { puzzle } = this.props
     let puzElement = document.querySelector("#puz")
 
     return (
+      this.state.redirect ? <Redirect to={`/saved/${this.props.puzzle.id}`}></Redirect> : 
       <Container>
         <Grid columns={4}>
           <Grid.Column width={8}>
@@ -73,6 +79,12 @@ class PuzzlePage extends Component {
                 <Header as="h2" id="puz-title">{puzzle && puzzle.title}
                   { this.belongsToCurrentUser() ?
                     <Button.Group floated="right">
+                      <Button 
+                        icon color="black"
+                        onClick={ this.handleEditClick }
+                        >
+                        <Icon name="pencil"></Icon>
+                      </Button>
                       <DeleteButton
                         puzzle={this.props.puzzle}
                       />
