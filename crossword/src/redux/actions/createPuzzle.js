@@ -80,7 +80,6 @@ function toggleShade(cellID) {
 }
 
 function toggleCircle(cellID) {
-  console.log(cellID)
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
     let cell = newPuzzle.cells.find(c => c.id === cellID)
