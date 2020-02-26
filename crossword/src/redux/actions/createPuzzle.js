@@ -84,7 +84,7 @@ function toggleCircle(cellID) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
     let cell = newPuzzle.cells.find(c => c.id === cellID)
-    let toggledCell = {...cell, circled: !cell.circled, number: null, letter: null}
+    let toggledCell = {...cell, circled: !cell.circled}
     let newCells = newPuzzle.cells.map(c => {
       return c.id === cellID ? toggledCell : c
     })
