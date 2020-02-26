@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { selectCell,
          toggleDirection } from '../redux/actions/puzzleInteraction'
-import { toggleShade } from '../redux/actions/createPuzzle'
+import { toggleShade,
+         toggleCircle } from '../redux/actions/createPuzzle'
 
 class Cell extends Component {
 
@@ -33,6 +34,8 @@ class Cell extends Component {
       }
     } else if (this.props.shadeable) {
       this.props.toggleShade(cell.id)
+    } else if (this.props.circleable && !cell.shaded) {
+      this.props.toggleCircle(cell.id)
     }
   }
 
@@ -88,4 +91,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { selectCell, toggleDirection, toggleShade })(Cell)
+export default connect(mapStateToProps, { selectCell, toggleDirection, toggleShade, toggleCircle })(Cell)

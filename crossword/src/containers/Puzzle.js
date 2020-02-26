@@ -46,6 +46,7 @@ class Puzzle extends Component {
               cell={c}
               editable={this.props.editable ? !this.findIfWon() : null}
               shadeable={this.props.shadeable}
+              circleable={this.props.circleable}
               answers={this.props.answers}
             />
           )}

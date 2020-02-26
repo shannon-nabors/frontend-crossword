@@ -24,6 +24,8 @@ const newPuzzleReducer = (state = {}, action) => {
       return action.puzzle
     case "TOGGLE_SHADE":
       return { ...state, cells: action.cells}
+    case "TOGGLE_CIRCLE":
+      return { ...state, cells: action.cells}
     case "UPDATE_ACROSS_CLUE":
       return { ...state, across_clues: action.clues}
     case "UPDATE_DOWN_CLUE":

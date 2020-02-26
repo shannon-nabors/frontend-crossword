@@ -72,6 +72,10 @@ class ShadePage extends Component {
     return (this.props.interaction === "shade")
   }
 
+  isCircleable() {
+    return (this.props.interaction === "circle")
+  }
+
   render() {
     return(
       <Fragment>
@@ -109,6 +113,10 @@ class ShadePage extends Component {
               active={this.props.interaction === "letter"}
               onClick={ () => this.handleInteractionChange("letter")}
             >Letter</Button>
+            <Button
+              active={this.props.interaction === "circle"}
+              onClick={ () => this.handleInteractionChange("circle")}
+            >Circle</Button>
           </Button.Group>
         </Container>
         <Container id="shade-sizer">
@@ -117,6 +125,7 @@ class ShadePage extends Component {
               puzzle={this.props.puzzle}
               editable={this.isEditable()}
               shadeable={this.isShadeable()}
+              circleable={this.isCircleable()}
             />
           </div>
           <div>

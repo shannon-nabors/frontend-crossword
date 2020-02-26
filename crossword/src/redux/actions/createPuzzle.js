@@ -67,12 +67,29 @@ function toggleShade(cellID) {
   return (dispatch, getState) => {
     const { newPuzzle } = getState()
     let cell = newPuzzle.cells.find(c => c.id === cellID)
-    let toggledCell = {...cell, shaded: !cell.shaded, number: null, letter: null}
+    let toggledCell = {...cell, shaded: !cell.shaded, circled: null, number: null, letter: null}
     let newCells = newPuzzle.cells.map(c => {
       return c.id === cellID ? toggledCell : c
     })
     dispatch({
       type: "TOGGLE_SHADE",
+      cells: newCells,
+      cellID: cellID
+    })
+  }
+}
+
+function toggleCircle(cellID) {
+  console.log(cellID)
+  return (dispatch, getState) => {
+    const { newPuzzle } = getState()
+    let cell = newPuzzle.cells.find(c => c.id === cellID)
+    let toggledCell = {...cell, circled: !cell.circled, number: null, letter: null}
+    let newCells = newPuzzle.cells.map(c => {
+      return c.id === cellID ? toggledCell : c
+    })
+    dispatch({
+      type: "TOGGLE_CIRCLE",
       cells: newCells,
       cellID: cellID
     })
@@ -142,6 +159,7 @@ export { setFormStage,
          updatingPuzzle,
          toggleInteractionType,
          toggleShade,
+         toggleCircle,
          setLetters,
          updateAcrossClue,
          updateDownClue,
