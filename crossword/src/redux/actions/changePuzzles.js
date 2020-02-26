@@ -8,7 +8,6 @@ function loading() {
 
 // Fetch puzzles
 function fetchedPuzzles(puzzles) {
-  console.log(puzzles)
   return { type: "FETCHED_PUZZLES", puzzles}
 }
 
