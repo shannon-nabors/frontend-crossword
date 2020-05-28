@@ -21,7 +21,12 @@ function generateEnteredLetters(puzzle) {
     return letters
 }
 
+function lettersInWord(letters, cells) {
+    return cells.map(cell => letters[cell.id])
+}
+
 export { unshadedCells,
          allCellsFilled,
          generateEnteredLetters,
+         lettersInWord,
          orderedById }
