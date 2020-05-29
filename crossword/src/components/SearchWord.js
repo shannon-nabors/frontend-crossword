@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button } from 'semantic-ui-react'
+import { Button, List } from 'semantic-ui-react'
 import { lettersInWord } from '../helpers/puzzleHelpers'
 import SearchCell from './SearchCell'
 
@@ -117,8 +117,15 @@ class SearchWord extends React.Component {
 
     listResults = () => {
         return this.state.suggestions.map(suggestion => {
-            return <div>{suggestion.word}</div>
+            return <List.Item>{suggestion.word}</List.Item>
         })
+    }
+
+    componentDidUpdate() {
+        if (this.currentWord()[0].id !== this.state.letters[0].id || this.currentWord()[1].id !== this.state.letters[1].id) {
+            let word = this.currentWord()
+            this.setState({letters: word})
+        }
     }
 
     render() {
@@ -131,7 +138,9 @@ class SearchWord extends React.Component {
                     {this.currentWord() ? this.letterBoxes() : null}
                 </svg>
                 <Button color="black" onClick={this.getSuggestions}>Search</Button>
-                {this.listResults()}
+                <List divided verticalAlign="middle">
+                    {this.listResults()}
+                </List>
             </div>
         )
     }

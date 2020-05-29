@@ -32,6 +32,7 @@ class Puzzle extends Component {
       preserveAspectRatio="xMidYMin meet"
       xmlns="http://www.w3.org/2000/svg"
       display={this.props.invisible ? "none":"inline"}
+      class={this.props.interaction}
       >
       {this.props.editable ? <TypingFunctions
         puzzle={this.props.puzzle}
@@ -74,7 +75,8 @@ class Puzzle extends Component {
 const mapStateToProps = (state) => {
   return {
     enteredLetters: state.enteredLetters,
-    stage: state.formStage
+    stage: state.formStage,
+    interaction: state.interactionType
   }
 }
 

@@ -58,6 +58,7 @@ class NextButton extends Component {
           icon
           color="black"
           labelPosition='right'
+          floated="right"
           onClick={this.handleClick}>
           Next
           <Icon name='right arrow' />

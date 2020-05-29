@@ -84,12 +84,14 @@ class ShadePage extends Component {
         <Container id="shade-header">
           <Segment clearing id="form-heading" attached="top">
             <Header as="h2" id="enter-header" floated="left">
-              Step 2: Shade squares and enter letters
+              Fill
             </Header>
 
           </Segment>
           <Segment attached>
-            When shading, click any square to toggle the color.  When entering letters, type and backspace as you would normally.  You can tab to the next clue, and click the active square to toggle the direction you're typing.
+            Use the buttons above the puzzle to shade squares, fill the puzzle, add circles to certain squares, and activate the search feature.
+            <br></br><br></br>
+            You can search for possible fill by highlighting any word in the puzzle.  Use the interface below to narrow your search.  You can enter specific letters in the search area.  You can also use the @ symbol to represent any vowel, and the # symbol to represent any consonant.
           </Segment>
         </Container>
         <WordFinder/>

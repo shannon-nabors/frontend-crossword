@@ -9,6 +9,7 @@ class WordFinder extends React.Component {
         let {interaction, highlightedCells, selectedCell} = this.props
         return(
             <Segment
+                id="word-finder"
                 color={interaction == "search" ? "yellow" : ""}
                 clearing
             >
