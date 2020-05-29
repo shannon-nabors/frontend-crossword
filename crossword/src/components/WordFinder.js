@@ -2,8 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Segment } from 'semantic-ui-react'
 import { lettersInWord } from '../helpers/puzzleHelpers'
+import SearchCell from './SearchCell'
 
 class WordFinder extends React.Component {
+    constructor() {
+        super()
+        this.state = {selected: null}
+    }
+
+    selectBox = (id) => {
+        this.setState({selected: id})
+    }
+
     currentWord() {
         let {enteredLetters, highlightedCells, selectedCell} = this.props
         return lettersInWord(enteredLetters, highlightedCells, selectedCell)
@@ -16,10 +26,11 @@ class WordFinder extends React.Component {
     letterBoxes() {
         return this.currentWord().map((cell, i) => {
             return (
-                <g key={cell.id}>
-                    <rect x={12 * i + 1} y="1" rx="2" ry="2" width="10" height="10" fill={cell.letter ? "#FFC368" : "none"} stroke="#1b1c1d" strokeWidth="0.25"/>
-                    <text x={12 * i + 3} y="9" textAnchor="start" fontSize="9" fill="#1b1c1d">{cell.letter}</text>
-                </g>
+                <SearchCell
+                    key={cell.id} cell={cell} index={i}
+                    selected={this.state.selected === cell.id ? true : false}
+                    select={this.selectBox}
+                />
             )
         })
     }
@@ -29,7 +40,7 @@ class WordFinder extends React.Component {
         return(
             <Segment color={interaction == "search" ? "yellow" : ""} clearing>
                 {interaction == "search" && highlightedCells && selectedCell ?
-                    <svg viewBox={`0 0 150 15`} xmlns="http://www.w3.org/2000/svg">
+                    <svg pointer-events="all" viewBox={`0 0 150 15`} xmlns="http://www.w3.org/2000/svg">
                         {this.currentWord() ? this.letterBoxes() : null}
                     </svg>
                     : "WORDS"}
