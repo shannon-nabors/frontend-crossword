@@ -13,7 +13,7 @@ class SearchCell extends React.Component {
                     x={12 * index + 1}
                     y="1" rx="2" ry="2"
                     width="10" height="10"
-                    fill={cell.letter ? "#FFC368" : "none"}
+                    fill={cell.original ? "#FFC368" : "none"}
                     stroke={selected ? "#FFA414" : "#1b1c1d"}
                     strokeWidth={selected ? "0.30" : "0.25"}/>
                 {cell.letter ?

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Button } from 'semantic-ui-react'
 import { lettersInWord } from '../helpers/puzzleHelpers'
 import SearchCell from './SearchCell'
 
@@ -8,7 +9,8 @@ class SearchWord extends React.Component {
         super(props)
         this.state = {
             selected: null,
-            letters: this.starterWord()
+            letters: this.starterWord(),
+            suggestions: []
         }
     }
 
@@ -21,7 +23,7 @@ class SearchWord extends React.Component {
     }
 
     handleKeyPress = (event) => {
-        if (event.key.length === 1) {
+        if (event.key.length === 1 || event.key === "Backspace") {
             this.updateLetters(event.key)
         }
     }
@@ -33,7 +35,11 @@ class SearchWord extends React.Component {
         }
         let newLetters = letters.map(letter => {
             if (letter.id === selected) {
-                letter.letter = char.toUpperCase()
+                if (char === "Backspace") {
+                    letter.letter = null
+                } else {
+                    letter.letter = char.toUpperCase()
+                }
             }
             return letter
         })
@@ -46,13 +52,25 @@ class SearchWord extends React.Component {
 
     starterWord = () => {
         let {enteredLetters, highlightedCells, selectedCell} = this.props
-        return lettersInWord(enteredLetters, highlightedCells, selectedCell)
+        let word = lettersInWord(enteredLetters, highlightedCells, selectedCell)
+        return word.map(cell => {
+            if (cell.letter) {
+                cell.original = true
+            }
+            return cell
+        })
     }
 
     currentWord = () => {
         let {enteredLetters, highlightedCells, selectedCell} = this.props
         let {letters} = this.state
         let word = lettersInWord(enteredLetters, highlightedCells, selectedCell)
+        word = word.map(cell => {
+            if (cell.letter) {
+                cell.original = true
+            }
+            return cell
+        })
         word = word.map(displayLetter => {
             let enteredLetter = letters.find(l => l.id === displayLetter.id)
             if (enteredLetter) {
@@ -79,14 +97,42 @@ class SearchWord extends React.Component {
         })
     }
 
+    generateUrl = () => {
+        let base = "https://api.datamuse.com/words?sp="
+        this.state.letters.forEach(cell => {
+            if (cell.letter) {
+                base = base + cell.letter.toLowerCase()
+            } else {
+                base = base + "?"
+            }
+        })
+        return base
+    }
+
+    getSuggestions = () => {
+        fetch(this.generateUrl())
+        .then(r => r.json())
+        .then(results => this.setState({suggestions: results}))
+    }
+
+    listResults = () => {
+        return this.state.suggestions.map(suggestion => {
+            return <div>{suggestion.word}</div>
+        })
+    }
+
     render() {
         return(
-            <svg
-                pointer-events="all"
-                viewBox={`0 0 150 15`}
-                xmlns="http://www.w3.org/2000/svg">
-                {this.currentWord() ? this.letterBoxes() : null}
-            </svg>
+            <div>
+                <svg
+                    pointer-events="all"
+                    viewBox={`0 0 150 15`}
+                    xmlns="http://www.w3.org/2000/svg">
+                    {this.currentWord() ? this.letterBoxes() : null}
+                </svg>
+                <Button color="black" onClick={this.getSuggestions}>Search</Button>
+                {this.listResults()}
+            </div>
         )
     }
 }
