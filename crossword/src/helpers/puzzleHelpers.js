@@ -21,8 +21,17 @@ function generateEnteredLetters(puzzle) {
     return letters
 }
 
-function lettersInWord(letters, cells) {
-    return cells.map(cell => letters[cell.id])
+function cellsInWord(highlighted, selected) {
+    let cells = highlighted
+    if (!cells.find(cell => cell.id === selected.id)){
+        cells.push(selected)
+    }
+    return orderedById(cells)
+}
+
+function lettersInWord(letters, highlighted, selected) {
+    let cells = cellsInWord(highlighted, selected)
+    return cells.map(cell => ({id: cell.id, letter: letters[cell.id]}))
 }
 
 export { unshadedCells,

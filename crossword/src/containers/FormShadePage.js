@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Container, Dimmer, Loader,
-         Header, Segment, Button, Icon } from 'semantic-ui-react'
+         Header, Segment, Button, Icon, Grid } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { updatingPuzzle,
          setLetters,
@@ -19,6 +19,7 @@ import { savedPuzzle } from '../redux/actions/changePuzzles.js'
 import Next from '../components/FormNextButton'
 import DeleteButton from '../components/DeletePuzzleButton'
 import Puzzle from './Puzzle'
+import WordFinder from '../components/WordFinder'
 
 class ShadePage extends Component {
 
@@ -78,14 +79,45 @@ class ShadePage extends Component {
 
   render() {
     return(
-      <Fragment>
+      <Grid centered columns={3}>
+        <Grid.Column>
         <Container id="shade-header">
           <Segment clearing id="form-heading" attached="top">
             <Header as="h2" id="enter-header" floated="left">
               Step 2: Shade squares and enter letters
             </Header>
 
-            <Button.Group floated="right">
+          </Segment>
+          <Segment attached>
+            When shading, click any square to toggle the color.  When entering letters, type and backspace as you would normally.  You can tab to the next clue, and click the active square to toggle the direction you're typing.
+          </Segment>
+        </Container>
+        <WordFinder/>
+        <div>
+          <Next/>
+        </div>
+        </Grid.Column>
+        <Grid.Column>
+        <Container id="form-toggler">
+          <Button.Group color="black">
+            <Button icon
+              active={this.props.interaction === "shade"}
+              onClick={() => this.handleInteractionChange("shade")}
+            ><Icon name="eyedropper"></Icon></Button>
+            <Button icon
+              active={this.props.interaction === "letter"}
+              onClick={ () => this.handleInteractionChange("letter")}
+            ><Icon name="font"></Icon></Button>
+            <Button icon
+              active={this.props.interaction === "circle"}
+              onClick={ () => this.handleInteractionChange("circle")}
+            ><Icon name="circle outline"></Icon></Button>
+            <Button icon
+              active={this.props.interaction === "search"}
+              onClick={ () => this.handleInteractionChange("search")}
+            ><Icon name="search"></Icon></Button>
+          </Button.Group>
+          <Button.Group floated="right">
               <DeleteButton
                 puzzle={this.props.puzzle}
                 saved="true"
@@ -97,27 +129,6 @@ class ShadePage extends Component {
                 <Icon name="save"></Icon>
               </Button>
             </Button.Group>
-
-          </Segment>
-          <Segment attached>
-            When shading, click any square to toggle the color.  When entering letters, type and backspace as you would normally.  You can tab to the next clue, and click the active square to toggle the direction you're typing.
-          </Segment>
-        </Container>
-        <Container textAlign="center" id="form-toggler">
-          <Button.Group color="black">
-            <Button
-              active={this.props.interaction === "shade"}
-              onClick={() => this.handleInteractionChange("shade")}
-            >Shade</Button>
-            <Button
-              active={this.props.interaction === "letter"}
-              onClick={ () => this.handleInteractionChange("letter")}
-            >Letter</Button>
-            <Button
-              active={this.props.interaction === "circle"}
-              onClick={ () => this.handleInteractionChange("circle")}
-            >Circle</Button>
-          </Button.Group>
         </Container>
         <Container id="shade-sizer">
           <div>
@@ -128,15 +139,12 @@ class ShadePage extends Component {
               circleable={this.isCircleable()}
             />
           </div>
-          <div>
-            <Next/>
-          </div>
         </Container>
-
+        </Grid.Column>
         <Dimmer active={this.props.loading ? true : false}>
           <Loader size='large'>Creating puzzle</Loader>
         </Dimmer>
-      </Fragment>
+      </Grid>
     )
   }
 }
