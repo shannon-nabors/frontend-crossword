@@ -170,7 +170,8 @@ const mapStateToProps = (state) => {
         paused: state.paused,
         userFavorites: state.userFavorites,
         favorites: state.puzzleFavorites,
-        clue: state.selectedClue
+        clue: state.selectedClue,
+        interaction: state.interactionType
     }
   }
 
