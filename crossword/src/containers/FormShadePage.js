@@ -48,14 +48,16 @@ class ShadePage extends Component {
 
   handleInteractionChange(buttonType) {
     // Set interaction type in state, depending on which button was clicked
-    this.props.toggleInteractionType(buttonType)
-    if (buttonType === "letter" && !this.isEditable()) {
+    // if (buttonType === "letter" && !this.isEditable()) {
+      // this.props.updatingPuzzle("setup")
+    if (this.props.interaction === "shade") {
       this.props.updatingPuzzle("setup")
     } else if (buttonType === "shade" && !this.isShadeable()) {
       this.props.deselectCell()
       this.props.setLetters()
-      this.props.updatingPuzzle("letter")
+      // this.props.updatingPuzzle("letter")
     }
+    this.props.toggleInteractionType(buttonType)
   }
 
   handleSave = () => {

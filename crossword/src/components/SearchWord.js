@@ -100,7 +100,7 @@ class SearchWord extends React.Component {
     generateUrl = () => {
         let base = "https://api.datamuse.com/words?sp="
         this.state.letters.forEach(cell => {
-            if (cell.letter) {
+            if (cell.letter && cell.letter !== "@" && cell.letter !== "#") {
                 base = base + cell.letter.toLowerCase()
             } else {
                 base = base + "?"
@@ -115,8 +115,24 @@ class SearchWord extends React.Component {
         .then(results => this.setState({suggestions: results}))
     }
 
+    filterSuggestions = () => {
+        let {suggestions, letters} = this.state
+        let pattern = ""
+        letters.forEach(letter => {
+            if (letter.letter) {
+                pattern = pattern + letter.letter.toLowerCase()
+            } else {
+                pattern += "."
+            }
+        })
+        pattern = pattern.replace(/@/g, "[aeiou]")
+        pattern = pattern.replace(/#/g, "[^aeiou]")
+        pattern = new RegExp(pattern)
+        return suggestions.filter(suggestion => pattern.test(suggestion.word))
+    }
+
     listResults = () => {
-        return this.state.suggestions.map(suggestion => {
+        return this.filterSuggestions().map(suggestion => {
             return <List.Item>{suggestion.word}</List.Item>
         })
     }
