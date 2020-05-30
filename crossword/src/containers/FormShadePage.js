@@ -15,6 +15,7 @@ import { selectCell,
          enterLetter,
          resetAllLetters } from '../redux/actions/puzzleInteraction.js'
 import { findWord } from '../helpers/typingHelpers'
+import { firstCell, firstAcrossWord } from '../helpers/puzzleHelpers'
 import { savedPuzzle } from '../redux/actions/changePuzzles.js'
 import Next from '../components/FormNextButton'
 import DeleteButton from '../components/DeletePuzzleButton'
@@ -56,6 +57,15 @@ class ShadePage extends Component {
       this.props.deselectCell()
       this.props.setLetters()
       // this.props.updatingPuzzle("letter")
+    }
+    
+    if (buttonType === "circle") {
+      this.props.deselectCell()
+    }
+
+    if (buttonType === "search") {
+      let {selectCell, selectedCell, puzzle} = this.props
+      if (!selectedCell) {selectCell(firstCell(puzzle), firstAcrossWord(puzzle))}
     }
     this.props.toggleInteractionType(buttonType)
   }

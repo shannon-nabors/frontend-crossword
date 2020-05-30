@@ -25,6 +25,8 @@ import { shiftBackward,
     clues,
     findNextBlankCell,
     findWord } from '../helpers/typingHelpers'
+import { orderedById, unshadedCells,
+    firstCell, firstAcrossWord } from '../helpers/puzzleHelpers'
 
 
 class TypingFunctions extends Component {
@@ -37,17 +39,16 @@ class TypingFunctions extends Component {
         // event listeners
         document.addEventListener("keydown", this.handleKeyPress)
         // select first cell
-        if (this.props.puzzle.cells) {
-            let cells = this.props.puzzle.cells.sort((a, b) => a.id - b.id).filter(c => c.shaded === false)
-            if (cells[0].clues.length > 0) {
-                this.props.selectCell(cells[0], findWord(cells[0], cells, "across"))
-            }
+        let {selectCell, selectedCell, puzzle} = this.props
+        if (puzzle.cells && !selectedCell) {
+            selectCell(firstCell(puzzle), firstAcrossWord(puzzle))
         }
     }
 
     componentWillUnmount() {
         // set state
-        this.props.deselectCell()
+        // Taking this out for now so toggling to search won't deselect
+        // this.props.deselectCell()
 
         // remove event listeners
         document.removeEventListener("keydown", this.handleKeyPress)
@@ -175,4 +176,16 @@ const mapStateToProps = (state) => {
     }
   }
 
-export default connect(mapStateToProps, { enterLetter, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleInteractionType, toggleDirection, selectClue })(TypingFunctions)
+export default connect(mapStateToProps, { enterLetter,
+                                          selectCell,
+                                          deselectCell,
+                                          changeGameStatus,
+                                          resetAllLetters,
+                                          solvingPuzzle,
+                                          handleTimer,
+                                          addFavorite,
+                                          deleteFavorite,
+                                          getFavorites,
+                                          toggleInteractionType,
+                                          toggleDirection,
+                                          selectClue })(TypingFunctions)

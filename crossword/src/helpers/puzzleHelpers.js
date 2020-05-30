@@ -1,3 +1,4 @@
+import {findWord } from './typingHelpers'
 
 function unshadedCells(puzzle) {
     return puzzle.cells.filter( cell => !cell.shaded )
@@ -11,6 +12,15 @@ function allCellsFilled(puzzle) {
 
 function orderedById(cells) {
     return cells.sort((a, b) => a.id - b.id)
+}
+
+function firstCell(puzzle) {
+    let cells = orderedById(unshadedCells(puzzle))
+    return cells[0]
+}
+
+function firstAcrossWord(puzzle) {
+    return findWord(firstCell(puzzle), puzzle.cells, "across")
 }
 
 function generateEnteredLetters(puzzle) {
@@ -38,4 +48,6 @@ export { unshadedCells,
          allCellsFilled,
          generateEnteredLetters,
          lettersInWord,
+         firstCell,
+         firstAcrossWord,
          orderedById }

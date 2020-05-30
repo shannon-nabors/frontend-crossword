@@ -4,7 +4,7 @@
 // select and deselect active cell
 function selectCell(cell, fellows) {
   return (dispatch, getState) => {
-    const { direction } = getState()
+    let { direction } = getState()
     dispatch({
       type: "SELECT_CELL",
       direction: direction,
