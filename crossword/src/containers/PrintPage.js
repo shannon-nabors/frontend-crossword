@@ -45,24 +45,18 @@ class PrintPage extends Component {
     }
 
     acrossClues() {
-        return this.state.puzzle.across_clues.slice(0, 31)
-    }
-
-    remainingAcrossClues() {
-        return this.state.puzzle.across_clues.slice(31, 37)
+        return this.state.puzzle.across_clues
     }
 
     firstHalfDownClues() {
         let halfway = Math.ceil(this.state.puzzle.down_clues.length / 2)
-        // return this.state.puzzle.down_clues.slice(0, halfway)
-        return this.state.puzzle.down_clues.slice(0, 19)
+        return this.state.puzzle.down_clues.slice(0, halfway)
     }
 
     secondHalfDownClues() {
         let length = this.state.puzzle.down_clues.length
         let halfway = Math.ceil(length / 2)
-        // return this.state.puzzle.down_clues.slice(halfway, length)
-        return this.state.puzzle.down_clues.slice(19, length)
+        return this.state.puzzle.down_clues.slice(halfway, length)
     }
 
     render() {
@@ -87,11 +81,11 @@ class PrintPage extends Component {
                                 </Text>
                                 <Text style={styles.clueText}>__________________________________________</Text>
                                 <Text style={{fontSize: 9}}> </Text>
-                                <Text style={styles.blurb}>Happy birthday, Kristen!  Hope you have a great day (and that it's not too insanely hot in San Antonio)!</Text>
+                                <Text style={styles.blurb}></Text>
                                 <Text> </Text>
                                 <Text style={styles.author}>ACROSS</Text>
                                 {this.acrossClues().map(clue => {
-                                    return <Text key={clue.id} style={[17, 28, 46, 60].includes(clue.number) ? styles.italicized : styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
+                                    return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
                                 })}
 
 
@@ -103,10 +97,6 @@ class PrintPage extends Component {
                         <View style={styles.row}>
                                 <View style={[styles.column, {width: "180px"}]}></View>
                                 <View style={[styles.column, {width: "180px", paddingRight: "10px"}]}>
-                                    {this.remainingAcrossClues().map(clue => {
-                                        return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
-                                    })}
-                                    <Text style={{fontSize: 9}}> </Text>
                                     <Text style={styles.author}>DOWN</Text>
                                     {this.firstHalfDownClues().map(clue => {
                                         return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
