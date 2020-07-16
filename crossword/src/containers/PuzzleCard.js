@@ -12,7 +12,7 @@ class PuzzleCard extends Component {
     if (userPuzzles.includes(puzzle) || solvedPuzzles.includes(puzzle)) { 
       return `/puzzles/${puzzle.id}`
     } else if (savedPuzzles.includes(puzzle)) {
-      return `/saved/${puzzle.id}`
+      return `/puzzles/${puzzle.id}/edit`
     } else {
       return `/puzzles/${puzzle.id}/solve`
     }
@@ -25,7 +25,7 @@ class PuzzleCard extends Component {
       <NavLink to={this.generateRoute()} className="ui card" id="puz-card">
         <div className="image">
           <Puzzle
-            puzzle={puzzle}
+            puzzle={puzzle} cursorClass={"normal-cursor"}
           />
         </div>
         <div className="content">

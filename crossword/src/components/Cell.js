@@ -24,7 +24,7 @@ class Cell extends Component {
 
   handleClick() {
     let cell = this.props.cell
-    if (this.props.editable || this.props.interaction === "letter" || this.props.interaction === "search") {
+    if (this.props.editable || this.props.interaction === "letter" || this.props.interaction === "search" || this.props.answers === "true") {
       if (cell.shaded) {
         return
       } else if (cell === this.props.selected) {

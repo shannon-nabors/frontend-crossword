@@ -21,6 +21,7 @@ class SavedPage extends Component {
 
     // Set stage based on whether puzzle is filled in
     let stage = allCellsFilled(puz) ? "enter" : "shade"
+    // let stage = "shade"
     this.props.setFormStage(stage)
   }
 
@@ -48,7 +49,7 @@ class SavedPage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     stage: state.formStage,
-    puzzle: state.savedPuzzles.find(p => p.id === parseInt(ownProps.match.params.puzzleID))
+    puzzle: [...state.savedPuzzles, ...state.userPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID))
   }
 }
 

@@ -39,12 +39,12 @@ class App extends Component {
             component={SolvePage}
           />
           <Route
-            path="/puzzles/:puzzleID"
-            component={PuzzlePage}
+            path="/puzzles/:puzzleID/edit"
+            component={SavedPage}
           />
           <Route
-            path="/saved/:puzzleID"
-            component={SavedPage}
+            path="/puzzles/:puzzleID"
+            component={PuzzlePage}
           />
           <Route
             path="/solve"

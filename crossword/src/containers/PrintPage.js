@@ -12,6 +12,7 @@ Font.register({ family: 'Muli-Regular', src: "https://fonts.gstatic.com/s/muli/v
 Font.register({ family: "Muli-Bold", src: "https://fonts.gstatic.com/s/muli/v20/7Aulp_0qiz-aVz7u3PJLcUMYOFkpl0k30e6fwniDtzM.woff"})
 Font.register({ family: 'Muli-Extra-Bold', src: "https://fonts.gstatic.com/s/muli/v20/7Aulp_0qiz-aVz7u3PJLcUMYOFlOl0k30e6fwniDtzM.woff"})
 Font.register({ family: "Crimson-Pro", src: "https://fonts.gstatic.com/s/crimsonpro/v12/q5uUsoa5M_tv7IihmnkabC5XiXCAlXGks1WZzm1MP5s4dtC4yJtE.woff"})
+Font.register({ family: "Crimson-Pro-Italic", src: "http://fonts.gstatic.com/s/crimsonpro/v12/q5uSsoa5M_tv7IihmnkabAReu49Y_Bo-HVKMBi6Ue5s7dtC4yZNE.ttf"})
 
 const styles = StyleSheet.create({
     port: {width:"50%", height:"600px", marginLeft:"25%"},
@@ -20,8 +21,10 @@ const styles = StyleSheet.create({
     column: {display: 'flex', flexDirection: 'column'},
     title: { fontFamily: 'Oswald', fontSize: 20},
     author: { fontFamily: 'Muli-Bold', fontSize: 10},
-    clueText: {fontFamily: 'Crimson-Pro', fontSize: 10},
-    clueNumber: {fontFamily: 'Muli-Bold'}
+    clueText: {fontFamily: 'Crimson-Pro', fontSize: 11},
+    clueNumber: {fontFamily: 'Muli-Bold'},
+    italicized: {fontFamily: 'Crimson-Pro-Italic', fontSize: 11},
+    blurb: {fontFamily: 'Muli-Regular', fontSize: 11}
 })
 
 class PrintPage extends Component {
@@ -41,15 +44,25 @@ class PrintPage extends Component {
         this.getPuzzle(this.props.puzzleId)
     }
 
+    acrossClues() {
+        return this.state.puzzle.across_clues.slice(0, 31)
+    }
+
+    remainingAcrossClues() {
+        return this.state.puzzle.across_clues.slice(31, 37)
+    }
+
     firstHalfDownClues() {
         let halfway = Math.ceil(this.state.puzzle.down_clues.length / 2)
-        return this.state.puzzle.down_clues.slice(0, halfway)
+        // return this.state.puzzle.down_clues.slice(0, halfway)
+        return this.state.puzzle.down_clues.slice(0, 19)
     }
 
     secondHalfDownClues() {
         let length = this.state.puzzle.down_clues.length
         let halfway = Math.ceil(length / 2)
-        return this.state.puzzle.down_clues.slice(halfway, length)
+        // return this.state.puzzle.down_clues.slice(halfway, length)
+        return this.state.puzzle.down_clues.slice(19, length)
     }
 
     render() {
@@ -64,30 +77,36 @@ class PrintPage extends Component {
                     <Page style={styles.section}>
                         <Text style={styles.clueText}><Text style={styles.clueNumber}>CrossPost</Text> created by Shannon Nabors</Text>
                         <View style={[styles.row, {paddingBottom: "10px"}]}>
-                            <Text style={styles.clueText}>__________________________________________________________________________________________________________________________________________________________</Text>
+                            <Text style={styles.clueText}>___________________________________________________________________________________________________________________________________</Text>
                         </View>
-                        <View style={[styles.row, {height: "370px"}]}>
+                        <View style={[styles.row, {height: "340px"}]}>
                             <View style={[styles.column, {width: "180px", paddingRight: "10px"}]}>
                                 <Text style={[styles.title, {paddingRight: "10px"}]}>{puzzle.title.toUpperCase()}</Text>
                                 <Text style={styles.author}>
                                     {`BY ${puzzle.constructor.first_name.toUpperCase()} ${puzzle.constructor.last_name.toUpperCase()}`}
                                 </Text>
-                                <Text style={styles.clueText}>____________________________________________</Text>
-                                <Text style={styles.clueText}>  </Text>
+                                <Text style={styles.clueText}>__________________________________________</Text>
+                                <Text style={{fontSize: 9}}> </Text>
+                                <Text style={styles.blurb}>Happy birthday, Kristen!  Hope you have a great day (and that it's not too insanely hot in San Antonio)!</Text>
+                                <Text> </Text>
                                 <Text style={styles.author}>ACROSS</Text>
-                                {puzzle.across_clues.map(clue => {
-                                    return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
+                                {this.acrossClues().map(clue => {
+                                    return <Text key={clue.id} style={[17, 28, 46, 60].includes(clue.number) ? styles.italicized : styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
                                 })}
 
 
                             </View>
                             <View style={[styles.column, {width: "360px"}]}>
-                                <Image src={this.props.imgSource} />
+                                <Image src={this.props.imgSource} style={{width: "335px", height: "335px"}}/>
                             </View>
                         </View>
                         <View style={styles.row}>
                                 <View style={[styles.column, {width: "180px"}]}></View>
                                 <View style={[styles.column, {width: "180px", paddingRight: "10px"}]}>
+                                    {this.remainingAcrossClues().map(clue => {
+                                        return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>
+                                    })}
+                                    <Text style={{fontSize: 9}}> </Text>
                                     <Text style={styles.author}>DOWN</Text>
                                     {this.firstHalfDownClues().map(clue => {
                                         return <Text key={clue.id} style={styles.clueText}><Text style={styles.clueNumber}>{clue.number + "  "}</Text>{clue.content}</Text>

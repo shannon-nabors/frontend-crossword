@@ -30,7 +30,7 @@ class NextButton extends Component {
           this.setState({failed: true})
         } else {
           this.props.setLetters()
-          this.props.updatingPuzzle("setup")
+          this.props.updatingPuzzle("letter")
           this.props.setFormStage("enter")
         }
         break

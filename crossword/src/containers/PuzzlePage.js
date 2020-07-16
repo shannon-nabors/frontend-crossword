@@ -9,8 +9,10 @@ import { findSolveData,
          addFavorite,
          deleteFavorite,
          getFavorites } from '../redux/actions/stats'
-import { deselectCell } from '../redux/actions/puzzleInteraction.js'
+import { deselectCell, selectCell, 
+         selectClue } from '../redux/actions/puzzleInteraction.js'
 import { formatTime } from '../redux/constants'
+import { findWord } from '../helpers/typingHelpers'
 import Puzzle from './Puzzle'
 import DeleteButton from '../components/DeletePuzzleButton'
 
@@ -35,13 +37,14 @@ class PuzzlePage extends Component {
 
   componentWillUnmount() {
     this.props.resetPuzzleSolves()
+    this.props.deselectCell()
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.imageUrl !== prevState.imageUrl) {
-      console.log(this.state.imageUrl)
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.state.imageUrl !== prevState.imageUrl) {
+  //     console.log(this.state.imageUrl)
+  //   }
+  // }
 
   belongsToCurrentUser() {
     let { puzzle, user } = this.props
@@ -61,6 +64,20 @@ class PuzzlePage extends Component {
     }
   }
 
+  handleClueClick = (clue) => {
+    let cluesFirstCell = this.props.puzzle.cells.find(cell => cell.number === clue.number)
+    this.props.selectClue(clue)
+    this.props.selectCell(cluesFirstCell, findWord(cluesFirstCell, this.props.puzzle.cells, clue.direction))
+  }
+
+  componentDidUpdate(prevProps) {
+    // scroll to clue if active clue changed in state
+    if(prevProps.clue !== this.props.clue) {
+      let clueElement = document.getElementById(`clue-${this.props.clue.id}`)
+      clueElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   render() {
     let { puzzle } = this.props
     let puzElement = document.querySelector("#puz")
@@ -73,6 +90,13 @@ class PuzzlePage extends Component {
                 <Header as="h2" id="puz-title">{puzzle && puzzle.title}
                   { this.belongsToCurrentUser() ?
                     <Button.Group floated="right">
+                      <Button 
+                        icon color="black"
+                        as={ Link }
+                        to={`${this.props.puzzle.id}/edit`}
+                        >
+                        <Icon name="pencil"></Icon>
+                      </Button>
                       <DeleteButton
                         puzzle={this.props.puzzle}
                       />
@@ -109,6 +133,7 @@ class PuzzlePage extends Component {
               <Puzzle
                 puzzle={puzzle}
                 answers="true"
+                cursorClass="normal-cursor"
               />
             </Container>
           </Grid.Column>
@@ -143,23 +168,37 @@ class PuzzlePage extends Component {
               )}
               {this.state.menu === "Clues" && (
                 <Fragment>
-                  <Grid.Column>
+                  <Grid>
+                  <Grid.Column width={8}>
                     <h4>Across</h4>
                     <Segment id ="clue-box">
                       { puzzle && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
-                        <p key={c && c.id}><span className="clue-number">{c.number}</span> {c.content}</p>
+                        <p key={c && c.id}
+                           id={`clue-${c.id}`}
+                           style={{backgroundColor: this.props.clue && this.props.clue.id === c.id ? "#FFC368" : "#FFFFFF"}}
+                           onClick={() => this.handleClueClick(c)}>
+                          <span className="clue-number">{c.number}</span>
+                          {c.content}
+                        </p>
                       ))}
                     </Segment>
                   </Grid.Column>
 
-                  <Grid.Column>
+                  <Grid.Column width={8}>
                     <h4>Down</h4>
                     <Segment id ="clue-box">
                       { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
-                        <p key={c && c.id}><span className="clue-number">{c.number}</span> {c.content}</p>
+                        <p key={c && c.id}
+                           id={`clue-${c.id}`}
+                           style={{backgroundColor: this.props.clue && this.props.clue.id === c.id ? "#FFC368" : "#FFFFFF"}}
+                           onClick={() => this.handleClueClick(c)}>
+                          <span className="clue-number">{c.number}</span>
+                          {c.content}
+                        </p>
                       ))}
                     </Segment>
                   </Grid.Column>
+                  </Grid>
                 </Fragment>
               )}
             </Segment>
@@ -177,8 +216,12 @@ const mapStateToProps = (state, ownProps) => {
     puzzleSolves: state.puzzleSolves,
     userFavorites: state.userFavorites,
     favorites: state.puzzleFavorites,
+    clue: state.selectedClue,
     time: (state.currentUser.id && state.currentUser.id !==  [...state.userPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)).constructor.id ? state.solves.find(s => s.puzzle_id === parseInt(ownProps.match.params.puzzleID)).time : null)
   }
 }
 
-export default connect(mapStateToProps, { findSolveData, deselectCell, resetPuzzleSolves, addFavorite, deleteFavorite, getFavorites })(PuzzlePage)
+export default connect(mapStateToProps, { findSolveData, deselectCell,
+                                          resetPuzzleSolves, addFavorite,
+                                          deleteFavorite, getFavorites,
+                                          selectCell, selectClue })(PuzzlePage)

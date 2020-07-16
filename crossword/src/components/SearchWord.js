@@ -116,6 +116,7 @@ class SearchWord extends React.Component {
     }
 
     filterSuggestions = () => {
+        this.getSuggestions()
         let {suggestions, letters} = this.state
         let pattern = ""
         letters.forEach(letter => {
@@ -132,6 +133,7 @@ class SearchWord extends React.Component {
     }
 
     listResults = () => {
+        if (this.state.suggestions === []) {return null}
         return this.filterSuggestions().map(suggestion => {
             return <List.Item>{suggestion.word}</List.Item>
         })
@@ -139,8 +141,17 @@ class SearchWord extends React.Component {
 
     componentDidUpdate() {
         if (this.currentWord()[0].id !== this.state.letters[0].id || this.currentWord()[1].id !== this.state.letters[1].id) {
-            let word = this.currentWord()
-            this.setState({letters: word})
+            // let word = this.currentWord()
+            let {enteredLetters, highlightedCells, selectedCell} = this.props
+            let word = lettersInWord(enteredLetters, highlightedCells, selectedCell)
+            word = word.map(cell => {
+                if (cell.letter) {
+                    cell.original = true
+                }
+                return cell
+            })
+            console.log(word.map(letter => letter.letter))
+            this.setState({letters: word, suggestions: []})
         }
     }
 

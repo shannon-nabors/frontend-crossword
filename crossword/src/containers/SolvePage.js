@@ -220,6 +220,7 @@ class SolvePage extends Component {
                 answers={this.props.gameStatus === "review" ? "true" : null}
                 solvable={true}
                 checkForWin={this.checkForWin}
+                cursorClass="normal-cursor"
               />
             </Container>
 

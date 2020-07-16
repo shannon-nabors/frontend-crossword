@@ -60,10 +60,13 @@ class EnterPage extends Component {
     //   return false
     // } else if (size(this.props.enteredLetters) !== letterCells.length) {
     //   return false
-    } else if (this.props.puzzle.across_clues.find(cl => cl.content === null)) {
-      return false
-    } else if (this.props.puzzle.down_clues.find(cl => cl.content === null)) {
-      return false
+
+    // } else if (this.props.puzzle.across_clues.find(cl => cl.content === null)) {
+    //   return false
+    // } else if (this.props.puzzle.down_clues.find(cl => cl.content === null)) {
+    //   return false
+    // Commenting out above temporarily because I'm making a puzzle w/blank clues
+
     } else {
       return true
     }
@@ -80,7 +83,6 @@ class EnterPage extends Component {
       this.props.createdPuzzle(this.props.puzzle)
       this.setState({ redirect: true })
     } else {
-      debugger
       this.setState({failed: true})
     }
   }
@@ -146,6 +148,7 @@ class EnterPage extends Component {
                     placeholder="Title"
                     name="title"
                     onChange={this.handleTitleChange}
+                    value={this.props.puzzle.title}
                   >
                   </Form.Input>
                   <Message
@@ -173,6 +176,7 @@ class EnterPage extends Component {
                       onChange={this.handleAcrossChange}
                       id={this.props.clue && this.props.clue.id === c.id ? "selected-clue" : null}
                       onClick={() => this.handleClueClick(c)}
+                      value={c.content}
                     >
                     </Form.Input>
                   ))}
@@ -190,6 +194,7 @@ class EnterPage extends Component {
                       onChange={this.handleDownChange}
                       id={this.props.clue && this.props.clue.id === c.id ? "selected-clue" : null}
                       onClick={() => this.handleClueClick(c)}
+                      value={c.content}
                     >
                     </Form.Input>
                   ))}

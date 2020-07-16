@@ -15,7 +15,7 @@ import { selectCell,
          enterLetter,
          resetAllLetters } from '../redux/actions/puzzleInteraction.js'
 import { findWord } from '../helpers/typingHelpers'
-import { firstCell, firstAcrossWord } from '../helpers/puzzleHelpers'
+import { firstCell, firstAcrossWord, percentShaded } from '../helpers/puzzleHelpers'
 import { savedPuzzle } from '../redux/actions/changePuzzles.js'
 import Next from '../components/FormNextButton'
 import DeleteButton from '../components/DeletePuzzleButton'
@@ -47,7 +47,7 @@ class ShadePage extends Component {
     }
   }
 
-  handleInteractionChange(buttonType) {
+  handleInteractionChange = (buttonType) => {
     // Set interaction type in state, depending on which button was clicked
     // if (buttonType === "letter" && !this.isEditable()) {
       // this.props.updatingPuzzle("setup")
@@ -58,7 +58,7 @@ class ShadePage extends Component {
       this.props.setLetters()
       // this.props.updatingPuzzle("letter")
     }
-    
+
     if (buttonType === "circle") {
       this.props.deselectCell()
     }
@@ -89,7 +89,13 @@ class ShadePage extends Component {
     return (this.props.interaction === "circle")
   }
 
+  percent() {
+    let num = percentShaded(this.props.puzzle).toString().slice(0, 5)
+    return `Black squares: ${num} %`
+  }
+
   render() {
+    // debugger
     return(
       <Grid centered columns={3}>
         <Grid.Column>
@@ -101,12 +107,10 @@ class ShadePage extends Component {
 
           </Segment>
           <Segment attached>
-            Use the buttons above the puzzle to shade squares, fill the puzzle, add circles to certain squares, and activate the search feature.
-            <br></br><br></br>
-            You can search for possible fill by highlighting any word in the puzzle.  Use the interface below to narrow your search.  You can enter specific letters in the search area.  You can also use the @ symbol to represent any vowel, and the # symbol to represent any consonant.
+            Use the buttons above the puzzle to shade squares, fill the puzzle, add circles to certain squares.  Activate the search feature using the interface below.
           </Segment>
         </Container>
-        <WordFinder/>
+        <WordFinder handleInteractionChange={this.handleInteractionChange}/>
         <div>
           <Next/>
         </div>
@@ -126,11 +130,8 @@ class ShadePage extends Component {
               active={this.props.interaction === "circle"}
               onClick={ () => this.handleInteractionChange("circle")}
             ><Icon name="circle outline"></Icon></Button>
-            <Button icon
-              active={this.props.interaction === "search"}
-              onClick={ () => this.handleInteractionChange("search")}
-            ><Icon name="search"></Icon></Button>
           </Button.Group>
+          {this.props.interaction === "shade" && this.props.puzzle.cells.length ? <span id="shaded-percent">{this.percent()}</span> : null}
           <Button.Group floated="right">
               <DeleteButton
                 puzzle={this.props.puzzle}

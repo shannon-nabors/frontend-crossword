@@ -41,7 +41,9 @@ class TypingFunctions extends Component {
         // select first cell
         let {selectCell, selectedCell, puzzle} = this.props
         if (puzzle.cells && !selectedCell) {
-            selectCell(firstCell(puzzle), firstAcrossWord(puzzle))
+            if (firstCell(puzzle).clues.length > 0) {
+                selectCell(firstCell(puzzle), firstAcrossWord(puzzle))
+            }
         }
     }
 
