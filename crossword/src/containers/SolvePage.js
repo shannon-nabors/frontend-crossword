@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Segment, Container, Header, Button, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { isEqual, size, values } from 'lodash'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Timer } from 'easytimer.js'
 import { URL } from '../redux/constants'
 
@@ -20,6 +20,7 @@ import { addFavorite,
          deleteFavorite,
          getFavorites } from '../redux/actions/stats'
 import { findWord } from '../helpers/typingHelpers'
+import { isEmpty } from 'lodash'
 
 import Puzzle from './Puzzle'
 import ResultsModal from '../components/ResultsModal'
@@ -161,6 +162,7 @@ class SolvePage extends Component {
 
   favorited() {
     let { puzzle, userFavorites } = this.props
+    if (!puzzle) {puzzle = this.state.puzzle}
     return (userFavorites.find(f => f.puzzle_id === puzzle.id)) ? true : false
   }
 
@@ -176,10 +178,22 @@ class SolvePage extends Component {
 
   /////////////////////////////   RENDER    ////////////////////////////
 
+  belongsToCurrentUser() {
+    let { puzzle, user } = this.props
+    if (!puzzle) {puzzle = this.state.puzzle}
+    // debugger
+    return (puzzle && user.id && user.id === puzzle.constructor.id)
+  }
+
   render() {
     let { puzzle } = this.props
     if (!puzzle) {puzzle = this.state.puzzle}
     if (!puzzle) return null
+    // debugger
+    if (this.belongsToCurrentUser()) {
+      return <Redirect to={`/puzzles/${puzzle.id}`}/>
+    }
+
     return (
       <Container>
         <Grid columns={4}>
@@ -198,10 +212,10 @@ class SolvePage extends Component {
                   labelPosition="right"
                 ><span id="puz-timer">00:00:00</span><Icon name="pause"/></Button>
 
-                {this.props.user && this.favorited() ? (
-                  <Button color="black" id="fav-bar-solve" onClick={this.handleFavClick}><Icon color="red" name="heart"/>{this.props.favorites.length} {this.props.favorites.length === 1 ? "favorite" : "favorites"}</Button>
+                {isEmpty(this.props.user) ? (
+                  <span id="puz-author"><Icon color="red" name="heart"/>{puzzle.total_favs} {puzzle.total_favs === 1 ? "favorite" : "favorites"}</span>
                 ) : (
-                  <Button color="black" id="fav-bar-solve" onClick={this.handleFavClick}><Icon color="red" name="heart outline"/>{this.props.favorites.length} {this.props.favorites.length === 1 ? "favorite" : "favorites"}</Button>
+                  <Button color="black" id="fav-bar-solve" onClick={this.handleFavClick}><Icon color="red" name={this.favorited() ? "heart" : "heart outline"}/>{this.props.favorites.length} {this.props.favorites.length === 1 ? "favorite" : "favorites"}</Button>
                 )}
 
               </span>
@@ -244,7 +258,6 @@ class SolvePage extends Component {
             <Segment id ="clue-box">
               { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <p key={c && c.id}
-                   id={`clue-${c.id}`}
                    style={{backgroundColor: this.props.clue && this.props.clue.id === c.id ? "#FFC368" : "#FFFFFF"}}
                    onClick={() => this.handleClueClick(c)}>
                 <span className="clue-number">{c.number}</span> {c.content}</p>
@@ -281,7 +294,8 @@ const mapStateToProps = (state, ownProps) => {
     paused: state.paused,
     userFavorites: state.userFavorites,
     favorites: state.puzzleFavorites,
-    clue: state.selectedClue
+    clue: state.selectedClue,
+    userPuzzles: state.userPuzzles
   }
 }
 

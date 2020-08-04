@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { Container, Dimmer, Loader,
          Header, Segment, Button, Icon, Grid } from 'semantic-ui-react'
 import { connect } from 'react-redux'
@@ -131,7 +131,7 @@ class ShadePage extends Component {
               onClick={ () => this.handleInteractionChange("circle")}
             ><Icon name="circle outline"></Icon></Button>
           </Button.Group>
-          {this.props.interaction === "shade" && this.props.puzzle.cells.length ? <span id="shaded-percent">{this.percent()}</span> : null}
+          {this.props.interaction === "shade" && this.props.puzzle.cells ? <span id="shaded-percent">{this.percent()}</span> : null}
           <Button.Group floated="right">
               <DeleteButton
                 puzzle={this.props.puzzle}

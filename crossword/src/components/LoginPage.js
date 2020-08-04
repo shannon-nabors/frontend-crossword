@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Form, Container,
          Header, Message } from 'semantic-ui-react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { logInUser } from '../redux/actions/manageUsers'
@@ -11,7 +11,7 @@ class Login extends Component {
   state = {
     username: "",
     password: "",
-    redirect: false,
+    // redirect: false,
     failed: false
   }
 
@@ -23,7 +23,7 @@ class Login extends Component {
     if (this.state.username === "") {
       this.setState({failed: true})
     } else {
-      fetch(`${URL}/users/login`, {
+      fetch(`${URL}/login`, {
         method: "POST",
         headers: {
           "Content-Type":"application/json",
@@ -31,12 +31,14 @@ class Login extends Component {
         },
         body:JSON.stringify({
           username: this.state.username,
+          password: this.state.password
         })
       }).then(res => res.json())
       .then(data => {
-        if (data) {
-          this.props.logInUser(data)
-          this.setState({redirect: true})
+        if (!data.error) {
+          localStorage.setItem('crossPostJWT', data.token)
+          this.props.logInUser(data.user)
+          // this.setState({redirect: true})
         } else {
           this.setState({failed: true})
         }
@@ -46,9 +48,9 @@ class Login extends Component {
 
   render() {
 
-    if (this.state.redirect) {
-      return <Redirect to="/home"/>
-    }
+    // if (this.state.redirect) {
+    //   return <Redirect to="/home"/>
+    // }
 
     return(
       <Container className="ui attached segment" id="form-area">
@@ -69,8 +71,8 @@ class Login extends Component {
           />
           <Message
             error
-            header="Username incorrect"
-            content="No user exists with that username"
+            header="Uh-oh!"
+            content="Sorry, we can't find a user with that username and password."
           />
           <Button type="submit">Log in</Button>
         </Form>

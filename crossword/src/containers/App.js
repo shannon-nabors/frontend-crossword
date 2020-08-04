@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { PDFViewer } from '@react-pdf/renderer'
 import { connect } from 'react-redux'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import '../App.css'
 import Navbar from './Navbar'
 import Login from '../components/LoginPage'
@@ -16,8 +15,22 @@ import PrintData from './PrintData'
 import Leaderboard from './Leaderboard'
 import CurrentUserPage from './CurrentUserPage'
 import Form from './PuzzleForm'
+import { logInUser } from '../redux/actions/manageUsers'
 
 class App extends Component {
+
+  componentDidMount() {
+    let token = localStorage.getItem('crossPostJWT')
+    if (token) {
+      fetch('http://localhost:3000/verify', {
+        method: "GET",
+        headers: {
+          Authentication: token
+        }
+      }).then(r => r.json())
+      .then(user => this.props.logInUser(user))
+    }
+  }
 
   render() {
     return (
@@ -64,7 +77,7 @@ class App extends Component {
           />
           <Route
             exact path="/create"
-            component={Form}
+            render={() => this.props.loggedIn ? <Form/> : <Login/>}
           />
           <Route
             exact path="/signup"
@@ -72,7 +85,8 @@ class App extends Component {
           />
           <Route
             path="/"
-            component={Login}
+            // component={Login}
+            render={() => this.props.loggedIn ? <Redirect to="/home"/> : <Login/>}
           />
         </Switch>
         </div>
@@ -87,4 +101,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps, { logInUser })(App)

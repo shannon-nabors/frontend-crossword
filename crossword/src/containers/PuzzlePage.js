@@ -11,8 +11,10 @@ import { findSolveData,
          getFavorites } from '../redux/actions/stats'
 import { deselectCell, selectCell, 
          selectClue } from '../redux/actions/puzzleInteraction.js'
+import { fetchingPuzzle } from '../redux/actions/changePuzzles.js'
 import { formatTime } from '../redux/constants'
 import { findWord } from '../helpers/typingHelpers'
+import { isEmpty } from 'lodash'
 import Puzzle from './Puzzle'
 import DeleteButton from '../components/DeletePuzzleButton'
 
@@ -28,6 +30,7 @@ class PuzzlePage extends Component {
   }
 
   componentDidMount() {
+    this.props.fetchingPuzzle(this.props.match.params.puzzleID)
     this.props.deselectCell()
     if (this.props.puzzle) {
       this.props.findSolveData("puzzle", this.props.puzzle.id)
@@ -40,20 +43,14 @@ class PuzzlePage extends Component {
     this.props.deselectCell()
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.state.imageUrl !== prevState.imageUrl) {
-  //     console.log(this.state.imageUrl)
-  //   }
-  // }
-
   belongsToCurrentUser() {
     let { puzzle, user } = this.props
-    return (puzzle && user.id && user.id === puzzle.constructor.id) ? true : false
+    return (puzzle && user.id && user.id === puzzle.constructor.id)
   }
 
   favorited() {
     let { puzzle, userFavorites } = this.props
-    return (userFavorites.find(f => f.puzzle_id === puzzle.id)) ? true : false
+    return (userFavorites.find(f => f.puzzle_id === puzzle.id))
   }
 
   handleFavClick = () => {
@@ -79,8 +76,9 @@ class PuzzlePage extends Component {
   }
 
   render() {
-    let { puzzle } = this.props
-    let puzElement = document.querySelector("#puz")
+    let { puzzle, user } = this.props
+    if (isEmpty(puzzle)) { return null }
+    // let puzElement = document.querySelector("#puz")
 
     return (
       <Container>
@@ -110,9 +108,9 @@ class PuzzlePage extends Component {
                     </Button.Group>
                     : null }
                 </Header>
-              {this.belongsToCurrentUser() ? (
+              {this.belongsToCurrentUser() || isEmpty(user) ? (
                 <Fragment>
-                  <div id="puz-author"><Icon color="red" name="heart"/>{this.props.favorites.length} favorites</div>
+                  <div id="puz-author"><Icon color="red" name="heart"/>{puzzle.total_favs} {puzzle.total_favs === 1 ? "favorite" : "favorites"}</div>
                 </Fragment>
               ) : (
                 <div className="puz-header">
@@ -122,11 +120,7 @@ class PuzzlePage extends Component {
                       <Icon color="yellow" name="star"/>
                       <span id="solved-tag">You solved in {formatTime(this.props.time)}</span>
                     </span>
-                    {this.favorited() ? (
-                      <Button color="black" id="fav-bar" onClick={this.handleFavClick}><Icon color="red" name="heart"/>{this.props.favorites.length} {this.props.favorites.length === 1 ? "favorite" : "favorites"}</Button>
-                    ) : (
-                      <Button color="black" id="fav-bar" onClick={this.handleFavClick}><Icon color="red" name="heart outline"/>{this.props.favorites.length} {this.props.favorites.length === 1 ? "favorite" : "favorites"}</Button>
-                    )}
+                    <Button color="black" id="fav-bar" onClick={this.handleFavClick}><Icon color="red" name={this.favorited() ? "heart" : "heart outline"}/>{puzzle.total_favs} {puzzle.total_favs === 1 ? "favorite" : "favorites"}</Button>
                   </span>
                 </div>
               )}
@@ -210,18 +204,21 @@ class PuzzlePage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  // debugger
   return {
-    puzzle: [...state.userPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
+    // puzzle: [...state.userPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
+    puzzle: state.currentPuzzle,
     user: state.currentUser,
     puzzleSolves: state.puzzleSolves,
     userFavorites: state.userFavorites,
     favorites: state.puzzleFavorites,
     clue: state.selectedClue,
-    time: (state.currentUser.id && state.currentUser.id !==  [...state.userPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)).constructor.id ? state.solves.find(s => s.puzzle_id === parseInt(ownProps.match.params.puzzleID)).time : null)
+    // time: (state.currentUser.id && state.currentUser.id !==  [...state.userPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)).constructor.id ? state.solves.find(s => s.puzzle_id === parseInt(ownProps.match.params.puzzleID)).time : null)
+    time: (state.currentUser.id && state.currentPuzzle.constructor_id && state.currentPuzzle.constructor_id !== state.currentUser.id ? state.solves.find(s => s.puzzle_id === parseInt(ownProps.match.params.puzzleID)).time : null)
   }
 }
 
 export default connect(mapStateToProps, { findSolveData, deselectCell,
                                           resetPuzzleSolves, addFavorite,
                                           deleteFavorite, getFavorites,
-                                          selectCell, selectClue })(PuzzlePage)
+                                          selectCell, selectClue, fetchingPuzzle })(PuzzlePage)

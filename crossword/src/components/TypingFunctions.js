@@ -25,8 +25,7 @@ import { shiftBackward,
     clues,
     findNextBlankCell,
     findWord } from '../helpers/typingHelpers'
-import { orderedById, unshadedCells,
-    firstCell, firstAcrossWord } from '../helpers/puzzleHelpers'
+import { firstCell, firstAcrossWord } from '../helpers/puzzleHelpers'
 
 
 class TypingFunctions extends Component {

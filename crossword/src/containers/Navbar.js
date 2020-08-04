@@ -11,6 +11,11 @@ class Navbar extends Component {
     redirect: false
   }
 
+  logOut = () => {
+    localStorage.removeItem('crossPostJWT')
+    this.props.logOutUser()
+  }
+
   render() {
     return(
       <Header className="ui top fixed menu" id="header">
@@ -44,14 +49,14 @@ class Navbar extends Component {
                 as={ Link }
                 to="/profile"
                 id="menu-item"
-              > {this.props.currentUser.name}
+              > {this.props.currentUser.first_name}
               </Menu.Item>
 
               <Menu.Item
                 as={ Link }
                 to="/"
                 id="menu-item"
-                onClick={this.props.logOutUser}
+                onClick={this.logOut}
               > Log out
               </Menu.Item>
             </Menu>

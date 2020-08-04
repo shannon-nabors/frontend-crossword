@@ -75,7 +75,8 @@ class PrintPage extends Component {
                         </View>
                         <View style={[styles.row, {height: "340px"}]}>
                             <View style={[styles.column, {width: "180px", paddingRight: "10px"}]}>
-                                <Text style={[styles.title, {paddingRight: "10px"}]}>{puzzle.title.toUpperCase()}</Text>
+                                <Text style={[styles.title, {paddingRight: "10px"}]}>INDIRECT</Text>
+                                <Text style={[styles.title, {paddingRight: "10px"}]}>TRANSMISSION</Text>
                                 <Text style={styles.author}>
                                     {`BY ${puzzle.constructor.first_name.toUpperCase()} ${puzzle.constructor.last_name.toUpperCase()}`}
                                 </Text>

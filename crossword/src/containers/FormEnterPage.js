@@ -4,7 +4,6 @@ import { Grid, Container, Header,
          Button, Dimmer, Loader, Icon } from 'semantic-ui-react'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
-import * as html2canvas from 'html2canvas'
 import { createdPuzzle } from '../redux/actions/changePuzzles.js'
 import { updatingPuzzle,
          setLetters,

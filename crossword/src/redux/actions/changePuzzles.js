@@ -25,22 +25,17 @@ function fetchingPuzzles(id) {
  }
 }
 
-// function fetchedPuzzle(puzzle) {
-//   return { type: "FETCHED_PUZZLES", puzzle}
-// }
+function fetchedPuzzle(puzzle) {
+  return { type: "SET_PUZZLE", puzzle}
+}
 
-// function fetchingPuzzles(id) {
-//   return (dispatch) => {
-//     dispatch(loading())
-
-//     fetch(`${URL}/puzzles/${id}`)
-//     .then(res => res.json())
-
-//     .then(puzzle => {
-//     dispatch(fetchedPuzzle(puzzle))
-//   })
-//  }
-// }
+function fetchingPuzzle(id) {
+  return (dispatch) => {
+    fetch(`${URL}/puzzles/${id}`)
+    .then(res => res.json())
+    .then(puzzle => dispatch(fetchedPuzzle(puzzle)))
+  }
+}
 
 function fetchingGuestPuzzles() {
   return (dispatch) => {
@@ -101,5 +96,6 @@ export { loading,
          deletedUserPuzzle,
          deletedSavedPuzzle,
          createdPuzzle,
+         fetchingPuzzle,
          setPrint,
          savedPuzzle }

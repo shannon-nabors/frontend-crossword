@@ -32,7 +32,7 @@ class Puzzle extends Component {
       preserveAspectRatio="xMidYMin meet"
       xmlns="http://www.w3.org/2000/svg"
       display={this.props.invisible ? "none":"inline"}
-      class={this.props.cursorClass ? this.props.cursorClass : this.props.interaction}
+      className={this.props.cursorClass ? this.props.cursorClass : this.props.interaction}
       >
       {this.props.editable ? <TypingFunctions
         puzzle={this.props.puzzle}

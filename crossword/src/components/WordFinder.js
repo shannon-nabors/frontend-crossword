@@ -10,10 +10,10 @@ class WordFinder extends React.Component {
         return(
             <Segment
                 id="word-finder"
-                color={interaction == "search" ? "yellow" : ""}
+                color={interaction === "search" ? "yellow" : ""}
                 clearing
             >
-                {interaction == "search" && highlightedCells && selectedCell ?
+                {interaction === "search" && highlightedCells && selectedCell ?
                     <SearchWord/>
                     : <div><div>
                         <Button icon color="black"
