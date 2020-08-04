@@ -2,27 +2,55 @@ import React, { Component, Fragment } from 'react'
 import ShadePage from './FormShadePage'
 import EnterPage from './FormEnterPage'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { setFormStage, updatedPuzzle, setEnteredLetters } from '../redux/actions/createPuzzle'
 import { allCellsFilled, generateEnteredLetters } from '../helpers/puzzleHelpers'
 import { resetAllLetters } from '../redux/actions/puzzleInteraction'
+import { fetchingPuzzle } from '../redux/actions/changePuzzles.js'
+import { isEmpty } from 'lodash'
 
 // Form to resume a saved puzzle
 class SavedPage extends Component {
 
   componentDidMount() {
-    let puz = this.props.puzzle
+    this.props.fetchingPuzzle(this.props.match.params.puzzleID)
+    // if (!isEmpty(this.props.puzzle)) {
+    //   let puz = this.props.puzzle
+    //   // Set newPuzzle in state as this saved puzzle
+    //   this.props.updatedPuzzle(puz)
 
-    // Set newPuzzle in state as this saved puzzle
-    this.props.updatedPuzzle(puz)
+    //   // Set enteredLetters according to this puzzle's letters
+    //   let letters = generateEnteredLetters(puz)
+    //   this.props.setEnteredLetters(letters)
 
-    // Set enteredLetters according to this puzzle's letters
-    let letters = generateEnteredLetters(puz)
-    this.props.setEnteredLetters(letters)
+    //   // Set stage based on whether puzzle is filled in
+    //   let stage = allCellsFilled(puz) ? "enter" : "shade"
+    //   // let stage = "shade"
+    //   this.props.setFormStage(stage)
+    // }
+  }
 
-    // Set stage based on whether puzzle is filled in
-    let stage = allCellsFilled(puz) ? "enter" : "shade"
-    // let stage = "shade"
-    this.props.setFormStage(stage)
+  componentDidUpdate(prevProps) {
+    if (isEmpty(prevProps.puzzle) && !isEmpty(this.props.puzzle)) {
+      let puz = this.props.puzzle
+      // Set newPuzzle in state as this saved puzzle
+      this.props.updatedPuzzle(puz)
+
+      // Set enteredLetters according to this puzzle's letters
+      let letters = generateEnteredLetters(puz)
+      this.props.setEnteredLetters(letters)
+
+      // Set stage based on whether puzzle is filled in
+      let stage = allCellsFilled(puz) ? "enter" : "shade"
+      // let stage = "shade"
+      this.props.setFormStage(stage)
+    }
+  }
+
+  belongsToCurrentUser() {
+    let { puzzle, user } = this.props
+    if (isEmpty(puzzle)) return true
+    return (puzzle && user.id && user.id === puzzle.constructor.id)
   }
 
   componentWillUnmount() {
@@ -30,6 +58,7 @@ class SavedPage extends Component {
   }
 
   render() {
+    if (!this.belongsToCurrentUser()) { return <Redirect to="/home"/> }
     return(
       <Fragment>
 
@@ -49,11 +78,13 @@ class SavedPage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     stage: state.formStage,
-    puzzle: [...state.savedPuzzles, ...state.userPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID))
+    user: state.currentUser,
+    puzzle: state.currentPuzzle
   }
 }
 
 export default connect(mapStateToProps, { setFormStage,
                                           updatedPuzzle,
                                           setEnteredLetters,
+                                          fetchingPuzzle,
                                           resetAllLetters })(SavedPage)

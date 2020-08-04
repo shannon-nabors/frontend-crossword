@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { isEqual, size, values } from 'lodash'
 import { Link, Redirect } from 'react-router-dom'
 import { Timer } from 'easytimer.js'
-import { URL } from '../redux/constants'
+// import { URL } from '../redux/constants'
 
 import { enterLetter,
          selectCell,
@@ -12,6 +12,7 @@ import { enterLetter,
          selectClue,
          resetAllLetters,
          toggleDirection } from '../redux/actions/puzzleInteraction'
+import { fetchingPuzzle } from '../redux/actions/changePuzzles.js'
 import { toggleInteractionType } from '../redux/actions/createPuzzle.js'
 import { solvingPuzzle,
          changeGameStatus,
@@ -33,27 +34,31 @@ import PauseModal from '../components/PauseModal'
 const timer = new Timer()
 
 class SolvePage extends Component {
-  constructor() {
-    super()
-    this.state = {puzzle: null}
-  }
+  // constructor() {
+  //   super()
+  //   this.state = {puzzle: null}
+  // }
 
-  getPuzzle(id) {
-    fetch(`${URL}/puzzles/${id}`)
-    .then(res => res.json())
-    .then(puzzle => {
-      this.setState({puzzle: puzzle})
-    })
-  }
+  // getPuzzle(id) {
+  //   fetch(`${URL}/puzzles/${id}`)
+  //   .then(res => res.json())
+  //   .then(puzzle => {
+  //     this.setState({puzzle: puzzle})
+  //   })
+  // }
 
   componentDidMount() {
-    // set state
+    this.props.fetchingPuzzle(this.props.match.params.puzzleID)
     if (this.props.puzzle) {
       this.props.getFavorites("puzzle", this.props.puzzle.id)
-    } else {
-      this.getPuzzle(this.props.puzzleId)
-      this.props.getFavorites("puzzle", this.props.puzzleId)
     }
+    // set state
+    // if (this.props.puzzle) {
+    //   this.props.getFavorites("puzzle", this.props.puzzle.id)
+    // } else {
+    //   this.getPuzzle(this.props.puzzleId)
+    //   this.props.getFavorites("puzzle", this.props.puzzleId)
+    // }
     this.props.changeGameStatus("in progress")
     
     // timer
@@ -180,14 +185,14 @@ class SolvePage extends Component {
 
   belongsToCurrentUser() {
     let { puzzle, user } = this.props
-    if (!puzzle) {puzzle = this.state.puzzle}
+    // if (!puzzle) {puzzle = this.state.puzzle}
     // debugger
     return (puzzle && user.id && user.id === puzzle.constructor.id)
   }
 
   render() {
     let { puzzle } = this.props
-    if (!puzzle) {puzzle = this.state.puzzle}
+    // if (!puzzle) {puzzle = this.state.puzzle}
     if (!puzzle) return null
     // debugger
     if (this.belongsToCurrentUser()) {
@@ -284,7 +289,8 @@ class SolvePage extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     puzzleId: parseInt(ownProps.match.params.puzzleID),
-    puzzle: [...state.unsolvedPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
+    // puzzle: [...state.unsolvedPuzzles, ...state.solvedPuzzles].find(p => p.id === parseInt(ownProps.match.params.puzzleID)),
+    puzzle: state.currentPuzzle,
     selectedCell: state.selectedCell,
     highlightedCells: state.highlightedCells,
     direction: state.direction,
@@ -299,4 +305,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { enterLetter, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleInteractionType, toggleDirection, selectClue })(SolvePage)
+export default connect(mapStateToProps, { enterLetter, fetchingPuzzle, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleInteractionType, toggleDirection, selectClue })(SolvePage)

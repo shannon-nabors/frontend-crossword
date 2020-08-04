@@ -77,7 +77,7 @@ class App extends Component {
           />
           <Route
             exact path="/create"
-            render={() => this.props.loggedIn ? <Form/> : <Login/>}
+            render={() => this.props.loggedIn ? <Form/> : <Redirect to="/"/>}
           />
           <Route
             exact path="/signup"
