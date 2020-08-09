@@ -65,7 +65,7 @@ class SavedPage extends Component {
       <Fragment>
 
         {this.props.stage === "shade" && (
-          <ShadePage/>
+          <ShadePage saved={true}/>
         )}
 
         {this.props.stage === "enter" && (

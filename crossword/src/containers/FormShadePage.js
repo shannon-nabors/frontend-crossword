@@ -28,8 +28,11 @@ class ShadePage extends Component {
 
   componentDidMount() {
     // document.addEventListener("keydown", this.handleKeyPress)
-    this.props.toggleInteractionType("shade")
     this.props.deselectCell()
+    if (this.props.saved) 
+      this.props.toggleInteractionType("letter")
+    else
+      this.props.toggleInteractionType("shade")
   }
 
   componentWillUnmount() {
