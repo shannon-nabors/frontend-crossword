@@ -6,32 +6,33 @@ import { Redirect } from 'react-router-dom'
 import { setFormStage, updatedPuzzle, setEnteredLetters } from '../redux/actions/createPuzzle'
 import { allCellsFilled, generateEnteredLetters } from '../helpers/puzzleHelpers'
 import { resetAllLetters } from '../redux/actions/puzzleInteraction'
-import { fetchingPuzzle } from '../redux/actions/changePuzzles.js'
+import { fetchingPuzzle, loading } from '../redux/actions/changePuzzles.js'
 import { isEmpty } from 'lodash'
 
 // Form to resume a saved puzzle
 class SavedPage extends Component {
 
   componentDidMount() {
-    this.props.fetchingPuzzle(this.props.match.params.puzzleID)
-    // if (!isEmpty(this.props.puzzle)) {
-    //   let puz = this.props.puzzle
-    //   // Set newPuzzle in state as this saved puzzle
-    //   this.props.updatedPuzzle(puz)
+    this.props.loading()
+    this.props.fetchingPuzzle(this.props.match.params.puzzleID, true)
+    if (!isEmpty(this.props.puzzle)) {
+      let puz = this.props.puzzle
+      // Set newPuzzle in state as this saved puzzle
+      this.props.updatedPuzzle(puz)
 
-    //   // Set enteredLetters according to this puzzle's letters
-    //   let letters = generateEnteredLetters(puz)
-    //   this.props.setEnteredLetters(letters)
+      // Set enteredLetters according to this puzzle's letters
+      let letters = generateEnteredLetters(puz)
+      this.props.setEnteredLetters(letters)
 
-    //   // Set stage based on whether puzzle is filled in
-    //   let stage = allCellsFilled(puz) ? "enter" : "shade"
-    //   // let stage = "shade"
-    //   this.props.setFormStage(stage)
-    // }
+      // Set stage based on whether puzzle is filled in
+      let stage = allCellsFilled(puz) ? "enter" : "shade"
+      // let stage = "shade"
+      this.props.setFormStage(stage)
+    }
   }
 
   componentDidUpdate(prevProps) {
-    if (isEmpty(prevProps.puzzle) && !isEmpty(this.props.puzzle)) {
+    if (!isEmpty(this.props.puzzle) && (isEmpty(prevProps.puzzle) || prevProps.puzzle.id != this.props.puzzle.id)) {
       let puz = this.props.puzzle
       // Set newPuzzle in state as this saved puzzle
       this.props.updatedPuzzle(puz)
@@ -55,6 +56,7 @@ class SavedPage extends Component {
 
   componentWillUnmount() {
     this.props.resetAllLetters()
+    this.props.updatedPuzzle({})
   }
 
   render() {
@@ -79,12 +81,13 @@ const mapStateToProps = (state, ownProps) => {
   return {
     stage: state.formStage,
     user: state.currentUser,
-    puzzle: state.currentPuzzle
+    puzzle: state.newPuzzle
   }
 }
 
 export default connect(mapStateToProps, { setFormStage,
                                           updatedPuzzle,
                                           setEnteredLetters,
+                                          loading,
                                           fetchingPuzzle,
                                           resetAllLetters })(SavedPage)

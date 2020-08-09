@@ -157,7 +157,7 @@ class ShadePage extends Component {
         </Container>
         </Grid.Column>
         <Dimmer active={this.props.loading ? true : false}>
-          <Loader size='large'>Creating puzzle</Loader>
+          <Loader size='large'>Loading</Loader>
         </Dimmer>
       </Grid>
     )

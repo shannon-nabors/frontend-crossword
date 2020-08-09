@@ -23,9 +23,9 @@ class Puzzle extends Component {
   }
 
   render() {
-
     let cells = this.props.puzzle && this.props.puzzle.cells
     let dimension = cells ? Math.sqrt(cells.length) : 0
+
     return (<>
       <svg
       viewBox={`0 0 ${23 * dimension + 6} ${23 * dimension +6}`}

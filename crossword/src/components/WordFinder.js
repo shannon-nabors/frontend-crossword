@@ -45,7 +45,7 @@ class WordFinder extends React.Component {
                             </List.Item>
                         </List>
                         <br></br>
-                        This search feature uses the <a href="https://www.datamuse.com/api/">Datamuse API</a>.  Be aware that searches will not account for plurals unless you specify the S.
+                        This search feature uses the <a href="https://www.datamuse.com/api/">Datamuse API</a>.
                         </div>}
             </Segment>
         )

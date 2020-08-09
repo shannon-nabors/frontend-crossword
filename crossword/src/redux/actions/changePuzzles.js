@@ -1,4 +1,5 @@
 import { URL } from '../constants'
+import { updatedPuzzle } from './createPuzzle'
 
                          // CHANGE PUZZLE STATE //
 
@@ -29,11 +30,16 @@ function fetchedPuzzle(puzzle) {
   return { type: "SET_PUZZLE", puzzle}
 }
 
-function fetchingPuzzle(id) {
+function fetchingPuzzle(id, saved) {
   return (dispatch) => {
     fetch(`${URL}/puzzles/${id}`)
     .then(res => res.json())
-    .then(puzzle => dispatch(fetchedPuzzle(puzzle)))
+    .then(puzzle => {
+      if (saved)
+        dispatch(updatedPuzzle(puzzle))
+      else
+        dispatch(fetchedPuzzle(puzzle))
+    })
   }
 }
 
