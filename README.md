@@ -6,7 +6,7 @@ Platform for constructing & solving crossword puzzles.  Frontend is React-Redux;
 - Create a puzzle.  You can choose from a set of standard grid sizes (5x5 up to 23x23) and toggle between shading/lettering before moving on to cluing.  Progress is auto-saved and you can also save manually.
 - A built-in search feature (using the Datamuse API) allows you to find words that fit with already-present fill.
 
-![Example](crossword/public/fill-demo.gif)
+![Example](crossword/public/search-fill-demo.gif)
 
 - Access your created, saved and solved puzzles through your profile page.
 - Solve puzzles created by other users.
