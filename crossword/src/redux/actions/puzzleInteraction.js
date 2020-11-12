@@ -46,7 +46,24 @@ function toggleDirection(fellows) {
 
 // set pressed key
 function enterLetter(cellID, pressedKey) {
-  return { type: "ENTER_LETTER", cellID, pressedKey}
+  return { type: "ENTER_LETTER", 
+           cellID,
+           letterToEnter: pressedKey}
+}
+
+// add multiple letters to one cell if rebus feature is enabled
+function addLetter(cellID, pressedKey) {
+  return (dispatch, getState) => {
+    const { enteredLetters } = getState()
+    if (enteredLetters[cellID]) {
+      const letterToEnter = enteredLetters[cellID] + pressedKey
+      console.log(letterToEnter)
+      dispatch({ type: "ENTER_LETTER", cellID, letterToEnter})
+    } else {
+      console.log('else')
+      dispatch({ type: "ENTER_LETTER", cellID, letterToEnter: pressedKey})
+    }
+  }
 }
 
 
@@ -59,6 +76,7 @@ export { selectCell,
          deselectCell,
          toggleDirection,
          enterLetter,
+         addLetter,
          resetAllLetters,
          selectClue,
          deselectClue

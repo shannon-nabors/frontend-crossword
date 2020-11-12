@@ -81,7 +81,8 @@ class ShadePage extends Component {
   }
 
   isEditable() {
-    return (this.props.interaction === "letter")
+    const interaction = this.props.interaction
+    return (interaction === "letter" || interaction === "rebus")
   }
 
   isShadeable() {
@@ -90,6 +91,10 @@ class ShadePage extends Component {
 
   isCircleable() {
     return (this.props.interaction === "circle")
+  }
+
+  rebusEnabled() {
+    return (this.props.interaction === "rebus")
   }
 
   percent() {
@@ -133,6 +138,10 @@ class ShadePage extends Component {
               active={this.props.interaction === "circle"}
               onClick={ () => this.handleInteractionChange("circle")}
             ><Icon name="circle outline"></Icon></Button>
+            <Button icon
+              active={this.props.interaction === "rebus"}
+              onClick={ () => this.handleInteractionChange("rebus")}
+            ><Icon name="quote left"></Icon></Button>
           </Button.Group>
           {this.props.interaction === "shade" && this.props.puzzle.cells ? <span id="shaded-percent">{this.percent()}</span> : null}
           <Button.Group floated="right">
@@ -155,6 +164,7 @@ class ShadePage extends Component {
               editable={this.isEditable()}
               shadeable={this.isShadeable()}
               circleable={this.isCircleable()}
+              rebusEnabled={this.rebusEnabled()}
             />
           </div>
         </Container>

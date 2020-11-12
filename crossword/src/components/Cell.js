@@ -73,6 +73,13 @@ class Cell extends Component {
     }
   }
 
+  setFontSize() {
+    let { answers, cell, enteredLetters } = this.props
+    if (answers && cell.letter && cell.letter.length > 1) {return "9"}
+    if (enteredLetters[cell.id] && enteredLetters[cell.id].length > 1) {return "9"}
+    return "15.33"
+  }
+
   render() {
     let cell = this.props.cell
 
@@ -101,7 +108,7 @@ class Cell extends Component {
           x={ (23 * cell.column) - 8.5 }
           y={ (23 * cell.row) + 1.08 }
           textAnchor="middle"
-          fontSize={this.props.answers && cell.letter && cell.letter.length > 1 ? "9" : "15.33" }
+          fontSize={this.setFontSize()}
           fill="#1b1c1d"
         >{ this.props.answers ? cell.letter : this.props.enteredLetters[cell.id] }</text>
       </g>

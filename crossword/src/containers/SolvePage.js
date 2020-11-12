@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Segment, Container, Header, Button, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { isEqual, size, values } from 'lodash'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Timer } from 'easytimer.js'
 // import { URL } from '../redux/constants'
 

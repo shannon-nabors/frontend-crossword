@@ -38,6 +38,7 @@ class Puzzle extends Component {
         puzzle={this.props.puzzle}
         solvable={this.props.solvable}
         checkForWin={this.props.checkForWin}
+        rebusEnabled={this.props.rebusEnabled}
       /> : null}
         <g>
           {cells && cells.map(c =>

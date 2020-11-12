@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { enterLetter,
+    addLetter,
     selectCell,
     deselectCell,
     selectClue,
@@ -66,7 +67,11 @@ class TypingFunctions extends Component {
           event.preventDefault()
           this.handleTabbing()
         } else if (event.key.length === 1) {
-          this.handleLetterPress(event)
+            if (this.props.rebusEnabled) {
+                this.handleRebusEntry(event)
+            } else {
+                this.handleLetterPress(event)
+            }
         }
     
         if (this.props.solvable) {this.props.checkForWin()}
@@ -104,6 +109,11 @@ class TypingFunctions extends Component {
         let nextCell = shiftForward(selectedCell, puzzle.cells, enteredLetters, direction)
         let word = findWord(selectedCell, puzzle.cells, direction)
         selectCell(nextCell, word)
+    }
+
+    handleRebusEntry(event) {
+        let { addLetter, selectedCell } = this.props
+        addLetter(selectedCell.id, event.key.toUpperCase())
     }
 
     findNextClue(clueId) {
@@ -178,6 +188,7 @@ const mapStateToProps = (state) => {
   }
 
 export default connect(mapStateToProps, { enterLetter,
+                                          addLetter,
                                           selectCell,
                                           deselectCell,
                                           changeGameStatus,

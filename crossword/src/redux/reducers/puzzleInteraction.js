@@ -59,7 +59,7 @@ const highlightCellReducer = (state = null, action) => {
 const keyReducer = (state = {}, action) => {
   switch (action.type) {
     case "ENTER_LETTER":
-      return {...state, [action.cellID]: action.pressedKey}
+      return {...state, [action.cellID]: action.letterToEnter}
     case "TOGGLE_SHADE":
       return {...state, [action.cellID]: undefined }
     case "SET_ENTERED_LETTERS":

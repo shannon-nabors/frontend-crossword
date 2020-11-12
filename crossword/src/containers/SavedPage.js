@@ -32,7 +32,7 @@ class SavedPage extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!isEmpty(this.props.puzzle) && (isEmpty(prevProps.puzzle) || prevProps.puzzle.id != this.props.puzzle.id)) {
+    if (!isEmpty(this.props.puzzle) && (isEmpty(prevProps.puzzle) || prevProps.puzzle.id !== this.props.puzzle.id)) {
       let puz = this.props.puzzle
       // Set newPuzzle in state as this saved puzzle
       this.props.updatedPuzzle(puz)
