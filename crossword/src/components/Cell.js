@@ -101,7 +101,7 @@ class Cell extends Component {
           x={ (23 * cell.column) - 8.5 }
           y={ (23 * cell.row) + 1.08 }
           textAnchor="middle"
-          fontSize="15.33"
+          fontSize={this.props.answers && cell.letter && cell.letter.length > 1 ? "9" : "15.33" }
           fill="#1b1c1d"
         >{ this.props.answers ? cell.letter : this.props.enteredLetters[cell.id] }</text>
       </g>

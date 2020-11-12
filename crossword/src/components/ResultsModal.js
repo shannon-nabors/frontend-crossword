@@ -44,8 +44,8 @@ class ResultsModal extends React.Component {
             {this.props.gameStatus === "won" ? (
               <div>You solved this puzzle in {this.props.time}!<br/><br/><Icon color="yellow" size="huge" name="star"/></div>
             ) : "The puzzle is filled, but something's not quite right.  Keep trying!"}
-            {!this.props.user.name && this.props.gameStatus === "won"? (
-              <p id="results-tag">Want to save your results? <a href="/signup">Create an account!</a></p>) : null}
+            {/* {!this.props.user && this.props.gameStatus === "won"? (
+              <p id="results-tag">Want to save your results? <a href="/signup">Create an account!</a></p>) : null} */}
           </div>
 
         </div>

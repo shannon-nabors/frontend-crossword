@@ -10,6 +10,7 @@ import { enterLetter,
          selectCell,
          deselectCell,
          selectClue,
+         deselectClue,
          resetAllLetters,
          toggleDirection } from '../redux/actions/puzzleInteraction'
 import { fetchingPuzzle } from '../redux/actions/changePuzzles.js'
@@ -60,6 +61,8 @@ class SolvePage extends Component {
     //   this.props.getFavorites("puzzle", this.props.puzzleId)
     // }
     this.props.changeGameStatus("in progress")
+    this.props.deselectCell()
+    this.props.deselectClue()
     
     // timer
     timer.start()
@@ -76,6 +79,7 @@ class SolvePage extends Component {
     // set state
     this.props.changeGameStatus("in progress")
     this.props.resetAllLetters()
+    this.props.deselectCell()
 
     // unpause in state if needed
     if (this.props.paused) {
@@ -89,7 +93,7 @@ class SolvePage extends Component {
 
   componentDidUpdate(prevProps) {
     // scroll to clue if active clue changed in state
-    if(prevProps.clue !== this.props.clue) {
+    if(this.props.clue && prevProps.clue !== this.props.clue) {
       let clueElement = document.getElementById(`clue-${this.props.clue.id}`)
       clueElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
@@ -195,9 +199,10 @@ class SolvePage extends Component {
     // if (!puzzle) {puzzle = this.state.puzzle}
     if (!puzzle) return null
     // debugger
-    if (this.belongsToCurrentUser()) {
-      return <Redirect to={`/puzzles/${puzzle.id}`}/>
-    }
+    // if (this.belongsToCurrentUser()) {
+    //   debugger
+    //   return <Redirect to={`/puzzles/${puzzle.id}`}/>
+    // }
 
     return (
       <Container>
@@ -248,7 +253,7 @@ class SolvePage extends Component {
           <Grid.Column>
             <h4>Across</h4>
             <Segment id ="clue-box">
-              { puzzle && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
+              { puzzle && puzzle.across_clues && puzzle.across_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <p key={c && c.id}
                    id={`clue-${c.id}`}
                    style={{backgroundColor: this.props.clue && this.props.clue.id === c.id ? "#FFC368" : "#FFFFFF"}}
@@ -261,8 +266,9 @@ class SolvePage extends Component {
           <Grid.Column>
             <h4>Down</h4>
             <Segment id ="clue-box">
-              { puzzle && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
+              { puzzle && puzzle.down_clues && puzzle.down_clues.sort((a,b) => a.number - b.number ).map(c => (
                 <p key={c && c.id}
+                   id={`clue-${c.id}`}
                    style={{backgroundColor: this.props.clue && this.props.clue.id === c.id ? "#FFC368" : "#FFFFFF"}}
                    onClick={() => this.handleClueClick(c)}>
                 <span className="clue-number">{c.number}</span> {c.content}</p>
@@ -305,4 +311,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, { enterLetter, fetchingPuzzle, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleInteractionType, toggleDirection, selectClue })(SolvePage)
+export default connect(mapStateToProps, { enterLetter, fetchingPuzzle, deselectClue, selectCell, deselectCell, changeGameStatus, resetAllLetters, solvingPuzzle, handleTimer, addFavorite, deleteFavorite, getFavorites, toggleInteractionType, toggleDirection, selectClue })(SolvePage)
