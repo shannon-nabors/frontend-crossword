@@ -75,8 +75,8 @@ class Cell extends Component {
 
   setFontSize() {
     let { answers, cell, enteredLetters } = this.props
-    if (answers && cell.letter && cell.letter.length > 1) {return "9"}
-    if (enteredLetters[cell.id] && enteredLetters[cell.id].length > 1) {return "9"}
+    if (answers && cell.letter && cell.letter.length > 1) {return "7"}
+    if (enteredLetters[cell.id] && enteredLetters[cell.id].length > 1) {return "7"}
     return "15.33"
   }
 
